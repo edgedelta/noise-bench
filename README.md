@@ -61,8 +61,8 @@ Requires [Harbor](https://harborframework.com) (`uv tool install harbor`), Docke
 [OpenRouter](https://openrouter.ai/) key (or your own model credentials).
 
 ```bash
-git clone https://github.com/edgedelta/PageBench.git
-cd PageBench
+git clone https://github.com/edgedelta/page-bench.git
+cd page-bench
 
 # put OPENROUTER_API_KEY=... in .env
 source .env
