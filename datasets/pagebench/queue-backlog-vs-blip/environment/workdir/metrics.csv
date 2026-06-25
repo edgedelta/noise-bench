@@ -1,0 +1,7 @@
+timestamp,service,metric,value
+2026-06-20T08:00:00Z,metric-ingest-queue-1,queue_oldest_msg_age_s,810
+2026-06-20T08:10:00Z,metric-ingest-queue-1,queue_oldest_msg_age_s,1048
+2026-06-20T08:40:00Z,metric-ingest-queue-1,queue_oldest_msg_age_s,1290
+2026-06-20T07:20:00Z,log-ingest-queue-large,queue_oldest_msg_age_s,360
+2026-06-20T07:22:00Z,log-ingest-queue-large,queue_oldest_msg_age_s,90
+2026-06-20T08:30:00Z,metric-ingest-queue-1,queue_depth,41000

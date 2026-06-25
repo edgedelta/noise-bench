@@ -1,0 +1,44 @@
+[
+  {
+    "pattern_id": "pat-pg-pool-exhausted",
+    "signature": "payment-gateway: connection pool exhausted, cannot acquire",
+    "count": 2200,
+    "delta_vs_baseline_pct": 2100,
+    "sentiment": "negative",
+    "first_seen": "2026-04-08T14:32:00Z",
+    "note": "appears only after pg-2026.04.08-c; monotonically rising"
+  },
+  {
+    "pattern_id": "pat-rollout-503",
+    "signature": "upstream 503 during pod rollout",
+    "count": 310,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-04-08T14:30:00Z",
+    "note": "normal during rollouts, decays as pods become ready"
+  },
+  {
+    "pattern_id": "pat-cold-cache",
+    "signature": "cache miss storm after eviction",
+    "count": 480,
+    "delta_vs_baseline_pct": 6,
+    "sentiment": "neutral",
+    "first_seen": "2026-04-08T14:30:00Z"
+  },
+  {
+    "pattern_id": "pat-gc-pause",
+    "signature": "GC pause exceeded soft limit",
+    "count": 520,
+    "delta_vs_baseline_pct": 4,
+    "sentiment": "neutral",
+    "first_seen": "2026-04-08T14:00:00Z"
+  },
+  {
+    "pattern_id": "pat-disk-rotate",
+    "signature": "disk usage high; triggering log rotation",
+    "count": 14,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-04-08T14:00:00Z"
+  }
+]

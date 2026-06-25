@@ -1,0 +1,13 @@
+timestamp,service,metric,value
+2026-05-20T09:10:00Z,api-gateway,error_rate,0.02
+2026-05-20T09:20:00Z,api-gateway,error_rate,0.04
+2026-05-20T09:30:00Z,api-gateway,error_rate,0.06
+2026-05-20T09:40:00Z,api-gateway,error_rate,0.08
+2026-05-20T09:50:00Z,api-gateway,error_rate,0.11
+2026-05-20T10:00:00Z,api-gateway,error_rate,0.14
+2026-05-20T09:35:00Z,recommendation,cpu_pct,91.0
+2026-05-20T09:36:00Z,recommendation,cpu_pct,43.0
+2026-05-20T09:15:00Z,frontend,http_5xx_rate,0.06
+2026-05-20T09:17:00Z,frontend,http_5xx_rate,0.003
+2026-05-20T09:30:00Z,log-archiver,disk_usage_pct,86.0
+2026-05-20T09:31:00Z,log-archiver,disk_usage_pct,83.0

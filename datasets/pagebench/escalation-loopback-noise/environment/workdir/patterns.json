@@ -1,0 +1,54 @@
+[
+  {
+    "pattern_id": "pat-adminapi-5xx",
+    "signature": "HTTP 500 from platform-api; Workflow error on Platform API",
+    "count": 1420,
+    "delta_vs_baseline_pct": 1100,
+    "sentiment": "negative",
+    "first_seen": "2026-06-23T18:19:40Z",
+    "note": "real Platform API 5xx outage, never recovered in window"
+  },
+  {
+    "pattern_id": "pat-escalation-loopback",
+    "signature": "PagerDuty policy P7X2K9A timeout escalation routed back to same responder",
+    "count": 16,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-23T15:00:00Z",
+    "note": "config defect tracked in OPS-2031; not a service outage"
+  },
+  {
+    "pattern_id": "pat-missed-ack-staging",
+    "signature": "incident.triggered Circleci hourly_playwright_sev0_staging-staging failed; no L1 ack",
+    "count": 9,
+    "delta_vs_baseline_pct": 5,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-23T15:00:00Z",
+    "note": "transient staging CI, self-resolves"
+  },
+  {
+    "pattern_id": "pat-notify-ok",
+    "signature": "PagerDuty notification delivered via Slack/email",
+    "count": 8,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-23T15:00:00Z"
+  },
+  {
+    "pattern_id": "pat-policy-config",
+    "signature": "escalation policy configuration changed",
+    "count": 2,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-23T16:00:00Z"
+  },
+  {
+    "pattern_id": "pat-log-threshold",
+    "signature": "log volume over configured per-service threshold",
+    "count": 14,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-23T15:00:00Z",
+    "note": "[ignore] flapper"
+  }
+]

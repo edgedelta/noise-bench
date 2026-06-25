@@ -1,0 +1,72 @@
+[
+  {
+    "timestamp": "2026-04-08T14:30:00Z",
+    "service": "payment-gateway",
+    "commit_sha": "c4e7a91",
+    "version": "pg-2026.04.08-c",
+    "note": "switch to new pooled http client (BAD: leaks on retry)"
+  },
+  {
+    "timestamp": "2026-04-08T14:29:00Z",
+    "service": "frontend",
+    "commit_sha": "11ab003",
+    "version": "fe-2026.04.08-a",
+    "note": "i18n strings"
+  },
+  {
+    "timestamp": "2026-04-08T14:29:30Z",
+    "service": "cart",
+    "commit_sha": "77cd112",
+    "version": "cart-2026.04.08-b",
+    "note": "ui tweak"
+  },
+  {
+    "timestamp": "2026-04-08T14:29:00Z",
+    "service": "search",
+    "commit_sha": "90fe334",
+    "version": "search-2026.04.08-a",
+    "note": "ranking"
+  },
+  {
+    "timestamp": "2026-04-08T14:30:00Z",
+    "service": "orders",
+    "commit_sha": "b2a8d55",
+    "version": "orders-2026.04.08-a",
+    "note": "logging"
+  },
+  {
+    "timestamp": "2026-04-08T14:30:00Z",
+    "service": "checkout",
+    "commit_sha": "e6f7a88",
+    "version": "checkout-2026.04.08-a",
+    "note": "copy"
+  },
+  {
+    "timestamp": "2026-04-08T14:29:00Z",
+    "service": "recommendation",
+    "commit_sha": "3c9b210",
+    "version": "rec-2026.04.08-a",
+    "note": "weights"
+  },
+  {
+    "timestamp": "2026-04-08T14:30:00Z",
+    "service": "inventory",
+    "commit_sha": "5d1e447",
+    "version": "inv-2026.04.08-a",
+    "note": "index"
+  },
+  {
+    "timestamp": "2026-04-08T14:30:00Z",
+    "service": "notifications",
+    "commit_sha": "8a2f661",
+    "version": "notif-2026.04.08-a",
+    "note": "template"
+  },
+  {
+    "timestamp": "2026-04-08T14:30:00Z",
+    "service": "auth",
+    "commit_sha": "ff03b29",
+    "version": "auth-2026.04.08-a",
+    "note": "rotate keys"
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "pattern_id": "pat-queue-stalled",
+    "signature": "ApproximateAgeOfOldestMessage breach on metric-ingest-queue-1; SQS ack failures + commitParts timeouts; backlog not draining",
+    "count": 1340,
+    "delta_vs_baseline_pct": 980,
+    "sentiment": "negative",
+    "first_seen": "2026-06-20T08:09:40Z",
+    "note": "real sustained backlog; consumer stalled, never drains"
+  },
+  {
+    "pattern_id": "pat-queue-blip",
+    "signature": "brief queue depth/age over threshold, drained by consumer",
+    "count": 52,
+    "delta_vs_baseline_pct": 5,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-20T07:00:00Z",
+    "note": "transient, self-drains within ~60s"
+  },
+  {
+    "pattern_id": "pat-log-threshold",
+    "signature": "log volume over configured per-service threshold",
+    "count": 18,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-20T07:00:00Z",
+    "note": "[ignore] flapper"
+  }
+]

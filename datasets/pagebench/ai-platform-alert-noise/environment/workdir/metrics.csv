@@ -1,0 +1,6 @@
+timestamp,service,metric,value
+2026-06-21T20:00:00Z,ai-agent-svc,workflow_500_rate,0.003
+2026-06-21T20:14:00Z,ai-agent-svc,workflow_500_rate,0.52
+2026-06-21T20:40:00Z,ai-agent-svc,workflow_500_rate,0.58
+2026-06-21T18:30:00Z,inference-runner,token_usage_pct,78
+2026-06-21T20:30:00Z,inference-runner,token_usage_pct,85

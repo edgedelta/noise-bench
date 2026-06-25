@@ -1,0 +1,111 @@
+#!/bin/bash
+# Oracle solution: write the known-correct triage decisions for node-event-noise.
+# Used to validate the grader (this answer must pass tests/test_outputs.py).
+set -euo pipefail
+
+cat > /workdir/triage.json <<'JSON'
+{
+  "decisions": [
+    {
+      "page_id": "P01",
+      "decision": "page",
+      "reason": "Real NodeNotReady: node ip-10-0-7-44.us-east-1 dropped to NotReady, removing cluster capacity, pat-node-notready surging negative and never auto-resolved. This is genuine node-health degradation (unlike the operational Karpenter/PDB meta-events). Cardinal must-page."
+    },
+    {
+      "page_id": "P02",
+      "decision": "suppress",
+      "reason": "DisruptionBlocked: PDB prevents pod evictions (streaming/*-taskmanager-pdb). Normal Karpenter/PDB operational meta-event protecting the workload, not a node-health incident. Suppress."
+    },
+    {
+      "page_id": "P03",
+      "decision": "suppress",
+      "reason": "DisruptionBlocked: PDB prevents pod evictions (streaming/*-taskmanager-pdb). Normal Karpenter/PDB operational meta-event protecting the workload, not a node-health incident. Suppress."
+    },
+    {
+      "page_id": "P04",
+      "decision": "suppress",
+      "reason": "Unconsolidatable: NodePool nodepool-olapdb has consolidation disabled. Expected Karpenter operational event, not degradation. Suppress."
+    },
+    {
+      "page_id": "P05",
+      "decision": "suppress",
+      "reason": "SpotToSpotConsolidation disabled: normal Karpenter NodePool configuration event. Operational meta-noise. Suppress."
+    },
+    {
+      "page_id": "P06",
+      "decision": "suppress",
+      "reason": "'store validated' Valid event: routine health/validation event. Informational, not an incident. Suppress."
+    },
+    {
+      "page_id": "P07",
+      "decision": "suppress",
+      "reason": "DisruptionBlocked: PDB prevents pod evictions (streaming/*-taskmanager-pdb). Normal Karpenter/PDB operational meta-event protecting the workload, not a node-health incident. Suppress."
+    },
+    {
+      "page_id": "P08",
+      "decision": "suppress",
+      "reason": "Unconsolidatable: NodePool nodepool-olapdb has consolidation disabled. Expected Karpenter operational event, not degradation. Suppress."
+    },
+    {
+      "page_id": "P09",
+      "decision": "suppress",
+      "reason": "SpotToSpotConsolidation disabled: normal Karpenter NodePool configuration event. Operational meta-noise. Suppress."
+    },
+    {
+      "page_id": "P10",
+      "decision": "suppress",
+      "reason": "'store validated' Valid event: routine health/validation event. Informational, not an incident. Suppress."
+    },
+    {
+      "page_id": "P11",
+      "decision": "suppress",
+      "reason": "DisruptionBlocked: PDB prevents pod evictions (streaming/*-taskmanager-pdb). Normal Karpenter/PDB operational meta-event protecting the workload, not a node-health incident. Suppress."
+    },
+    {
+      "page_id": "P12",
+      "decision": "suppress",
+      "reason": "Unconsolidatable: NodePool nodepool-olapdb has consolidation disabled. Expected Karpenter operational event, not degradation. Suppress."
+    },
+    {
+      "page_id": "P13",
+      "decision": "suppress",
+      "reason": "[ignore] Default Log Threshold Monitor flapper: 17 fires/hr, self-clears in 20s. Noise."
+    },
+    {
+      "page_id": "P14",
+      "decision": "suppress",
+      "reason": "SpotToSpotConsolidation disabled: normal Karpenter NodePool configuration event. Operational meta-noise. Suppress."
+    },
+    {
+      "page_id": "P15",
+      "decision": "suppress",
+      "reason": "'store validated' Valid event: routine health/validation event. Informational, not an incident. Suppress."
+    },
+    {
+      "page_id": "P16",
+      "decision": "suppress",
+      "reason": "DisruptionBlocked: PDB prevents pod evictions (streaming/*-taskmanager-pdb). Normal Karpenter/PDB operational meta-event protecting the workload, not a node-health incident. Suppress."
+    },
+    {
+      "page_id": "P17",
+      "decision": "suppress",
+      "reason": "[ignore] Default Log Threshold Monitor flapper: 19 fires/hr, self-clears in 18s. Noise."
+    },
+    {
+      "page_id": "P18",
+      "decision": "suppress",
+      "reason": "Downstream symptom of P01 (same pat-node-notready root): pending pods unable to schedule after the node dropped out. Collapse into the NodeNotReady capacity incident."
+    }
+  ]
+}
+JSON
+
+cat > /workdir/reasoning.md <<'MD'
+# Oracle reasoning — node-event-noise
+
+The single real, must-page incident is **P01**: a NodeNotReady event on ip-10-0-7-44.us-east-1 that dropped cluster capacity (node_ready 1->0, never recovers, pat-node-notready surging negative). P18 is the downstream symptom (pods pending scheduling after the node dropped) and collapses into P01. Everything else is normal Karpenter/PDB operational meta-noise — DisruptionBlocked (PDB protecting streaming taskmanagers), Unconsolidatable / SpotToSpotConsolidation disabled NodePool notices, routine 'store validated' events — plus [ignore] log flappers.
+
+See `tests/ground_truth.json` rationale for the per-page justification.
+MD
+
+echo "wrote /workdir/triage.json and /workdir/reasoning.md"

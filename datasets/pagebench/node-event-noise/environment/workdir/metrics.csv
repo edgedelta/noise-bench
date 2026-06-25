@@ -1,0 +1,6 @@
+timestamp,service,metric,value
+2026-06-19T22:00:00Z,ip-10-0-7-44,node_ready,1
+2026-06-19T22:40:00Z,ip-10-0-7-44,node_ready,0
+2026-06-19T23:00:00Z,ip-10-0-7-44,node_ready,0
+2026-06-19T22:43:00Z,olapdb-server,scheduling_pending_pods,7
+2026-06-19T22:00:00Z,olapdb-server,scheduling_pending_pods,0

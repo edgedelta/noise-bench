@@ -1,0 +1,29 @@
+[
+  {
+    "pattern_id": "pat-httprecv-cascade",
+    "signature": "WARN backpressure on http-receiver escalating to HTTP 500 write failures post-deploy",
+    "count": 760,
+    "delta_vs_baseline_pct": 640,
+    "sentiment": "negative",
+    "first_seen": "2026-06-22T13:04:40Z",
+    "note": "real cascade; warns -> errors, never recovered"
+  },
+  {
+    "pattern_id": "pat-workflow-warn-transient",
+    "signature": "WARN AgenticLoopService/runMainLoop ctx.run 'tool-agent_work_tracker' then back to INFO",
+    "count": 36,
+    "delta_vs_baseline_pct": 12,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-22T11:30:00Z",
+    "note": "classic transient application-warning-spike; self-heals"
+  },
+  {
+    "pattern_id": "pat-warn-transient",
+    "signature": "transient WARN log spike, returns to baseline",
+    "count": 44,
+    "delta_vs_baseline_pct": 6,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-22T11:00:00Z",
+    "note": "self-clears within ~30s"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "pattern_id": "pat-web-prod-regression",
+    "signature": "HTTP 500 on /api/checkout; NullPointer in web checkout handler post web-2026.06.24-rel",
+    "count": 980,
+    "delta_vs_baseline_pct": 800,
+    "sentiment": "negative",
+    "first_seen": "2026-06-24T11:41:30Z",
+    "note": "real prod regression, customer-facing, never recovered"
+  },
+  {
+    "pattern_id": "pat-ci-staging",
+    "signature": "Circleci hourly_playwright_sev0_staging-staging failed; incident.triggered",
+    "count": 28,
+    "delta_vs_baseline_pct": 6,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-24T08:00:00Z",
+    "note": "staging CI failures, no app degradation; self-resolve"
+  },
+  {
+    "pattern_id": "pat-e2e-flaky",
+    "signature": "Playwright assertion timeout; retried green",
+    "count": 22,
+    "delta_vs_baseline_pct": 8,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-24T08:00:00Z",
+    "note": "flaky e2e, passes on retry; test instability"
+  },
+  {
+    "pattern_id": "pat-log-threshold",
+    "signature": "log volume over configured per-service threshold",
+    "count": 16,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-24T08:00:00Z",
+    "note": "[ignore] flapper"
+  }
+]

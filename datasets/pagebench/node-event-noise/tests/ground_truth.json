@@ -1,0 +1,50 @@
+{
+  "scenario": "node-event-noise",
+  "f1_threshold": 0.8,
+  "miss_budget": 0,
+  "positive_class": "page",
+  "must_page": [
+    "P01"
+  ],
+  "labels": {
+    "P01": "page",
+    "P02": "suppress",
+    "P03": "suppress",
+    "P04": "suppress",
+    "P05": "suppress",
+    "P06": "suppress",
+    "P07": "suppress",
+    "P08": "suppress",
+    "P09": "suppress",
+    "P10": "suppress",
+    "P11": "suppress",
+    "P12": "suppress",
+    "P13": "suppress",
+    "P14": "suppress",
+    "P15": "suppress",
+    "P16": "suppress",
+    "P17": "suppress",
+    "P18": "suppress"
+  },
+  "rationale": {
+    "P01": "Real NodeNotReady: node ip-10-0-7-44.us-east-1 dropped to NotReady, removing cluster capacity, pat-node-notready surging negative and never auto-resolved. This is genuine node-health degradation (unlike the operational Karpenter/PDB meta-events). Cardinal must-page.",
+    "P18": "Downstream symptom of P01 (same pat-node-notready root): pending pods unable to schedule after the node dropped out. Collapse into the NodeNotReady capacity incident.",
+    "P02": "DisruptionBlocked: PDB prevents pod evictions (streaming/*-taskmanager-pdb). Normal Karpenter/PDB operational meta-event protecting the workload, not a node-health incident. Suppress.",
+    "P03": "DisruptionBlocked: PDB prevents pod evictions (streaming/*-taskmanager-pdb). Normal Karpenter/PDB operational meta-event protecting the workload, not a node-health incident. Suppress.",
+    "P04": "Unconsolidatable: NodePool nodepool-olapdb has consolidation disabled. Expected Karpenter operational event, not degradation. Suppress.",
+    "P05": "SpotToSpotConsolidation disabled: normal Karpenter NodePool configuration event. Operational meta-noise. Suppress.",
+    "P06": "'store validated' Valid event: routine health/validation event. Informational, not an incident. Suppress.",
+    "P07": "DisruptionBlocked: PDB prevents pod evictions (streaming/*-taskmanager-pdb). Normal Karpenter/PDB operational meta-event protecting the workload, not a node-health incident. Suppress.",
+    "P08": "Unconsolidatable: NodePool nodepool-olapdb has consolidation disabled. Expected Karpenter operational event, not degradation. Suppress.",
+    "P09": "SpotToSpotConsolidation disabled: normal Karpenter NodePool configuration event. Operational meta-noise. Suppress.",
+    "P10": "'store validated' Valid event: routine health/validation event. Informational, not an incident. Suppress.",
+    "P11": "DisruptionBlocked: PDB prevents pod evictions (streaming/*-taskmanager-pdb). Normal Karpenter/PDB operational meta-event protecting the workload, not a node-health incident. Suppress.",
+    "P12": "Unconsolidatable: NodePool nodepool-olapdb has consolidation disabled. Expected Karpenter operational event, not degradation. Suppress.",
+    "P13": "[ignore] Default Log Threshold Monitor flapper: 17 fires/hr, self-clears in 20s. Noise.",
+    "P14": "SpotToSpotConsolidation disabled: normal Karpenter NodePool configuration event. Operational meta-noise. Suppress.",
+    "P15": "'store validated' Valid event: routine health/validation event. Informational, not an incident. Suppress.",
+    "P16": "DisruptionBlocked: PDB prevents pod evictions (streaming/*-taskmanager-pdb). Normal Karpenter/PDB operational meta-event protecting the workload, not a node-health incident. Suppress.",
+    "P17": "[ignore] Default Log Threshold Monitor flapper: 19 fires/hr, self-clears in 18s. Noise."
+  },
+  "notes": "Real node-health incident = P01 (NodeNotReady, capacity dropped); P18 is its pending-pods symptom. All other events are expected Karpenter/PDB operational meta-events + [ignore] flappers."
+}

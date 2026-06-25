@@ -1,0 +1,16 @@
+[
+  {
+    "timestamp": "2026-06-20T14:30:00Z",
+    "service": "log-compactor",
+    "commit_sha": "7c41a9d2e8b1f4630a59c2d77e1b884406ad9f12",
+    "version": "log-compactor-2026.06.20-b",
+    "note": "compaction interval tuning (innocent decoy near onset)"
+  },
+  {
+    "timestamp": "2026-06-20T13:10:00Z",
+    "service": "http-receiver",
+    "commit_sha": "3d8221b4fe0e76847d3b55fe0b168d9ec41d028c",
+    "version": "http-receiver-2026.06.20-a",
+    "note": "log batch size change"
+  }
+]

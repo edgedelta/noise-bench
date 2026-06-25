@@ -1,0 +1,9 @@
+[
+  {
+    "timestamp": "2026-05-20T09:14:00Z",
+    "service": "frontend",
+    "commit_sha": "d7e1a02",
+    "version": "fe-2026.05.20-a",
+    "note": "asset bundle (innocent; recovered)"
+  }
+]

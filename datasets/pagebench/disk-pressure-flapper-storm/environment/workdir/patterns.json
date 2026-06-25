@@ -1,0 +1,29 @@
+[
+  {
+    "pattern_id": "pat-diskpressure-evict",
+    "signature": "DiskPressure=True; node ip-10-0-3-21.us-east-1.compute.internal cordoned, eviction threshold crossed",
+    "count": 96,
+    "delta_vs_baseline_pct": 900,
+    "sentiment": "negative",
+    "first_seen": "2026-06-20T15:16:10Z",
+    "note": "real node disk pressure; pod eviction imminent"
+  },
+  {
+    "pattern_id": "pat-log-threshold",
+    "signature": "log volume over configured per-service threshold",
+    "count": 18,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-20T13:00:00Z",
+    "note": "[ignore] Default Log Threshold Monitor; fires every cycle across all services, chronic flapper"
+  },
+  {
+    "pattern_id": "pat-disk-warn",
+    "signature": "disk usage high; triggering compaction/rotation",
+    "count": 38,
+    "delta_vs_baseline_pct": 4,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-20T13:00:00Z",
+    "note": "self-clears each rotation cycle"
+  }
+]

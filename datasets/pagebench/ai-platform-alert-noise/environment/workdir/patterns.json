@@ -1,0 +1,54 @@
+[
+  {
+    "pattern_id": "pat-ai-workflow-500",
+    "signature": "Workflow 500; predefined internal agent not found / liveness probe failure on ai-agent-svc",
+    "count": 1180,
+    "delta_vs_baseline_pct": 1050,
+    "sentiment": "negative",
+    "first_seen": "2026-06-21T20:13:50Z",
+    "note": "real AI runtime outage, never recovered"
+  },
+  {
+    "pattern_id": "pat-llm-tokens",
+    "signature": "LLM 24h token usage approaching daily quota",
+    "count": 6,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-21T16:00:00Z",
+    "note": "cost/usage warning, not an outage"
+  },
+  {
+    "pattern_id": "pat-spend-cap",
+    "signature": "monthly spend approaching configured cap",
+    "count": 6,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-21T16:00:00Z",
+    "note": "budget governance signal, not degradation"
+  },
+  {
+    "pattern_id": "pat-log-threshold",
+    "signature": "log volume over configured per-service threshold",
+    "count": 17,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-21T16:00:00Z",
+    "note": "[ignore] flapper"
+  },
+  {
+    "pattern_id": "pat-ai-cpu-blip",
+    "signature": "CPU briefly over soft limit during model load",
+    "count": 8,
+    "delta_vs_baseline_pct": 5,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-21T16:00:00Z"
+  },
+  {
+    "pattern_id": "pat-ai-warn-transient",
+    "signature": "transient Workflow WARN, returns to INFO",
+    "count": 12,
+    "delta_vs_baseline_pct": 6,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-21T16:00:00Z"
+  }
+]

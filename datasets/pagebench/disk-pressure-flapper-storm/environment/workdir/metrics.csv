@@ -1,0 +1,9 @@
+timestamp,service,metric,value
+2026-06-20T14:00:00Z,ip-10-0-3-21,node_disk_used_pct,71.0
+2026-06-20T15:00:00Z,ip-10-0-3-21,node_disk_used_pct,88.0
+2026-06-20T15:16:00Z,ip-10-0-3-21,node_disk_used_pct,96.0
+2026-06-20T15:40:00Z,ip-10-0-3-21,node_disk_used_pct,97.0
+2026-06-20T14:00:00Z,log-compactor,disk_usage_pct,79.0
+2026-06-20T14:11:00Z,log-compactor,disk_usage_pct,78.0
+2026-06-20T14:00:00Z,olapdb-server,disk_usage_pct,79.5
+2026-06-20T13:51:00Z,olapdb-server,disk_usage_pct,78.0

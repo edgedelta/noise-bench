@@ -1,0 +1,42 @@
+{
+  "scenario": "warning-spike-transients",
+  "f1_threshold": 0.8,
+  "miss_budget": 0,
+  "positive_class": "page",
+  "must_page": [
+    "P01"
+  ],
+  "labels": {
+    "P01": "page",
+    "P02": "suppress",
+    "P03": "suppress",
+    "P04": "suppress",
+    "P05": "suppress",
+    "P06": "suppress",
+    "P07": "suppress",
+    "P08": "suppress",
+    "P09": "suppress",
+    "P10": "suppress",
+    "P11": "suppress",
+    "P12": "suppress",
+    "P13": "suppress",
+    "P14": "suppress"
+  },
+  "rationale": {
+    "P01": "Real error cascade leading edge: http-receiver warn_log_rate 340 vs 100, never auto-resolved, and pat-httprecv-cascade is surging negative (warns escalating into HTTP 500 errors) right after the http-receiver-2026.06.22-c deploy. Unlike the self-healing warn spikes, this one keeps climbing into a real error cascade. Cardinal must-page.",
+    "P14": "Downstream symptom of P01 (same pat-httprecv-cascade root, onset +13min): transformer error_rate climbing on the http-receiver failure path. Collapse into the cascade incident.",
+    "P02": "Transient Workflow WARN spike (AgenticLoopService/runMainLoop ctx.run) that returned to healthy INFO in 45s \u2014 the real 'application-warning-spike' pattern. Narrow transient, not a sustained outage.",
+    "P03": "Warning-level spike on Platform API that self-healed in 30s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise.",
+    "P04": "Transient Workflow WARN spike (AgenticLoopService/runMainLoop ctx.run) that returned to healthy INFO in 52s \u2014 the real 'application-warning-spike' pattern. Narrow transient, not a sustained outage.",
+    "P05": "Warning-level spike on transformer that self-healed in 38s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise.",
+    "P06": "Warning-level spike on olapdb-server that self-healed in 27s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise.",
+    "P07": "Transient Workflow WARN spike (AgenticLoopService/runMainLoop ctx.run) that returned to healthy INFO in 41s \u2014 the real 'application-warning-spike' pattern. Narrow transient, not a sustained outage.",
+    "P08": "Warning-level spike on kafka-metric-ingestor that self-healed in 33s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise.",
+    "P09": "Warning-level spike on Platform API that self-healed in 29s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise.",
+    "P10": "Warning-level spike on dashboard-svc that self-healed in 22s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise.",
+    "P11": "Warning-level spike on olapdb-tso that self-healed in 48s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise.",
+    "P12": "Warning-level spike on auditlog-ingestor that self-healed in 31s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise.",
+    "P13": "Warning-level spike on transformer that self-healed in 36s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+  },
+  "notes": "Real cascade = P01 (http-receiver WARN -> 500s, culprit deploy http-receiver-2026.06.22-c); P14 is its downstream transformer symptom. All other spikes self-heal (Workflow transient + generic warn transients)."
+}

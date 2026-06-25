@@ -1,0 +1,60 @@
+[
+  {
+    "pattern_id": "pat-db-conn-refused",
+    "signature": "connection refused: dial tcp postgres-primary:5432",
+    "count": 1840,
+    "delta_vs_baseline_pct": 1400,
+    "sentiment": "negative",
+    "first_seen": "2026-03-12T02:14:20Z"
+  },
+  {
+    "pattern_id": "pat-disk-rotate",
+    "signature": "disk usage high; triggering log rotation",
+    "count": 15,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-03-12T01:00:00Z",
+    "note": "fires on every rotation cycle; chronic flapper"
+  },
+  {
+    "pattern_id": "pat-gc-pause",
+    "signature": "GC pause exceeded soft limit",
+    "count": 60,
+    "delta_vs_baseline_pct": 5,
+    "sentiment": "neutral",
+    "first_seen": "2026-03-12T00:00:00Z"
+  },
+  {
+    "pattern_id": "pat-billing-backlog",
+    "signature": "billing worker queue depth growing",
+    "count": 220,
+    "delta_vs_baseline_pct": 30,
+    "sentiment": "negative",
+    "first_seen": "2026-03-12T01:40:00Z",
+    "note": "already tracked under INC-8800"
+  },
+  {
+    "pattern_id": "pat-rollout-503",
+    "signature": "upstream 503 during pod rollout",
+    "count": 12,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-03-12T00:42:00Z"
+  },
+  {
+    "pattern_id": "pat-batch-drain",
+    "signature": "batch drain in progress",
+    "count": 5,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-03-12T01:11:00Z"
+  },
+  {
+    "pattern_id": "pat-cold-cache",
+    "signature": "cache miss storm after eviction",
+    "count": 40,
+    "delta_vs_baseline_pct": 8,
+    "sentiment": "neutral",
+    "first_seen": "2026-03-12T01:00:00Z"
+  }
+]

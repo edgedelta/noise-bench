@@ -1,0 +1,38 @@
+{
+  "scenario": "quiet-but-deadly",
+  "f1_threshold": 0.8,
+  "miss_budget": 0,
+  "positive_class": "page",
+  "must_page": [
+    "Q01"
+  ],
+  "labels": {
+    "Q01": "page",
+    "Q02": "suppress",
+    "Q03": "suppress",
+    "Q04": "suppress",
+    "Q05": "suppress",
+    "Q06": "suppress",
+    "Q07": "suppress",
+    "Q08": "suppress",
+    "Q09": "suppress",
+    "Q10": "suppress",
+    "Q11": "suppress",
+    "Q12": "suppress"
+  },
+  "rationale": {
+    "Q01": "Slow-burn real incident: error rate has climbed monotonically 2% -> 11% over 40 min (see metrics.csv), NEVER auto-resolved, no deploy to blame, upstream-timeout pattern steadily rising. Quiet but real. Must page.",
+    "Q02": "Disk flapper, 13 fires/hr, clears on rotation in 20s. Noise.",
+    "Q03": "Transient CPU blip, auto-resolved in 40s. Noise.",
+    "Q04": "Cold-cache latency blip, recovered in 28s. Noise.",
+    "Q05": "Post-deploy 5xx flicker on fe-2026.05.20-a, self-healed in 44s. The only recent deploy \u2014 tempting to blame, but it recovered and is a different service from the real incident. Suppress.",
+    "Q06": "Transient CPU blip, auto-resolved in 33s. Noise.",
+    "Q07": "Marginal queue blip during batch drain, cleared in 17s. Noise.",
+    "Q08": "Cold-cache latency blip, recovered in 25s. Noise.",
+    "Q09": "Single marginal CPU blip, auto-resolved in 48s. Noise.",
+    "Q10": "Same disk flapper as Q02, another oscillation. Noise.",
+    "Q11": "Transient CPU blip, auto-resolved in 35s. Noise.",
+    "Q12": "Brief memory blip, recovered in 50s. Noise."
+  },
+  "notes": "Eleven low-grade flaps/transients plus one quiet, deploy-less slow-burn (Q01 api-gateway error-rate climb) that never auto-resolves and must page. Q05 is the only deploy and it recovered \u2014 a decoy for the 'blame the deploy' bias."
+}

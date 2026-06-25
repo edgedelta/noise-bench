@@ -1,0 +1,6 @@
+timestamp,service,metric,value
+2026-06-24T11:00:00Z,web-app,checkout_flow_error,0.002
+2026-06-24T11:42:00Z,web-app,checkout_flow_error,0.38
+2026-06-24T12:00:00Z,web-app,checkout_flow_error,0.44
+2026-06-24T09:42:00Z,web-app,e2e_pass_rate,0.98
+2026-06-24T09:50:00Z,web-app,e2e_pass_rate,1.0

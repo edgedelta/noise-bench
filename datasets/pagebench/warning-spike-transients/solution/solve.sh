@@ -1,0 +1,91 @@
+#!/bin/bash
+# Oracle solution: write the known-correct triage decisions for warning-spike-transients.
+# Used to validate the grader (this answer must pass tests/test_outputs.py).
+set -euo pipefail
+
+cat > /workdir/triage.json <<'JSON'
+{
+  "decisions": [
+    {
+      "page_id": "P01",
+      "decision": "page",
+      "reason": "Real error cascade leading edge: http-receiver warn_log_rate 340 vs 100, never auto-resolved, and pat-httprecv-cascade is surging negative (warns escalating into HTTP 500 errors) right after the http-receiver-2026.06.22-c deploy. Unlike the self-healing warn spikes, this one keeps climbing into a real error cascade. Cardinal must-page."
+    },
+    {
+      "page_id": "P02",
+      "decision": "suppress",
+      "reason": "Transient Workflow WARN spike (AgenticLoopService/runMainLoop ctx.run) that returned to healthy INFO in 45s \u2014 the real 'application-warning-spike' pattern. Narrow transient, not a sustained outage."
+    },
+    {
+      "page_id": "P03",
+      "decision": "suppress",
+      "reason": "Warning-level spike on Platform API that self-healed in 30s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+    },
+    {
+      "page_id": "P04",
+      "decision": "suppress",
+      "reason": "Transient Workflow WARN spike (AgenticLoopService/runMainLoop ctx.run) that returned to healthy INFO in 52s \u2014 the real 'application-warning-spike' pattern. Narrow transient, not a sustained outage."
+    },
+    {
+      "page_id": "P05",
+      "decision": "suppress",
+      "reason": "Warning-level spike on transformer that self-healed in 38s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+    },
+    {
+      "page_id": "P06",
+      "decision": "suppress",
+      "reason": "Warning-level spike on olapdb-server that self-healed in 27s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+    },
+    {
+      "page_id": "P07",
+      "decision": "suppress",
+      "reason": "Transient Workflow WARN spike (AgenticLoopService/runMainLoop ctx.run) that returned to healthy INFO in 41s \u2014 the real 'application-warning-spike' pattern. Narrow transient, not a sustained outage."
+    },
+    {
+      "page_id": "P08",
+      "decision": "suppress",
+      "reason": "Warning-level spike on kafka-metric-ingestor that self-healed in 33s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+    },
+    {
+      "page_id": "P09",
+      "decision": "suppress",
+      "reason": "Warning-level spike on Platform API that self-healed in 29s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+    },
+    {
+      "page_id": "P10",
+      "decision": "suppress",
+      "reason": "Warning-level spike on dashboard-svc that self-healed in 22s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+    },
+    {
+      "page_id": "P11",
+      "decision": "suppress",
+      "reason": "Warning-level spike on olapdb-tso that self-healed in 48s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+    },
+    {
+      "page_id": "P12",
+      "decision": "suppress",
+      "reason": "Warning-level spike on auditlog-ingestor that self-healed in 31s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+    },
+    {
+      "page_id": "P13",
+      "decision": "suppress",
+      "reason": "Warning-level spike on transformer that self-healed in 36s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+    },
+    {
+      "page_id": "P14",
+      "decision": "suppress",
+      "reason": "Downstream symptom of P01 (same pat-httprecv-cascade root, onset +13min): transformer error_rate climbing on the http-receiver failure path. Collapse into the cascade incident."
+    }
+  ]
+}
+JSON
+
+cat > /workdir/reasoning.md <<'MD'
+# Oracle reasoning — warning-spike-transients
+
+The single real, must-page incident is **P01**: an http-receiver WARN spike that is the leading edge of a real error cascade — pat-httprecv-cascade surges negative and the metric escalates into HTTP 500s after the http-receiver-2026.06.22-c deploy instead of healing. P14 is the downstream transformer error symptom and collapses into P01. Every other WARN spike (including the transient Workflow runMainLoop bursts) self-healed within ~30-50s with flat/neutral patterns — the textbook self-healing application-warning-spike noise.
+
+See `tests/ground_truth.json` rationale for the per-page justification.
+MD
+
+echo "wrote /workdir/triage.json and /workdir/reasoning.md"

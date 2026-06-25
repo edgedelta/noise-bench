@@ -1,0 +1,51 @@
+[
+  {
+    "pattern_id": "pat-upstream-timeout",
+    "signature": "api-gateway: upstream request timed out after 30s",
+    "count": 640,
+    "delta_vs_baseline_pct": 520,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T09:12:00Z",
+    "note": "slowly rising count across the window; no deploy correlated"
+  },
+  {
+    "pattern_id": "pat-disk-rotate",
+    "signature": "disk usage high; triggering log rotation",
+    "count": 13,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T09:00:00Z"
+  },
+  {
+    "pattern_id": "pat-gc-pause",
+    "signature": "GC pause exceeded soft limit",
+    "count": 210,
+    "delta_vs_baseline_pct": 3,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T09:00:00Z"
+  },
+  {
+    "pattern_id": "pat-cold-cache",
+    "signature": "cache miss storm after eviction",
+    "count": 95,
+    "delta_vs_baseline_pct": 5,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T09:00:00Z"
+  },
+  {
+    "pattern_id": "pat-rollout-503",
+    "signature": "upstream 503 during pod rollout",
+    "count": 9,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T09:15:00Z"
+  },
+  {
+    "pattern_id": "pat-batch-drain",
+    "signature": "batch drain in progress",
+    "count": 4,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T09:20:00Z"
+  }
+]

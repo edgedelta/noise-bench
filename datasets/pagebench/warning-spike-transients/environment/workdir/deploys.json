@@ -1,0 +1,16 @@
+[
+  {
+    "timestamp": "2026-06-22T12:55:00Z",
+    "service": "http-receiver",
+    "commit_sha": "c68566ae8aaa11bb22cc33dd44ee55ff66770099",
+    "version": "http-receiver-2026.06.22-c",
+    "note": "#ingest http-receiver batch flush change (culprit)"
+  },
+  {
+    "timestamp": "2026-06-22T12:05:00Z",
+    "service": "inference-runner",
+    "commit_sha": "26343aabbccddee0011223344556677889900aab",
+    "version": "inference-runner-2026.06.22-a",
+    "note": "agent loop tweak (innocent decoy)"
+  }
+]

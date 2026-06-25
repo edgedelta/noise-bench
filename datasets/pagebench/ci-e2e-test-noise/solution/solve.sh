@@ -1,0 +1,141 @@
+#!/bin/bash
+# Oracle solution: write the known-correct triage decisions for ci-e2e-test-noise.
+# Used to validate the grader (this answer must pass tests/test_outputs.py).
+set -euo pipefail
+
+cat > /workdir/triage.json <<'JSON'
+{
+  "decisions": [
+    {
+      "page_id": "P01",
+      "decision": "page",
+      "reason": "Real prod regression: this prod e2e failure is corroborated by a surging negative pat-web-prod-regression pattern (real HTTP 500s on the live checkout flow), value 0.38 vs 0.02, never auto-resolved, and lines up AFTER the web-2026.06.24-rel deploy. Unlike the flaky e2e alerts, this reflects a genuine customer-facing web-app outage. Cardinal must-page."
+    },
+    {
+      "page_id": "P02",
+      "decision": "suppress",
+      "reason": "CircleCI hourly_playwright job failure mapped to a PagerDuty incident on Platform API Staging; self-resolved in 300s with no live application degradation. CI/test-env signal, should not page prod on-call."
+    },
+    {
+      "page_id": "P03",
+      "decision": "suppress",
+      "reason": "CircleCI hourly_playwright job failure mapped to a PagerDuty incident on Platform API Staging; self-resolved in 280s with no live application degradation. CI/test-env signal, should not page prod on-call."
+    },
+    {
+      "page_id": "P04",
+      "decision": "suppress",
+      "reason": "CircleCI hourly_playwright job failure mapped to a PagerDuty incident on web-app; self-resolved in 260s with no live application degradation. CI/test-env signal, should not page prod on-call."
+    },
+    {
+      "page_id": "P05",
+      "decision": "suppress",
+      "reason": "Prod/staging e2e Playwright failure with NO corroborating negative log pattern (pat-e2e-flaky is flat), self-resolved in 240s on retry. Test instability, not a customer-facing outage."
+    },
+    {
+      "page_id": "P06",
+      "decision": "suppress",
+      "reason": "Prod/staging e2e Playwright failure with NO corroborating negative log pattern (pat-e2e-flaky is flat), self-resolved in 210s on retry. Test instability, not a customer-facing outage."
+    },
+    {
+      "page_id": "P07",
+      "decision": "suppress",
+      "reason": "Prod/staging e2e Playwright failure with NO corroborating negative log pattern (pat-e2e-flaky is flat), self-resolved in 255s on retry. Test instability, not a customer-facing outage."
+    },
+    {
+      "page_id": "P08",
+      "decision": "suppress",
+      "reason": "Prod/staging e2e Playwright failure with NO corroborating negative log pattern (pat-e2e-flaky is flat), self-resolved in 230s on retry. Test instability, not a customer-facing outage."
+    },
+    {
+      "page_id": "P09",
+      "decision": "suppress",
+      "reason": "CircleCI hourly_playwright job failure mapped to a PagerDuty incident on Platform API Staging; self-resolved in 290s with no live application degradation. CI/test-env signal, should not page prod on-call."
+    },
+    {
+      "page_id": "P10",
+      "decision": "suppress",
+      "reason": "CircleCI hourly_playwright job failure mapped to a PagerDuty incident on web-app; self-resolved in 270s with no live application degradation. CI/test-env signal, should not page prod on-call."
+    },
+    {
+      "page_id": "P11",
+      "decision": "suppress",
+      "reason": "Prod/staging e2e Playwright failure with NO corroborating negative log pattern (pat-e2e-flaky is flat), self-resolved in 200s on retry. Test instability, not a customer-facing outage."
+    },
+    {
+      "page_id": "P12",
+      "decision": "suppress",
+      "reason": "[ignore] Default Log Threshold Monitor flapper on web-app: 16 fires/hr, self-clears in 19s. Noise."
+    },
+    {
+      "page_id": "P13",
+      "decision": "suppress",
+      "reason": "[ignore] Default Log Threshold Monitor flapper on Platform API: 18 fires/hr, self-clears in 20s. Noise."
+    },
+    {
+      "page_id": "P14",
+      "decision": "suppress",
+      "reason": "CircleCI hourly_playwright job failure mapped to a PagerDuty incident on Platform API Staging; self-resolved in 265s with no live application degradation. CI/test-env signal, should not page prod on-call."
+    },
+    {
+      "page_id": "P15",
+      "decision": "suppress",
+      "reason": "Prod/staging e2e Playwright failure with NO corroborating negative log pattern (pat-e2e-flaky is flat), self-resolved in 245s on retry. Test instability, not a customer-facing outage."
+    },
+    {
+      "page_id": "P16",
+      "decision": "suppress",
+      "reason": "CircleCI hourly_playwright job failure mapped to a PagerDuty incident on Platform API; self-resolved in 275s with no live application degradation. CI/test-env signal, should not page prod on-call."
+    },
+    {
+      "page_id": "P17",
+      "decision": "suppress",
+      "reason": "Prod/staging e2e Playwright failure with NO corroborating negative log pattern (pat-e2e-flaky is flat), self-resolved in 215s on retry. Test instability, not a customer-facing outage."
+    },
+    {
+      "page_id": "P18",
+      "decision": "suppress",
+      "reason": "CircleCI hourly_playwright job failure mapped to a PagerDuty incident on web-app; self-resolved in 285s with no live application degradation. CI/test-env signal, should not page prod on-call."
+    },
+    {
+      "page_id": "P19",
+      "decision": "suppress",
+      "reason": "Prod/staging e2e Playwright failure with NO corroborating negative log pattern (pat-e2e-flaky is flat), self-resolved in 205s on retry. Test instability, not a customer-facing outage."
+    },
+    {
+      "page_id": "P20",
+      "decision": "suppress",
+      "reason": "CircleCI hourly_playwright job failure mapped to a PagerDuty incident on Platform API Staging; self-resolved in 295s with no live application degradation. CI/test-env signal, should not page prod on-call."
+    },
+    {
+      "page_id": "P21",
+      "decision": "suppress",
+      "reason": "[ignore] Default Log Threshold Monitor flapper on web-app: 15 fires/hr, self-clears in 17s. Noise."
+    },
+    {
+      "page_id": "P22",
+      "decision": "suppress",
+      "reason": "CircleCI hourly_playwright job failure mapped to a PagerDuty incident on Platform API; self-resolved in 250s with no live application degradation. CI/test-env signal, should not page prod on-call."
+    },
+    {
+      "page_id": "P23",
+      "decision": "suppress",
+      "reason": "Prod/staging e2e Playwright failure with NO corroborating negative log pattern (pat-e2e-flaky is flat), self-resolved in 220s on retry. Test instability, not a customer-facing outage."
+    },
+    {
+      "page_id": "P24",
+      "decision": "suppress",
+      "reason": "Downstream symptom of P01 (same pat-web-prod-regression root): synthetic checkout monitor failing on the same regression. Collapse into the web-app incident."
+    }
+  ]
+}
+JSON
+
+cat > /workdir/reasoning.md <<'MD'
+# Oracle reasoning — ci-e2e-test-noise
+
+The single real, must-page incident is **P01**: a prod e2e failure that — unlike every other test alert — is backed by a surging negative log pattern (pat-web-prod-regression: real HTTP 500s on the live checkout flow) and aligns AFTER the web-2026.06.24-rel deploy. P24 is the synthetic-monitor symptom of the same regression and collapses into P01. All other CI/e2e alerts (staging CircleCI, flaky Playwright that retried green) have flat/neutral patterns, self-resolve, and are test-env noise that must NOT page prod on-call.
+
+See `tests/ground_truth.json` rationale for the per-page justification.
+MD
+
+echo "wrote /workdir/triage.json and /workdir/reasoning.md"

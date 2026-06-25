@@ -1,0 +1,56 @@
+[
+  {
+    "pattern_id": "pat-node-notready",
+    "signature": "NodeNotReady ip-10-0-7-44.us-east-1; kubelet stopped posting status, capacity removed, pods pending",
+    "count": 88,
+    "delta_vs_baseline_pct": 700,
+    "sentiment": "negative",
+    "first_seen": "2026-06-19T22:39:40Z",
+    "note": "real node-health degradation, capacity dropped"
+  },
+  {
+    "pattern_id": "pat-pdb-block",
+    "signature": "DisruptionBlocked Pdb prevents pod evictions PodDisruptionBudget=streaming/*-taskmanager-pdb",
+    "count": 24,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-19T20:00:00Z",
+    "note": "normal PDB protection, operational meta-event"
+  },
+  {
+    "pattern_id": "pat-unconsolidatable",
+    "signature": "Unconsolidatable NodePool nodepool-olapdb has non-empty consolidation disabled",
+    "count": 15,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-19T20:00:00Z",
+    "note": "expected Karpenter config event"
+  },
+  {
+    "pattern_id": "pat-spot-consol",
+    "signature": "SpotToSpotConsolidation disabled",
+    "count": 12,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-19T20:00:00Z",
+    "note": "normal Karpenter NodePool config"
+  },
+  {
+    "pattern_id": "pat-store-validated",
+    "signature": "store validated",
+    "count": 24,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-19T20:00:00Z",
+    "note": "routine validation event"
+  },
+  {
+    "pattern_id": "pat-log-threshold",
+    "signature": "log volume over configured per-service threshold",
+    "count": 18,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-19T20:00:00Z",
+    "note": "[ignore] flapper"
+  }
+]

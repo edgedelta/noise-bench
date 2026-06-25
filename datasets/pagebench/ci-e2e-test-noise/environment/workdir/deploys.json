@@ -1,0 +1,16 @@
+[
+  {
+    "timestamp": "2026-06-24T11:30:00Z",
+    "service": "web-app",
+    "commit_sha": "4720cc6003ff11aa22bb33cc44dd55ee66ff7788",
+    "version": "web-2026.06.24-rel",
+    "note": "#web checkout flow redesign (culprit: shipped the regression)"
+  },
+  {
+    "timestamp": "2026-06-24T10:00:00Z",
+    "service": "Platform API Staging",
+    "commit_sha": "af9477f9a9bb22cc33dd44ee55ff66001122aab3",
+    "version": "admin-staging-2026.06.24-d",
+    "note": "staging test fixture update (innocent decoy)"
+  }
+]

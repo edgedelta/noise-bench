@@ -1,0 +1,46 @@
+{
+  "scenario": "escalation-loopback-noise",
+  "f1_threshold": 0.8,
+  "miss_budget": 0,
+  "positive_class": "page",
+  "must_page": [
+    "P01"
+  ],
+  "labels": {
+    "P01": "page",
+    "P02": "suppress",
+    "P03": "suppress",
+    "P04": "suppress",
+    "P05": "suppress",
+    "P06": "suppress",
+    "P07": "suppress",
+    "P08": "suppress",
+    "P09": "suppress",
+    "P10": "suppress",
+    "P11": "suppress",
+    "P12": "suppress",
+    "P13": "suppress",
+    "P14": "suppress",
+    "P15": "suppress",
+    "P16": "suppress"
+  },
+  "rationale": {
+    "P01": "Real SEV1: Platform API HTTP 5xx Error at 0.41 vs 0.05 threshold, never auto-resolved, pat-adminapi-5xx surging negative. This is a genuine missed-acknowledgement on a LIVE production outage (not a policy meta-event). Cardinal must-page.",
+    "P16": "Downstream symptom of P01 (same pat-adminapi-5xx root, onset +2min): http-receiver error bump on the shared failure path. Collapse into the Platform API incident.",
+    "P02": "Escalation-policy loop-back META event: P7X2K9A re-routed to the same responder. This is a config defect already tracked in Jira OPS-2031, not a service outage. Suppress (fix the policy, do not page on-call).",
+    "P03": "Escalation-policy loop-back META event: P7X2K9A re-routed to the same responder. This is a config defect already tracked in Jira OPS-2031, not a service outage. Suppress (fix the policy, do not page on-call).",
+    "P04": "Escalation-policy loop-back META event: P7X2K9A re-routed to the same responder. This is a config defect already tracked in Jira OPS-2031, not a service outage. Suppress (fix the policy, do not page on-call).",
+    "P05": "Missed-ack reminder on transient staging CI (hourly_playwright_sev0_staging) that self-resolved in 120s. Process/alerting-hygiene noise, no live outage.",
+    "P06": "Missed-ack reminder on transient staging CI (hourly_playwright_sev0_staging) that self-resolved in 110s. Process/alerting-hygiene noise, no live outage.",
+    "P07": "Missed-ack reminder on transient staging CI (hourly_playwright_sev0_staging) that self-resolved in 95s. Process/alerting-hygiene noise, no live outage.",
+    "P08": "Escalation-policy loop-back META event: P7X2K9A re-routed to the same responder. This is a config defect already tracked in Jira OPS-2031, not a service outage. Suppress (fix the policy, do not page on-call).",
+    "P09": "Notification-delivery event (Slack/email succeeded). Transport confirmation, not an incident. Noise.",
+    "P10": "Missed-ack reminder on transient staging CI (hourly_playwright_sev0_staging) that self-resolved in 88s. Process/alerting-hygiene noise, no live outage.",
+    "P11": "Escalation-policy loop-back META event: P7X2K9A re-routed to the same responder. This is a config defect already tracked in Jira OPS-2031, not a service outage. Suppress (fix the policy, do not page on-call).",
+    "P12": "[ignore] Default Log Threshold Monitor flapper: 14 fires/hr, self-clears in 18s. Noise by design.",
+    "P13": "Escalation-policy configuration warning (meta). Config hygiene, not a service outage. Suppress.",
+    "P14": "Missed-ack reminder on transient staging CI (hourly_playwright_sev0_staging) that self-resolved in 100s. Process/alerting-hygiene noise, no live outage.",
+    "P15": "Notification-delivery event (Slack/email succeeded). Transport confirmation, not an incident. Noise."
+  },
+  "notes": "Real SEV1 = P01 (Platform API 5xx); P16 is its downstream symptom. Everything else is PagerDuty escalation-policy/process meta-noise (loop-back OPS-2031, missed-ack reminders on transient staging CI, delivery confirmations)."
+}
