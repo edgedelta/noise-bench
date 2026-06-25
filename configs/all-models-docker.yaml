@@ -1,14 +1,9 @@
-# PageBench — all scenarios, several frontier models (Docker).
-# Usage: source .env && uv run harbor run -c configs/all-models-docker.yaml
-# 10 scenarios x 4 models x 3 attempts = 120 trials.
-
+# page-bench — all scenarios, several frontier models (Docker).
+# Usage: set -a && source .env && set +a && harbor run -c configs/all-models-docker.yaml -y
 jobs_dir: jobs
 n_attempts: 3
-
-orchestrator:
-  type: local
-  n_concurrent_trials: 8
-  quiet: false
+n_concurrent_trials: 8
+quiet: false
 
 environment:
   type: docker
@@ -19,20 +14,20 @@ agents:
   - name: terminus-2
     model_name: openrouter/openai/gpt-5.2-codex
   - name: terminus-2
-    model_name: openrouter/google/gemini-3-pro-preview
+    model_name: openrouter/google/gemini-2.5-pro
   - name: terminus-2
     model_name: openrouter/moonshotai/kimi-k2.5
 
 datasets:
-  - path: datasets
+  - path: datasets/pagebench
     task_names:
-      - noisy-night-shift
+      - ai-platform-alert-noise
+      - ci-e2e-test-noise
       - deploy-storm
-      - quiet-but-deadly
       - disk-pressure-flapper-storm
       - escalation-loopback-noise
-      - ci-e2e-test-noise
-      - warning-spike-transients
-      - ai-platform-alert-noise
-      - queue-backlog-vs-blip
       - node-event-noise
+      - noisy-night-shift
+      - queue-backlog-vs-blip
+      - quiet-but-deadly
+      - warning-spike-transients
