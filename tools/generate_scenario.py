@@ -2,7 +2,7 @@
 # /// script
 # requires-python = ">=3.12"
 # ///
-"""Generate a new PageBench scenario skeleton.
+"""Generate a new NoiseBench scenario skeleton.
 
 WHY THIS EXISTS
 ---------------
@@ -50,7 +50,7 @@ import random
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-DS = REPO / "datasets" / "pagebench"
+DS = REPO / "datasets" / "noisebench"
 
 NOISE_KINDS = [
     # (metric, related_pattern, threshold, value_factor, auto_resolve_s, fired_count)
@@ -156,7 +156,7 @@ def build(name: str, noise: int, difficulty: str, seed: int):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Generate a PageBench scenario skeleton.")
+    ap = argparse.ArgumentParser(description="Generate a NoiseBench scenario skeleton.")
     ap.add_argument("name", help="scenario directory name, e.g. weekend-cron-storm")
     ap.add_argument("--noise", type=int, default=15, help="number of noise pages")
     ap.add_argument("--difficulty", choices=["easy", "medium", "hard"], default="medium")

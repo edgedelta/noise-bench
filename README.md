@@ -1,13 +1,14 @@
-# PageBench
+# NoiseBench
 
 ### Can AI tell a real incident from alert noise?
 
-It's 2am. Twenty alerts just fired. One of them is a database melting down and taking
-checkout with it. The other nineteen are a disk-usage alert that flaps every four minutes,
-two CPU blips that healed before you finished reading them, a duplicate of a ticket someone
-already owns, and a deploy that fixed itself. **PageBench** asks a frontier LLM to do what
-your on-call engineer does half-asleep: decide who to wake up — and, just as important, who
-to leave alone.
+It's 2am. Twenty-odd alerts just fired. A few are real — a database melting down and taking
+checkout with it, an auth cert that expired, a queue quietly saturating toward an outage. The
+rest are noise: a disk-usage alert that flaps every four minutes, two CPU blips that healed
+before you finished reading them, a duplicate of a ticket someone already owns, and a deploy
+that fixed itself. **NoiseBench** asks a frontier LLM to do what your on-call engineer does
+half-asleep: decide who to wake up — catching *every* real incident without drowning in the
+noise. Miss one real page and you've failed, no matter how clean the rest of your triage.
 
 This is a benchmark for **models, not products**. Every model gets the same telemetry, the
 same tools, the same prompt. We measure the reasoning.
@@ -22,7 +23,7 @@ already being worked. A few are real and need a human *now*. The skill that matt
 triage: separating the one real incident from the pile of look-alikes — without missing the
 real one, and without waking someone for a blip.
 
-PageBench gives a model a batch of fired pages plus the context a good engineer would pull —
+NoiseBench gives a model a batch of fired pages plus the context a good engineer would pull —
 recent metric values, clustered log patterns, deploy history, whether the alert auto-resolved,
 how often it has fired this hour, and which incidents are already open — and asks it to label
 each page **`page`** (wake a human) or **`suppress`** (noise).
@@ -43,7 +44,7 @@ It rewards exactly one behavior: wake a human for the real thing, and nothing el
 
 ## How it works
 
-PageBench uses the [Terminal-Bench](https://www.tbench.ai/) task format, run by the
+NoiseBench uses the [Terminal-Bench](https://www.tbench.ai/) task format, run by the
 [Harbor](https://harborframework.com) harness with the default **`terminus-2`** agent. We
 ship only the **tasks + datasets + scoring** — the harness and the models are external. Every
 model is dropped into an identical Docker sandbox with the telemetry under `/workdir/` and
@@ -61,8 +62,8 @@ Requires [Harbor](https://harborframework.com) (`uv tool install harbor`), Docke
 [OpenRouter](https://openrouter.ai/) key (or your own model credentials).
 
 ```bash
-git clone https://github.com/edgedelta/page-bench.git
-cd page-bench
+git clone https://github.com/edgedelta/noise-bench.git
+cd noise-bench
 
 # put OPENROUTER_API_KEY=... in .env
 source .env
@@ -84,11 +85,11 @@ Inspect agent trajectories with `harbor view jobs`.
 
 ## Task format
 
-Each scenario under [`datasets/pagebench/`](datasets/pagebench/) is a Terminal-Bench task:
+Each scenario under [`datasets/noisebench/`](datasets/noisebench/) is a Terminal-Bench task:
 `task.toml`, `instruction.md`, `environment/Dockerfile` (+ the frozen telemetry in
 `environment/workdir/`), `solution/solve.sh` (an oracle answer used to validate the grader),
 and `tests/` (the grader `test_outputs.py` + verifier-only `ground_truth.json`). See the
-[dataset README](datasets/pagebench/README.md) for the data schema and scoring details.
+[dataset README](datasets/noisebench/README.md) for the data schema and scoring details.
 
 ## Difficulty tiers
 
@@ -99,20 +100,20 @@ monitor, and identifier values are fictional stand-ins. They use realistic servi
 names (`[ignore] Default Log Threshold Monitor`, `Platform API HTTP 5xx Error`, `NodeNotReady
 Error - K8s Event`, `OnCall AI Workflow Errors`, `LLM 24 Hour Token Usage`, …), and standard
 Kubernetes event types (`DisruptionBlocked`, `Unconsolidatable`, `NodeNotReady`). See the
-[dataset README](datasets/pagebench/README.md) for the per-scenario notes.
+[dataset README](datasets/noisebench/README.md) for the per-scenario notes.
 
 | Scenario | Tier | Pages | The trap |
 |---|---|---|---|
-| [`noisy-night-shift`](datasets/pagebench/noisy-night-shift/) | medium | 20 | A real DB cascade fires 4 correlated pages — collapse them to **one**. The rest is flaps, transients, a duplicate of an open incident, and a self-healed deploy. |
-| [`deploy-storm`](datasets/pagebench/deploy-storm/) | hard | 25 | Ten services deployed at once; almost all the churn self-heals. **One** deploy shipped a real regression that doesn't. Over-suppressing kills you. |
-| [`quiet-but-deadly`](datasets/pagebench/quiet-but-deadly/) | medium | 12 | Mostly low-grade noise, plus a quiet slow-burn incident with **no deploy to blame**. Tests the "blame the deploy" and "ignore the quiet one" biases. |
-| [`disk-pressure-flapper-storm`](datasets/pagebench/disk-pressure-flapper-storm/) | medium | 22 | The `[ignore] Default Log Threshold Monitor` flaps everywhere and disk warnings self-resolve on rotation. **One** node crosses into real `DiskPressure` eviction risk. |
-| [`escalation-loopback-noise`](datasets/pagebench/escalation-loopback-noise/) | medium | 16 | PagerDuty escalation-policy meta-noise (loop-back to the same responder, missed-ack reminders on transient staging CI). **One** genuine missed-ack on a live SEV1 `Platform API 5xx`. |
-| [`ci-e2e-test-noise`](datasets/pagebench/ci-e2e-test-noise/) | hard | 24 | CircleCI / Playwright e2e failures wired into PagerDuty as incidents — test-env noise that shouldn't page prod. **One** e2e failure reflects a real `web-app` regression. |
-| [`warning-spike-transients`](datasets/pagebench/warning-spike-transients/) | medium | 14 | WARN-level spikes that self-heal in seconds (incl. the classic Workflow `runMainLoop` bursts). **One** is the leading edge of a real error cascade on `http-receiver`. |
-| [`ai-platform-alert-noise`](datasets/pagebench/ai-platform-alert-noise/) | hard | 20 | `LLM 24 Hour Token Usage` Warns + `Spending Cap` budget alerts — cost noise, not outages. **One** real `ai-agent-svc` outage via `OnCall AI Workflow Errors`. |
-| [`queue-backlog-vs-blip`](datasets/pagebench/queue-backlog-vs-blip/) | hard | 20 | Transient queue-depth blips that drain on their own. **One** sustained, non-draining backlog on `metric-ingest-queue-1` blocking the write path. |
-| [`node-event-noise`](datasets/pagebench/node-event-noise/) | medium | 18 | Normal Karpenter/PDB operational events (`Pdb prevents pod evictions`, `SpotToSpotConsolidation disabled`, `Unconsolidatable`, `store validated`). **One** real `NodeNotReady` drops capacity. |
+| [`noisy-night-shift`](datasets/noisebench/noisy-night-shift/) | medium | 20 | A real DB cascade fires 4 correlated pages — collapse them to **one**. The rest is flaps, transients, a duplicate of an open incident, and a self-healed deploy. |
+| [`deploy-storm`](datasets/noisebench/deploy-storm/) | hard | 25 | Ten services deployed at once; almost all the churn self-heals. **One** deploy shipped a real regression that doesn't. Over-suppressing kills you. |
+| [`quiet-but-deadly`](datasets/noisebench/quiet-but-deadly/) | medium | 12 | Mostly low-grade noise, plus a quiet slow-burn incident with **no deploy to blame**. Tests the "blame the deploy" and "ignore the quiet one" biases. |
+| [`disk-pressure-flapper-storm`](datasets/noisebench/disk-pressure-flapper-storm/) | medium | 22 | The `[ignore] Default Log Threshold Monitor` flaps everywhere and disk warnings self-resolve on rotation. **One** node crosses into real `DiskPressure` eviction risk. |
+| [`escalation-loopback-noise`](datasets/noisebench/escalation-loopback-noise/) | medium | 16 | PagerDuty escalation-policy meta-noise (loop-back to the same responder, missed-ack reminders on transient staging CI). **One** genuine missed-ack on a live SEV1 `Platform API 5xx`. |
+| [`ci-e2e-test-noise`](datasets/noisebench/ci-e2e-test-noise/) | hard | 24 | CircleCI / Playwright e2e failures wired into PagerDuty as incidents — test-env noise that shouldn't page prod. **One** e2e failure reflects a real `web-app` regression. |
+| [`warning-spike-transients`](datasets/noisebench/warning-spike-transients/) | medium | 14 | WARN-level spikes that self-heal in seconds (incl. the classic Workflow `runMainLoop` bursts). **One** is the leading edge of a real error cascade on `http-receiver`. |
+| [`ai-platform-alert-noise`](datasets/noisebench/ai-platform-alert-noise/) | hard | 20 | `LLM 24 Hour Token Usage` Warns + `Spending Cap` budget alerts — cost noise, not outages. **One** real `ai-agent-svc` outage via `OnCall AI Workflow Errors`. |
+| [`queue-backlog-vs-blip`](datasets/noisebench/queue-backlog-vs-blip/) | hard | 20 | Transient queue-depth blips that drain on their own. **One** sustained, non-draining backlog on `metric-ingest-queue-1` blocking the write path. |
+| [`node-event-noise`](datasets/noisebench/node-event-noise/) | medium | 18 | Normal Karpenter/PDB operational events (`Pdb prevents pod evictions`, `SpotToSpotConsolidation disabled`, `Unconsolidatable`, `store validated`). **One** real `NodeNotReady` drops capacity. |
 
 ## Leaderboard
 
@@ -176,7 +177,7 @@ window. Validate that your oracle (`solution/solve.sh`) passes your grader befor
 ## Why we built this
 
 At [Edge Delta](https://edgedelta.com) we spend our days on the on-call-burden problem:
-turning a firehose of alerts into the handful that deserve a human. PageBench is our attempt to
+turning a firehose of alerts into the handful that deserve a human. NoiseBench is our attempt to
 measure that reasoning honestly and in the open — for any model, with no product in the loop.
 EdgeDelta isn't on the leaderboard; the benchmark is neutral.
 

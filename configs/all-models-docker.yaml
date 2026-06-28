@@ -1,4 +1,4 @@
-# page-bench — all scenarios, several frontier models (Docker).
+# noise-bench — all scenarios, several frontier models (Docker).
 # Usage: set -a && source .env && set +a && harbor run -c configs/all-models-docker.yaml -y
 jobs_dir: jobs
 n_attempts: 3
@@ -19,7 +19,7 @@ agents:
     model_name: openrouter/moonshotai/kimi-k2.5
 
 datasets:
-  - path: datasets/pagebench
+  - path: datasets/noisebench
     task_names:
       - ai-platform-alert-noise
       - ci-e2e-test-noise

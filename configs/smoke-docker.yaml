@@ -1,4 +1,4 @@
-# page-bench — smoke test: one model, one scenario, one attempt.
+# noise-bench — smoke test: one model, one scenario, one attempt.
 # Usage: set -a && source .env && set +a && harbor run -c configs/smoke-docker.yaml -y
 jobs_dir: jobs
 n_attempts: 1
@@ -13,6 +13,6 @@ agents:
     model_name: openrouter/openai/gpt-4o-mini
 
 datasets:
-  - path: datasets/pagebench
+  - path: datasets/noisebench
     task_names:
       - noisy-night-shift

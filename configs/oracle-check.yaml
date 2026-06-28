@@ -7,7 +7,7 @@ environment:
 agents:
   - name: oracle
 datasets:
-  - path: datasets/pagebench
+  - path: datasets/noisebench
     task_names:
       - ai-platform-alert-noise
       - cert-expiry-fanout
