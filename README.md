@@ -116,22 +116,25 @@ Kubernetes event types (`DisruptionBlocked`, `Unconsolidatable`, `NodeNotReady`)
 
 ## Leaderboard
 
-> **Illustrative numbers — run it yourself.** The table below is *synthetic placeholder data*
-> to show the shape of the report, not measured results. We are not publishing a ranking we
-> haven't earned, and we are not putting any product at the top. Clone the repo and generate
-> your own. \*
+Frozen run: **17 scenarios × 4 models × 3 attempts = 204 trials**, Harbor `terminus-2` over
+OpenRouter, 2026-06-28. A trial **passes** only if it pages every must-page incident (cardinal —
+suppressing a real SEV1 = reward 0), hits F1 ≥ threshold (positive class = page), and misses no
+more real incidents than the miss budget. Pass rate = trials passed / 51.
 
-| Model | Precision\* | Recall\* | F1\* | Real incidents missed\* |
-|---|---|---|---|---|
-| _your model here_ | — | — | — | — |
-| claude-opus-4.6\* | 0.86 | 0.91 | 0.88 | 0 / 10 |
-| gpt-5.2-codex\* | 0.81 | 0.88 | 0.84 | 1 / 10 |
-| gemini-3-pro\* | 0.74 | 0.83 | 0.78 | 2 / 10 |
-| kimi-k2.5\* | 0.62 | 0.79 | 0.69 | 3 / 10 |
+| Model | Pass rate | easy | medium | hard |
+|---|---|---:|-------:|-----:|
+| gpt-5.2-codex   | **80%** (41/51) | 100% | 100% | 58% |
+| claude-opus-4.6 | **78%** (40/51) | 100% | 100% | 54% |
+| kimi-k2.5       | **75%** (38/51) | 100% | 100% | 46% |
+| gemini-2.5-pro  | **51%** (26/51) | 100% | 88%  | 8%  |
 
-\* Illustrative / synthetic — **run it yourself**. "Real incidents missed" counts how many of
-the must-page incidents (one per scenario, ten total) were suppressed — the cardinal failure
-that zeroes a scenario regardless of F1.
+The split lives in the **hard** tier, where the alert *features mislead*: a real incident that
+auto-resolved once (or flaps like noise) but whose metric ratchets toward a ceiling, paired with a
+benign alert whose metric rises but plateaus at a safe new normal after a capacity change. Getting
+these right needs cross-referencing the metric trajectory + deploy context, not reading a single
+field. `slow-burn-saturation` is failed by **every** model on **every** attempt; gemini-2.5-pro
+collapses to 8% on the hard tier. Re-score any published trajectory yourself, no API key needed:
+`uv run scripts/process_results.py jobs/<run>`.
 
 We expect models to do **badly** here, especially on `deploy-storm` (waving the whole storm
 away as "just deploys"), `ci-e2e-test-noise` (telling a real prod regression from flaky test
