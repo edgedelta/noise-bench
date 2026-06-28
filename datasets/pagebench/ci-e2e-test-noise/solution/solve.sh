@@ -135,6 +135,16 @@ cat > /workdir/triage.json <<'JSON'
       "page_id": "P26",
       "decision": "suppress",
       "reason": "Tagged SEV1 by a synthetic smoke-test monitor on Platform API Staging, but it flaps (7 fires/hr), auto-resolves in 90s, shares neutral pat-ci-staging, and aligns with the innocent admin-staging-2026.06.24-d fixture deploy. Loud-looking staging test noise, not prod."
+    },
+    {
+      "page_id": "P27",
+      "decision": "page",
+      "reason": "payments-api degradation that reads like a flapper (fired_count 15, auto-resolved 50s) but the metric ratchets worse each cycle and never returns to baseline: payment_decline_rate peaks 0.10 -> 0.18 -> 0.27 with troughs 0.06/0.13/0.22, baseline 0.011. Negative pat-payments-degrade (+430%, processor timeouts on /v1/charge). Escalating prod outage, not flapping; cardinal must-page."
+    },
+    {
+      "page_id": "P28",
+      "decision": "suppress",
+      "reason": "Looks like P08 (SEV1 api_5xx_ratio, auto-resolved null, single fire, rising vs 0.01) but it is the Platform API Canary fleet. metrics.csv shows api_5xx_ratio plateaus at ~0.06 under the 0.08 canary_error_budget_ceiling; deploys.json platform-api-canary-2026.06.24-c is a 5%-traffic canary with that ceiling; pat-canary-rollout neutral +4%. Expected within-envelope canary steady state, not prod."
     }
   ]
 }
@@ -143,7 +153,7 @@ JSON
 cat > /workdir/reasoning.md <<'MD'
 # Oracle reasoning — ci-e2e-test-noise
 
-Three independent real production incidents must surface from a flood of CI/e2e
+Four independent real production incidents must surface from a flood of CI/e2e
 test-environment noise:
 
 - **P01 (page, cardinal)** — web-app checkout SEV1 5xx. value 0.38 vs 0.02, never
@@ -156,12 +166,23 @@ test-environment noise:
   blame, but ingest_lag_seconds rises monotonically and never recovers
   (18 -> 95 -> 160 -> 240 -> 330) with auto_resolved null and negative pat-ingest-backlog.
   Sustained, customer-facing; a conservative triager wrongly suppresses it.
+- **P27 (page, cardinal)** — payments-api decline-rate degradation wearing flapper clothing:
+  fired_count_last_1h 15 and auto_resolved_after_s 50 both read as a chronic self-clearing
+  flapper. But the metric does not oscillate around a baseline — each cycle ratchets worse
+  (payment_decline_rate peaks 0.10 -> 0.18 -> 0.27) and the troughs (0.06 -> 0.13 -> 0.22)
+  never return to the 0.011 baseline. Negative pat-payments-degrade (+430%, processor
+  timeouts on /v1/charge). Reading the trend instead of the fired_count is the whole game.
 
-Suppressed correlated/duplicate and decoy alerts:
+Suppressed correlated/duplicate and look-alike alerts:
 
 - **P24** — synthetic-checkout symptom of P01 (same pat-web-prod-regression). Collapse into P01.
 - **P26** — loud SEV1 staging smoke test that flaps (7 fires/hr), auto-resolves in 90s,
   neutral pat-ci-staging, innocent staging fixture deploy. Precision trap, suppress.
+- **P28** — a perfect P08 look-alike (SEV1, api_5xx_ratio, auto_resolved null, single fire,
+  rising vs 0.01) but on the **Platform API Canary** fleet. api_5xx_ratio plateaus at ~0.06
+  and stays under the 0.08 canary_error_budget_ceiling tied to the 5%-traffic
+  platform-api-canary-2026.06.24-c rollout; pat-canary-rollout is neutral. Within-envelope
+  canary steady state, not a prod regression. Suppress.
 
 Everything else is CircleCI/staging CI failures, flaky Playwright that retried green, and
 [ignore] log-threshold flappers — all flat/neutral patterns that self-resolve and must NOT

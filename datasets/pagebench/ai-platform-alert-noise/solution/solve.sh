@@ -105,6 +105,16 @@ cat > /workdir/triage.json <<'JSON'
       "page_id": "P20",
       "decision": "suppress",
       "reason": "Spending Cap Hit Monitor (90.2% on inference-runner): pat-spend-cap 0% delta, neutral. Budget governance."
+    },
+    {
+      "page_id": "P21",
+      "decision": "page",
+      "reason": "ai-agent-svc tool_call_error_rate 0.18 vs 0.05. auto_resolved_after_s=62 and a single fire make it read as transient, but metrics.csv shows it dip to 0.02 at the auto-resolve then climb back higher and stay there (0.27->0.41->0.55), pat-ai-toolcall-err surging negative (+540%). First flap of an escalating tool-dispatch outage, distinct root from P01. Must-page."
+    },
+    {
+      "page_id": "P22",
+      "decision": "suppress",
+      "reason": "inference-runner gpu_warmup_mem_pct 88 vs 85, auto_resolved_after_s=null and rising, but metrics.csv shows it plateau at 89 (well under the 95 saturation line that the gpu_mem_pct monitor uses) after the inference-runner-2026.06.21-d scale-up + model-preload deploy at 18:58 raised the resident GPU memory floor. pat-ai-gpu-warmup +3% neutral. Steady state within limits."
     }
   ]
 }
@@ -113,7 +123,7 @@ JSON
 cat > /workdir/reasoning.md <<'MD'
 # Oracle reasoning — ai-platform-alert-noise
 
-Three independent real incidents must page:
+Four independent real incidents must page:
 
 - **P01** — ai-agent-svc outage. `workflow_500_rate` 0.52 vs 0.05, never auto-resolves,
   climbing in metrics.csv (0.003 -> 0.52 -> 0.58), `pat-ai-workflow-500` surging negative
@@ -127,6 +137,20 @@ Three independent real incidents must page:
   `pat-ai-memory-write-fail` surging negative (+380%), never auto-resolves, no deploy to
   blame. Tagged only SEV3 and fired once, so it reads as quiet — but customer writes are
   failing and worsening. This is the recall trap.
+- **P21** — ai-agent-svc tool-call errors. `tool_call_error_rate` 0.18 vs 0.05. The alert
+  auto-resolved once in 62s and fired only once, so it reads as a transient that already
+  cleared. But metrics.csv shows it dip to 0.02 at the auto-resolve, then climb back higher
+  and stay elevated (0.27 -> 0.41 -> 0.55); `pat-ai-toolcall-err` is surging negative
+  (+540%, tool-dispatch failures aborting agent steps). The auto-resolve was the first flap
+  of an escalating outage on a distinct root from P01. Must page.
+
+Two feature-misleading items are the point of this scenario. **P21** breaks the
+"auto_resolved => transient" heuristic: the disambiguator is the post-resolve metrics
+trajectory (0.02 -> 0.27 -> 0.41 -> 0.55), not the alert field. **P22** breaks the
+"rising + auto_resolved=null => real" heuristic: `gpu_warmup_mem_pct` rises 70 -> 82 -> 88
+then plateaus at 89, holding under the 95 saturation line, and the
+`inference-runner-2026.06.21-d` scale-up + model-preload deploy at 18:58 explains the raised
+GPU memory floor. It is a steady state within limits, so suppress.
 
 Everything else is noise expressed through the features: token-usage Warns and Spending Cap
 alerts have 0% pattern delta and neutral sentiment (cost/budget signals); `[ignore]` log

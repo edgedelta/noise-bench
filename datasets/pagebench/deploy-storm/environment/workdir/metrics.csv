@@ -24,3 +24,15 @@ timestamp,service,metric,value
 2026-04-08T15:05:00Z,session-service,token_validation_error_rate,0.15
 2026-04-08T14:30:00Z,auth,p99_latency_ms,910.0
 2026-04-08T14:33:00Z,auth,p99_latency_ms,240.0
+2026-04-08T14:31:00Z,gateway-proxy,http_5xx_rate,0.003
+2026-04-08T14:33:00Z,gateway-proxy,http_5xx_rate,0.061
+2026-04-08T14:34:30Z,gateway-proxy,http_5xx_rate,0.006
+2026-04-08T14:36:00Z,gateway-proxy,http_5xx_rate,0.072
+2026-04-08T14:42:00Z,gateway-proxy,http_5xx_rate,0.13
+2026-04-08T14:55:00Z,gateway-proxy,http_5xx_rate,0.21
+2026-04-08T14:35:00Z,image-resizer,cpu_pct,41.0
+2026-04-08T14:41:00Z,image-resizer,cpu_pct,76.0
+2026-04-08T14:42:00Z,image-resizer,cpu_pct,78.0
+2026-04-08T14:48:00Z,image-resizer,cpu_pct,77.0
+2026-04-08T14:58:00Z,image-resizer,cpu_pct,78.5
+2026-04-08T15:10:00Z,image-resizer,cpu_pct,77.5

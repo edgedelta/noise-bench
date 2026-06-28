@@ -6,7 +6,8 @@
   "must_page": [
     "P01",
     "P20",
-    "P22"
+    "P22",
+    "P25"
   ],
   "labels": {
     "P01": "page",
@@ -32,7 +33,9 @@
     "P21": "suppress",
     "P22": "page",
     "P23": "suppress",
-    "P24": "suppress"
+    "P24": "suppress",
+    "P25": "page",
+    "P26": "suppress"
   },
   "rationale": {
     "P01": "metric-ingest-queue-1 oldest-message age 1048s vs 300s threshold, rising 810->1048->1290->1610 across the window and never auto-resolving; pat-queue-stalled at +980% negative. Sustained backlog, root incident. SEV1, cardinal must-page.",
@@ -58,7 +61,9 @@
     "P17": "auditlog-ingestor queue_depth 5180 vs 5000, auto_resolved_after_s 56, pat-queue-blip flat/neutral. Self-draining blip.",
     "P18": "kafka-metric-ingestor queue_oldest_msg_age_s 310 vs 300, auto_resolved_after_s 42, pat-queue-blip flat/neutral. Self-draining blip.",
     "P23": "kafka-trace-consumer consumer_lag_records 240k vs 200k, auto_resolved_after_s 38, fired_count_last_1h 6, pat-queue-blip flat/neutral; lag fell 240k->98k. Self-draining lag blip on the same service as P22, but it recovered. Look-alike decoy of the real lag breach.",
-    "P24": "metric-ingestor-large queue_oldest_msg_age_s 345 vs 300, auto_resolved_after_s 57, pat-queue-blip flat/neutral. Self-draining blip."
+    "P24": "metric-ingestor-large queue_oldest_msg_age_s 345 vs 300, auto_resolved_after_s 57, pat-queue-blip flat/neutral. Self-draining blip.",
+    "P25": "spanmetrics-rollup-consumer queue_depth 12400 vs 5000, fired_count_last_1h 16 and auto_resolved_after_s 47 (each fire clears within tens of seconds) so it presents exactly like the pat-queue-blip flappers. The disambiguator is the metrics.csv floor: it drains to 2050 (08:02), then only to 5100 (08:33), then to 12050 (08:52) and 15700 (09:20) — the trough ratchets monotonically upward and never returns to the 210 baseline. pat-rollup-queue-ratchet is negative at +260% with shrinking flush batches. A slowly-saturating consumer, not a flapper. SEV3 but cardinal must-page (real disguised as noise).",
+    "P26": "kafka-event-archiver consumer_lag_records 2.6M vs 200k, auto_resolved_after_s null, single fire (fired_count_last_1h 1), SEV2 — presents exactly like the real sustained breach P22. The disambiguator is two signals: (1) deploys.json has archiver-backfill-2026.06.20-b at 08:00, kind backfill-job, window 08:00-10:00, expected_peak_lag_records 3.0M, drain_rate 40k/min; (2) metrics.csv shows lag plateau at 2.65M (08:25, under the 3.0M envelope) then DRAINING 2.65M->2.10M->1.18M by 09:30 (~22.6k/min, within the configured replay drain) — bounded and recovering, the opposite of P22 which climbs unbounded 95k->1.85M->3.2M->4.9M. pat-archiver-backfill-lag neutral. Expected backfill steady-state, suppress (benign disguised as real)."
   },
-  "notes": "Three independent real incidents (page): P01 sustained metric-queue backlog (root; P19 5xx is a correlated downstream symptom), P20 DLQ fill from the enrichment-consumer crashloop (root; P21 pod-restart is a correlated symptom), and P22 sustained Kafka consumer-lag SLO breach (quiet recall trap). All three rise across the window and never auto-resolve. Everything else is a self-draining queue/lag blip (pat-queue-blip), a [ignore] log flapper, or a correlated symptom that collapses into a root. P23 is a precision decoy: same service+metric as P22 but it recovered in 38s."
+  "notes": "Four independent real incidents (page): P01 sustained metric-queue backlog (root; P19 5xx is a correlated downstream symptom), P20 DLQ fill from the enrichment-consumer crashloop (root; P21 pod-restart is a correlated symptom), P22 sustained Kafka consumer-lag SLO breach (quiet recall trap), and P25 a slowly-saturating rollup-consumer whose queue floor ratchets up each cycle while presenting as a high-fired-count auto-resolving flapper. Everything else is a self-draining queue/lag blip (pat-queue-blip), a [ignore] log flapper, or a correlated symptom that collapses into a root. Two feature-misleading precision/recall traps: P25 (real disguised as noise — high fired_count + short auto_resolve look like a flapper, but metrics.csv floor ratchets 2050->5100->12050->15700; must_page), and P26 (benign disguised as real — null auto-resolve + single SEV2 fire + 2.6M lag look like P22, but a documented backfill-job deploy explains it and the lag plateaus under the 3.0M envelope then drains within the configured replay rate; suppress). P23 remains a precision decoy: same service+metric as P22 but it recovered in 38s."
 }

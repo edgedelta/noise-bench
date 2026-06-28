@@ -86,5 +86,21 @@
     "delta_vs_baseline_pct": 2,
     "sentiment": "neutral",
     "first_seen": "2026-05-20T09:28:00Z"
+  },
+  {
+    "pattern_id": "pat-fd-accept",
+    "signature": "ingest-worker: accept() leaking sockets; descriptors not closed on read error",
+    "count": 318,
+    "delta_vs_baseline_pct": 260,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T09:18:00Z"
+  },
+  {
+    "pattern_id": "pat-cache-warm",
+    "signature": "feed-cache: heap resized to configured limit; warming entries",
+    "count": 22,
+    "delta_vs_baseline_pct": 1,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T09:31:00Z"
   }
 ]

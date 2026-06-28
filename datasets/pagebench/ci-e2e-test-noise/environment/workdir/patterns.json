@@ -46,5 +46,21 @@
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
     "first_seen": "2026-06-24T08:00:00Z"
+  },
+  {
+    "pattern_id": "pat-payments-degrade",
+    "signature": "card authorization declined; downstream processor timeout on payments-api /v1/charge; retries exhausting",
+    "count": 1180,
+    "delta_vs_baseline_pct": 430,
+    "sentiment": "negative",
+    "first_seen": "2026-06-24T09:58:00Z"
+  },
+  {
+    "pattern_id": "pat-canary-rollout",
+    "signature": "canary fleet api_5xx_ratio elevated within rollout error-budget on platform-api-canary-2026.06.24-c; below canary_error_budget_ceiling",
+    "count": 140,
+    "delta_vs_baseline_pct": 4,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-24T10:28:00Z"
   }
 ]

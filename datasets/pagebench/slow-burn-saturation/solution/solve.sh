@@ -95,6 +95,16 @@ cat > /workdir/triage.json <<'JSON'
       "page_id": "P18",
       "decision": "suppress",
       "reason": "cart cold-cache latency blip, auto-resolved in 20s, back to 260."
+    },
+    {
+      "page_id": "P19",
+      "decision": "suppress",
+      "reason": "cache-service memory_pct rises 49->58->66->71 (single fire, auto_resolved=null) like the slow-burns, but then plateaus dead-flat 72->72->72 far under the OOM line; deploy cache-2026.03.12-b at 00:40 raised the cache heap budget 2GiB->6GiB and left the 70 soft threshold unchanged. pat-cache-warmup neutral, allocation tapering. New post-deploy steady state, not a leak."
+    },
+    {
+      "page_id": "P20",
+      "decision": "page",
+      "reason": "session-store memory_pct looks like a flapper (fired_count 10, auto-resolves in 58s, pat-session-evict-flap neutral) but never returns to baseline: troughs ratchet 76->82->88->94 and peaks 84->89->93->97 toward 100. Escalating saturation with a climbing floor; must page."
     }
   ]
 }
@@ -117,6 +127,19 @@ None of them screams.
 3. **api-gateway connection-pool saturation** — P14. conn_pool_utilization_pct climbs
    68 -> 74 -> 83 -> 90 -> 95 -> 98; pat-pool-saturation negative. The pool is minutes from
    full, after which requests stall. **Page.**
+4. **session-store memory ratchet** — P20. Wears a flapper costume (fired_count 10,
+   auto-resolves in 58s) but memory_pct never returns to baseline: troughs ratchet
+   76 -> 82 -> 88 -> 94 and peaks 84 -> 89 -> 93 -> 97, the floor climbing every eviction
+   cycle toward 100. A flapping/auto-resolve heuristic would suppress it; the climbing floor
+   in metrics.csv shows escalating saturation. **Page (must).**
+
+Two items invert the obvious heuristics and must be read off the trend + deploy context:
+- **cache-service** — P19. Presents the exact slow-burn surface (memory_pct rising 49->71,
+  single fire, auto_resolved=null) but the rise FLATTENS to a dead plateau 72->72->72 far
+  under the limit, and deploy cache-2026.03.12-b at 00:40 raised the heap budget 2GiB->6GiB
+  while leaving the old 70 soft threshold. The higher baseline is the new steady state.
+  **Suppress** — paging it on rising+null spends precision budget.
+- **session-store** — P20 above: the inverse trap (flapping that is actually deadly).
 
 Everything else is noise that LOOKS louder:
 - SEV1-tagged LB health-check flappers (P01, P02, P15) and GC-pause CPU spikes (P04, P10):

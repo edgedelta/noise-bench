@@ -27,7 +27,9 @@ cat > /workdir/triage.json <<'JSON'
     { "page_id": "P19", "decision": "suppress", "reason": "search p99 905 vs 800, cold-cache neutral, auto-resolved in 25s, back to 410. Transient." },
     { "page_id": "P20", "decision": "page", "reason": "session-store memory 91 vs 90, SEV3, never resolved, monotonic slow-burn rise 91->98.5 over ~1h45m; pat-mem-creep delta 240, negative, no deploy. Genuine slow-burn saturation." },
     { "page_id": "P21", "decision": "suppress", "reason": "image-resize cpu 91 vs 90, GC pause, auto-resolved in 32s; metric back to 46. Transient." },
-    { "page_id": "P22", "decision": "suppress", "reason": "payments p99 5600, same pat-db-pool-exhausted root and onset window as P15. Downstream symptom; collapse into P15." }
+    { "page_id": "P22", "decision": "suppress", "reason": "payments p99 5600, same pat-db-pool-exhausted root and onset window as P15. Downstream symptom; collapse into P15." },
+    { "page_id": "P23", "decision": "page", "reason": "event-pipeline filesystem_pressure_pct: severity SEV1, related_pattern pat-fs-pressure-raterule, recent_deploy mon-2026.05.20-rules and fired_count 15 all match the P01-P12 rule-flapper crowd, but metrics.csv separates it: the flappers fall back to the 38-42 baseline within 1-2 min, whereas event-pipeline ratchets 48 -> 61 -> 74.5 -> 88 and never returns. Escalating disk fill masked by an early 41s flap. Page." },
+    { "page_id": "P24", "decision": "suppress", "reason": "analytics-ingest memory_pct 78 vs 75, auto_resolved null, sustained — surface profile of a slow-burn — but analytics-2026.05.20-scaleup (01:43 replica resize) explains it: memory_pct steps from 55 to ~78 then plateaus flat (78.0/78.6/78.2/78.9) under the 90 line; pat-analytics-heap-resize delta 5, neutral. Bounded post-resize steady-state. Suppress." }
   ]
 }
 JSON
@@ -47,7 +49,8 @@ fleet. Every behavioral feature says noise:
 - `auto_resolved_after_s` is 20-38s — each fire self-clears,
 - `pat-fs-pressure-raterule` has `delta_vs_baseline_pct` 2 and neutral sentiment.
 
-Trusting the SEV1 label and paging all 12 destroys precision. Suppress every one.
+Trusting the SEV1 label and paging all 12 destroys precision. Suppress every one — EXCEPT
+read the trend before lumping a SEV1 filesystem alert in with them (see P23 below).
 
 ## The quiet/medium real incidents
 - **P15 (payments pool exhaustion, SEV1)** — `db_pool_wait_ms` 4200 vs 200, never resolves,
@@ -58,13 +61,26 @@ Trusting the SEV1 label and paging all 12 destroys precision. Suppress every one
   A lower severity than the noise, but sustained and real. **Page.**
 - **P20 (session-store memory creep, SEV3)** — 91 vs 90 but a monotonic slow-burn (91 ->
   98.5 over ~1h45m), never resolves, `pat-mem-creep` negative, no deploy to blame. **Page.**
+- **P23 (event-pipeline disk fill, SEV1)** — the dangerous one. Its alert fields are
+  indistinguishable from the P01-P12 rule-flappers: same SEV1, same
+  `pat-fs-pressure-raterule`, same `mon-2026.05.20-rules` deploy, flapper-range
+  `fired_count` (15), and it even auto-resolved once (41s). Severity, rule-source,
+  fired_count and pattern all point to noise. Only `metrics.csv` tells the truth: the true
+  flappers snap back to the 38-42 baseline, but event-pipeline ratchets
+  48 -> 61 -> 74.5 -> 88 and never returns. The early flap masked a real, escalating disk
+  fill. Separate it from the crowd by TRAJECTORY, not by field. **Page.**
 
 ## The rest of the noise
 GC-pause CPU blips (P13, P21, ~30s self-clear), a deploy-correlated 503 that self-healed
 (P14, 44s, metric back to baseline), a chronic disk-rotation flapper (P16), a cold-cache
-latency transient (P19), and a duplicate of already-open INC-9120 (P17). Suppress all.
+latency transient (P19), and a duplicate of already-open INC-9120 (P17). And **P24**
+(analytics-ingest memory 78 vs 75): `auto_resolved` null and sustained makes it look like a
+slow-burn, but `analytics-2026.05.20-scaleup` (01:43 replica resize) explains it — memory
+steps from 55 to ~78 then PLATEAUS flat under the 90 line (`pat-analytics-heap-resize`
+delta 5, neutral). Bounded post-resize steady-state, not P20's monotonic climb to 98.5 with
+no deploy. Suppress all.
 
-**Page P15, P18, P20; suppress the rest.** See `tests/ground_truth.json` for per-page detail.
+**Page P15, P18, P20, P23; suppress the rest.** See `tests/ground_truth.json` for detail.
 MD
 
 echo "wrote /workdir/triage.json and /workdir/reasoning.md"

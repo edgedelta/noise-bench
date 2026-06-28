@@ -1,8 +1,8 @@
 # PageBench — ai-platform-alert-noise
 
-20 alerts fired on the AI platform over a ~5-hour evening window. Many are cost/usage chatter — `LLM 24 Hour Token Usage` Warns creeping over their daily threshold and `Spending Cap Hit Monitor` budget alerts — plus the usual [ignore] log flappers and CPU/GPU blips, and a couple of alerts wearing high-severity labels that may or may not deserve them. Mixed in are genuine production failures. Decide who to wake up.
+22 alerts fired on the AI platform over a ~5-hour evening window. Many are cost/usage chatter — `LLM 24 Hour Token Usage` Warns creeping over their daily threshold and `Spending Cap Hit Monitor` budget alerts — plus the usual [ignore] log flappers and CPU/GPU blips, and a couple of alerts wearing high-severity labels that may or may not deserve them. Mixed in are genuine production failures. Decide who to wake up.
 
-You are the on-call triage engineer. A batch of **20 fired alerts (pages)**
+You are the on-call triage engineer. A batch of **22 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
 **suppress** it as noise. Waking someone for noise burns trust and sleep; missing a real
 incident is far worse.

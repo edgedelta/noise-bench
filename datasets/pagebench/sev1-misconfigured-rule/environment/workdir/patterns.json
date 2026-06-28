@@ -70,5 +70,13 @@
     "delta_vs_baseline_pct": 240,
     "sentiment": "negative",
     "first_seen": "2026-05-20T00:45:00Z"
+  },
+  {
+    "pattern_id": "pat-analytics-heap-resize",
+    "signature": "analytics-ingest: heap target raised after replica resize; steady-state",
+    "count": 22,
+    "delta_vs_baseline_pct": 5,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T01:44:00Z"
   }
 ]

@@ -5,7 +5,8 @@
   "positive_class": "page",
   "must_page": [
     "Q01",
-    "Q13"
+    "Q13",
+    "Q19"
   ],
   "labels": {
     "Q01": "page",
@@ -25,7 +26,9 @@
     "Q15": "page",
     "Q16": "suppress",
     "Q17": "suppress",
-    "Q18": "suppress"
+    "Q18": "suppress",
+    "Q19": "page",
+    "Q20": "suppress"
   },
   "rationale": {
     "Q01": "Quiet slow-burn. error_rate climbs monotonically 0.02 -> 0.14 across the window (metrics.csv), auto_resolved_after_s null, no recent_deploy, pat-upstream-timeout count 640 / delta +520%. Looks low-grade but is real. Cardinal must_page; conservative models that anchor on 'modest value, no deploy' wrongly suppress it.",
@@ -45,6 +48,8 @@
     "Q15": "Moderate sustained regression. checkout p99_latency_ms climbs 910 -> 1990 across the window (metrics.csv), auto_resolved_after_s null, no deploy, pat-checkout-pool-exhaust delta +380%. Independent real incident, distinct service/root from Q13. Page.",
     "Q16": "inventory http_5xx_rate rising, real, but already owned: incidents_open.json INC-4471 covers inventory / pat-inventory-5xx, opened 09:33, status investigating. A human is on it. Suppress as duplicate of an open incident.",
     "Q17": "promotions http_5xx_rate tagged SEV1 but fired_count_last_1h 9, auto_resolved_after_s 31, 0.21 drops to 0.04 one minute later, deploy promo-2026.05.20-b correlated, pat-promo-rollout delta 4%. Severity-looks-real precision trap: flapping deploy churn that self-healed.",
-    "Q18": "gateway-canary error_rate tagged SEV1 but fired_count_last_1h 11, auto_resolved_after_s 22, 0.30 drops to 0.02 next sample, pat-canary-misroute delta 2%. Precision trap: high-value-looking canary flapper that auto-resolved."
+    "Q18": "gateway-canary error_rate tagged SEV1 but fired_count_last_1h 11, auto_resolved_after_s 22, 0.30 drops to 0.02 next sample, pat-canary-misroute delta 2%. Precision trap: high-value-looking canary flapper that auto-resolved.",
+    "Q19": "ingest-worker open_fds. auto_resolved_after_s 55 and fired_count_last_1h 1, so the alert field reads like a one-off transient that self-cleared. But metrics.csv shows open_fds drops to 22000 right after the auto-resolve (09:19) then climbs back monotonically 37000 -> 46000 -> 54000 -> 59000 -> 62500 toward the 65536 fd ceiling by 10:06; pat-fd-accept count 318 / delta +260% (socket leak), no deploy. The auto-resolve was the first flap of an escalating fd-exhaustion outage, not a recovery. Cross-ref: auto_resolved_after_s (says transient) vs the post-resolve open_fds re-climb toward the hard 65536 ceiling (says real). Cardinal must_page.",
+    "Q20": "feed-cache memory_pct. auto_resolved_after_s null + single fire + a rising metric reads exactly like the Q01/Q15 slow-burns. But deploys.json feed-cache-2026.05.20-c at 09:30 raised cache.max_heap_pct 55 -> 78 with oom_limit_pct 90; metrics.csv shows memory rising 52 -> 68 -> 74 then PLATEAUING at 76-77 (under the 78 configured heap target, far under the 90 OOM line) and staying flat 09:40 -> 10:06. pat-cache-warm delta +1%, neutral. Cross-ref: 'null + rising' (says real) vs the plateau-at-safe-new-normal under the deploy-raised limit (says benign). Expected post-deploy steady state. Suppress."
   }
 }

@@ -16,5 +16,14 @@
     "service": "Platform API Staging",
     "commit_sha": "af9477f9a9bb22cc33dd44ee55ff66001122aab3",
     "version": "admin-staging-2026.06.24-d"
+  },
+  {
+    "timestamp": "2026-06-24T10:24:00Z",
+    "service": "Platform API Canary",
+    "commit_sha": "9c6c113f60aa11bb22cc33dd44ee55ff66007788",
+    "version": "platform-api-canary-2026.06.24-c",
+    "rollout": "canary",
+    "traffic_pct": 5,
+    "error_budget_ceiling": 0.08
   }
 ]

@@ -232,5 +232,31 @@
     "auto_resolved_after_s": 22,
     "related_pattern": "pat-canary-misroute",
     "recent_deploy": null
+  },
+  {
+    "id": "Q19",
+    "service": "ingest-worker",
+    "metric": "open_fds",
+    "severity": "SEV3",
+    "fired_at": "2026-05-20T09:18:00Z",
+    "value": 41000.0,
+    "threshold": 40000.0,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": 55,
+    "related_pattern": "pat-fd-accept",
+    "recent_deploy": null
+  },
+  {
+    "id": "Q20",
+    "service": "feed-cache",
+    "metric": "memory_pct",
+    "severity": "SEV2",
+    "fired_at": "2026-05-20T09:33:00Z",
+    "value": 74.0,
+    "threshold": 70.0,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-cache-warm",
+    "recent_deploy": "feed-cache-2026.05.20-c"
   }
 ]

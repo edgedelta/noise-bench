@@ -1,8 +1,8 @@
 # PageBench — quiet-but-deadly
 
-A busy-looking morning. Eighteen alerts: most are low-grade flaps and brief transients, a couple look alarming but recover on their own within seconds, and a few are genuinely breaking. One breakage is loud and obvious; another is a quiet error rate creeping up for an hour with NO deploy to pin it on. It is easy to over-trust a severity tag and easy to dismiss a quiet climb. Do neither.
+A busy-looking morning. Twenty alerts: most are low-grade flaps and brief transients, a couple look alarming but recover on their own within seconds, and a few are genuinely breaking. One breakage is loud and obvious; another is a quiet error rate creeping up for an hour with NO deploy to pin it on. Some alerts that auto-cleared once go on to climb again; some that are still rising have already flattened out. It is easy to over-trust a severity tag, easy to dismiss a quiet climb, and easy to mistake a single auto-resolve for the all-clear. Read what the metric does AFTER the alert, not just the alert field.
 
-You are the on-call triage engineer. A batch of **18 fired alerts (pages)**
+You are the on-call triage engineer. A batch of **20 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
 **suppress** it as noise. Waking someone for noise burns trust and sleep; missing a real
 incident is far worse.
@@ -35,6 +35,14 @@ here is plain JSON/CSV, so use `jq`/`grep` to reason as if running CQL filters.
   one that keeps climbing and never resolves is a regression.
 - **The quiet ones**: a small but monotonically rising metric that never auto-resolves
   can be a real slow-burn incident even with no deploy to blame.
+- **Post-resolve trajectory**: a single `auto_resolved_after_s` is not the all-clear.
+  Follow the metric in `metrics.csv` AFTER that timestamp — if it climbs back and keeps
+  marching toward a hard limit (a saturation ceiling like an fd/file-handle or thread cap),
+  the auto-resolve was the first flap of an escalating outage.
+- **Capacity / config changes**: a rising metric can settle at a higher but SAFE new
+  normal after a capacity or limit change. Check `deploys.json` for config changes
+  (e.g. a raised cache/heap limit) and `metrics.csv` for whether the rise PLATEAUS below
+  the danger line rather than continuing toward it.
 
 ## Rules
 

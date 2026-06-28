@@ -94,5 +94,21 @@
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
     "first_seen": "2026-05-20T02:38:00Z"
+  },
+  {
+    "pattern_id": "pat-token-mint-fail",
+    "signature": "token-broker: token mint rejected, downstream auth 401/500 climbing",
+    "count": 1460,
+    "delta_vs_baseline_pct": 610,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T02:01:40Z"
+  },
+  {
+    "pattern_id": "pat-ledger-mem",
+    "signature": "ledger-worker heap usage after replica count change",
+    "count": 38,
+    "delta_vs_baseline_pct": 2,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T02:35:30Z"
   }
 ]

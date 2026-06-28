@@ -1,8 +1,8 @@
 # PageBench — queue-backlog-vs-blip
 
-24 ingestion-queue alerts fired over a ~3-hour window across the olapdb ingestion path. Most are transient queue-depth / oldest-message-age blips that marginally crossed threshold and drained on their own within a minute. Buried among them are a handful of sustained, non-draining problems whose backing metrics keep climbing and never recover. Decide who to wake up.
+26 ingestion-queue alerts fired over a ~3-hour window across the olapdb ingestion path. Most are transient queue-depth / oldest-message-age blips that marginally crossed threshold and drained on their own within a minute. Buried among them are a handful of sustained, non-draining problems whose backing metrics keep climbing and never recover. Decide who to wake up.
 
-You are the on-call triage engineer. A batch of **24 fired alerts (pages)**
+You are the on-call triage engineer. A batch of **26 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
 **suppress** it as noise. Waking someone for noise burns trust and sleep; missing a real
 incident is far worse.

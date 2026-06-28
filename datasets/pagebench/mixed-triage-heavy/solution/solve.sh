@@ -150,6 +150,21 @@ cat > /workdir/triage.json <<'JSON'
       "page_id": "P29",
       "decision": "suppress",
       "reason": "image-resize cpu blip auto-resolved in 30s (back to 48), neutral pat-gc-pause."
+    },
+    {
+      "page_id": "P30",
+      "decision": "page",
+      "reason": "token-broker auth_error_rate looks like a flapper (auto_resolved in 58s, 5 fires/hr) but metrics.csv re-escalates after the single auto-resolve: 0.12 -> 0.02 -> 0.09 (02:08) -> 0.18 (02:25) -> 0.23 (03:00), never back to the 0.004 baseline; pat-token-mint-fail +610% negative. Escalating auth outage, not a flap."
+    },
+    {
+      "page_id": "P31",
+      "decision": "suppress",
+      "reason": "ledger-worker memory 40 -> 71 with no auto-resolve looks like a leak, but deploy ledger-2026.05.20-b scaled replicas 12 -> 8 at 02:34; per-pod memory plateaus flat at ~72 through 03:20, ~18 pts under the 90 limit. Elevated-but-stable new normal from the capacity change."
+    },
+    {
+      "page_id": "P32",
+      "decision": "suppress",
+      "reason": "Downstream symptom of P02: shipping error_rate via pat-pool-exhausted, ~01:45 inside the cascade window. Duplicate of the payments-pool incident."
     }
   ]
 }
@@ -158,12 +173,12 @@ JSON
 cat > /workdir/reasoning.md <<'MD'
 # Oracle reasoning — mixed-triage-heavy
 
-Four page-class real incidents are buried in a busy 29-alert batch; everything else is noise.
+Five page-class real incidents are buried in a busy 32-alert batch; everything else is noise.
 
 1. **api-edge outage** — P01 (http_5xx_rate 0.82, pat-edge-upstream-down +8800% from
    ~zero, never resolves, still 0.85 at 03:00). Loud independent SEV1 -> page.
 2. **payments-pool cascade** — P02 (payments-db conn_pool 100%, pat-pool-exhausted
-   +2600%, never resolves) is the SEV1 root. P03/P04/P05/P21/P28 all share
+   +2600%, never resolves) is the SEV1 root. P03/P04/P05/P21/P28/P32 all share
    pat-pool-exhausted and fire inside the same onset window -> collapse into the one
    incident and suppress as duplicates. Page only the root (P02).
 3. **metering slow-burn** — P10 (metering-pipeline consumer_lag climbing monotonically
@@ -174,6 +189,11 @@ Four page-class real incidents are buried in a busy 29-alert batch; everything e
    auto-resolves, pat-index-write-fail +520%). The dip makes it look recovered, but the
    metric trend shows it did not -> page. (Note: P25 is a separate cpu settle on the same
    deploy that DID auto-resolve in 32s -> suppress.)
+5. **token-broker auth outage that flapped first** — P30 (auth_error_rate auto_resolved
+   once in 58s with 5 fires/hr, so the alert fields read like a flapper). The metrics
+   trend disambiguates: it only dipped to 0.02 then re-escalated 0.09 -> 0.18 -> 0.23
+   through 03:00, never back to its 0.004 baseline; pat-token-mint-fail +610% negative.
+   First flap of an escalating outage -> page.
 
 Noise to suppress:
 - SEV1-mislabeled GC/canary flappers: P09, P11, P19, P26 (high fires/hr, sub-minute
@@ -183,8 +203,12 @@ Noise to suppress:
 - Batch-drain / cold-cache / cache-evict sub-minute transients: P12, P17, P18, P20,
   P23, P24, P27, P29.
 - Duplicate of already-open INC-9142: P13 (payments-api queue backlog, already owned).
+- Capacity-change steady state mistaken for a leak: P31 (ledger-worker memory rose
+  40 -> 71 with no auto-resolve, but ledger-2026.05.20-b scaled replicas 12 -> 8 at
+  02:34 and the metric plateaus flat at ~72 well under the 90 limit). New safe normal,
+  not a regression -> suppress.
 
-Page P01, P02, P10, P14; suppress the other 25.
+Page P01, P02, P10, P14, P30; suppress the other 27.
 
 See `tests/ground_truth.json` rationale for per-page justification.
 MD

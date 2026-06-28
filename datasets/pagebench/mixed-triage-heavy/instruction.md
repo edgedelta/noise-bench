@@ -1,8 +1,8 @@
 # PageBench — mixed-triage-heavy
 
-Over a busy ~3-hour window, 29 alerts fired across your fleet. Some are genuine, actionable incidents; many are repeatedly firing alerts, transient blips that already cleared on their own, correlated symptoms of a common root, duplicates of work a human already owns, and deploy churn. Decide who to wake up.
+Over a busy ~3-hour window, 32 alerts fired across your fleet. Some are genuine, actionable incidents; many are repeatedly firing alerts, transient blips that already cleared on their own, correlated symptoms of a common root, duplicates of work a human already owns, and deploy churn. Decide who to wake up.
 
-You are the on-call triage engineer. A batch of **29 fired alerts (pages)**
+You are the on-call triage engineer. A batch of **32 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
 **suppress** it as noise. Waking someone for noise burns trust and sleep; missing a real
 incident is far worse.

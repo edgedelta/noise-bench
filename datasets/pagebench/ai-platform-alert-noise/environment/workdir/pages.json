@@ -278,5 +278,33 @@
     "auto_resolved_after_s": null,
     "related_pattern": "pat-spend-cap",
     "recent_deploy": null
+  },
+  {
+    "id": "P21",
+    "service": "ai-agent-svc",
+    "monitor": "AI Agent Tool-Call Error Rate",
+    "metric": "tool_call_error_rate",
+    "severity": "SEV3",
+    "fired_at": "2026-06-21T18:50:00Z",
+    "value": 0.18,
+    "threshold": 0.05,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": 62,
+    "related_pattern": "pat-ai-toolcall-err",
+    "recent_deploy": null
+  },
+  {
+    "id": "P22",
+    "service": "inference-runner",
+    "monitor": "GPU Memory Saturation Monitor",
+    "metric": "gpu_warmup_mem_pct",
+    "severity": "SEV2",
+    "fired_at": "2026-06-21T19:20:00Z",
+    "value": 88,
+    "threshold": 85,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-ai-gpu-warmup",
+    "recent_deploy": "inference-runner-2026.06.21-d"
   }
 ]

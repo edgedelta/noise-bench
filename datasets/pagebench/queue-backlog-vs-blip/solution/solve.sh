@@ -125,6 +125,16 @@ cat > /workdir/triage.json <<'JSON'
       "page_id": "P24",
       "decision": "suppress",
       "reason": "metric-ingestor-large queue age 345 vs 300, auto-resolved in 57s, pat-queue-blip flat/neutral. Self-draining blip."
+    },
+    {
+      "page_id": "P25",
+      "decision": "page",
+      "reason": "spanmetrics-rollup-consumer queue_depth 12400 vs 5000. Looks like a flapper (16 fires/hr, auto-resolves in 47s), but the metrics.csv trough ratchets up every cycle: drains to 2050, then 5100, then 12050, then 15700, never back to the 210 baseline. pat-rollup-queue-ratchet +260% negative. A saturating consumer, not noise."
+    },
+    {
+      "page_id": "P26",
+      "decision": "suppress",
+      "reason": "kafka-event-archiver consumer_lag_records 2.6M vs 200k, no auto-resolve, SEV2 — but archiver-backfill-2026.06.20-b (kind backfill-job, window 08:00-10:00, expected peak 3.0M, drain 40k/min) explains it, and the lag plateaus at 2.65M (under the 3.0M envelope) then drains 2.65M->2.10M->1.18M, well within the configured replay rate. Expected backfill steady-state."
     }
   ]
 }
@@ -133,11 +143,12 @@ JSON
 cat > /workdir/reasoning.md <<'MD'
 # Oracle reasoning — queue-backlog-vs-blip
 
-Three independent real incidents must wake a human; everything else is self-draining noise or a correlated symptom.
+Four independent real incidents must wake a human; everything else is self-draining noise or a correlated symptom.
 
 - **P01 (page, root):** metric-ingest-queue-1 oldest-message age rising 810->1048->1290->1610s and never recovering, pat-queue-stalled surging +980% negative. **P19** (olapdb-vw-write 5xx) is the same pat-queue-stalled root at the same onset — a downstream symptom of the stalled queue, suppressed as a duplicate of P01.
 - **P20 (page, root):** metric-dlq-redrive-1 DLQ depth rising 40->2200->6400->9100 and never draining, pat-consumer-crashloop +1700% negative, correlated to the enrich-2026.06.20-c deploy. **P21** (enrichment-consumer pod_restart_count 37) shares the same crashloop root + deploy and is suppressed as a symptom of P20.
 - **P22 (page, root):** kafka-trace-consumer consumer lag climbing 95k->1.85M->3.2M->4.9M, never auto-resolving, pat-consumer-lag-sustained +540% negative, with no deploy to blame. A quiet, slow-rising but genuine SLO breach. **P23** is the look-alike decoy: same service + metric, but a 240k blip that drained back to 98k in 38s (pat-queue-blip) — suppress.
+- **P25 (page, root):** spanmetrics-rollup-consumer queue_depth presents like a flapper (16 fires/hr, auto-resolves in 47s) but the metrics.csv floor ratchets up every cycle — drains to 2050, then 5100, then 12050, then 15700, never back to the 210 baseline. pat-rollup-queue-ratchet +260% negative with shrinking flush batches. A slowly-saturating consumer; the high fired_count + short auto-resolve are misleading. **P26** is the inverse: kafka-event-archiver lag 2.6M with no auto-resolve and SEV2 looks like a real breach, but archiver-backfill-2026.06.20-b (backfill-job, expected peak 3.0M, drain 40k/min) explains it and the lag plateaus at 2.65M then drains 2.65M->2.10M->1.18M within the configured replay envelope — suppress.
 
 All remaining queue alerts (P02-P18 minus P11/P12/P16, plus P24) are pat-queue-blip: marginally over threshold and auto-resolved within ~40-70s. P11/P12/P16 are [ignore] log-threshold flappers. See `tests/ground_truth.json` rationale for the per-page justification.
 MD

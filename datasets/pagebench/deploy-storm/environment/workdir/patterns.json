@@ -54,5 +54,21 @@
     "delta_vs_baseline_pct": 940,
     "sentiment": "negative",
     "first_seen": "2026-04-08T14:43:00Z"
+  },
+  {
+    "pattern_id": "pat-proxy-upstream-reset",
+    "signature": "gateway-proxy: upstream connection reset (RST) mid-stream",
+    "count": 1180,
+    "delta_vs_baseline_pct": 1500,
+    "sentiment": "negative",
+    "first_seen": "2026-04-08T14:34:30Z"
+  },
+  {
+    "pattern_id": "pat-resizer-cpu-steady",
+    "signature": "image-resizer: worker pool saturated above soft target",
+    "count": 90,
+    "delta_vs_baseline_pct": 3,
+    "sentiment": "neutral",
+    "first_seen": "2026-04-08T14:40:30Z"
   }
 ]

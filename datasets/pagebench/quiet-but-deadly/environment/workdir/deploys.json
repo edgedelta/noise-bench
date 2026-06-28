@@ -10,5 +10,15 @@
     "service": "promotions",
     "commit_sha": "b3c99f1",
     "version": "promo-2026.05.20-b"
+  },
+  {
+    "timestamp": "2026-05-20T09:30:00Z",
+    "service": "feed-cache",
+    "commit_sha": "a4f7c20",
+    "version": "feed-cache-2026.05.20-c",
+    "config_changes": {
+      "cache.max_heap_pct": { "from": 55, "to": 78 },
+      "oom_limit_pct": 90
+    }
   }
 ]

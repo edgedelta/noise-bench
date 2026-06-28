@@ -334,5 +334,33 @@
     "auto_resolved_after_s": 57,
     "related_pattern": "pat-queue-blip",
     "recent_deploy": null
+  },
+  {
+    "id": "P25",
+    "service": "spanmetrics-rollup-consumer",
+    "monitor": "Default Synthetic Monitor",
+    "metric": "queue_depth",
+    "severity": "SEV3",
+    "fired_at": "2026-06-20T08:45:00Z",
+    "value": 12400,
+    "threshold": 5000,
+    "fired_count_last_1h": 16,
+    "auto_resolved_after_s": 47,
+    "related_pattern": "pat-rollup-queue-ratchet",
+    "recent_deploy": null
+  },
+  {
+    "id": "P26",
+    "service": "kafka-event-archiver",
+    "monitor": "Default Synthetic Monitor",
+    "metric": "consumer_lag_records",
+    "severity": "SEV2",
+    "fired_at": "2026-06-20T08:05:00Z",
+    "value": 2600000,
+    "threshold": 200000,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-archiver-backfill-lag",
+    "recent_deploy": "archiver-backfill-2026.06.20-b"
   }
 ]

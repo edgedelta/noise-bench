@@ -1,8 +1,8 @@
 # PageBench — sev1-misconfigured-rule
 
-It is the night shift. Over a ~3-hour window, 22 alerts fired across your fleet. Some are genuine, actionable incidents; many are repeatedly firing alerts, transient blips that already cleared on their own, correlated symptoms of a common root, duplicates of work a human already owns, and deploy churn. Severity labels are operator-assigned and can be wrong — a freshly deployed alert rule can mislabel benign blips. Decide who to wake up.
+It is the night shift. Over a ~3-hour window, 24 alerts fired across your fleet. Some are genuine, actionable incidents; many are repeatedly firing alerts, transient blips that already cleared on their own, correlated symptoms of a common root, duplicates of work a human already owns, and deploy churn. Severity labels are operator-assigned and can be wrong — a freshly deployed alert rule can mislabel benign blips. Decide who to wake up.
 
-You are the on-call triage engineer. A batch of **22 fired alerts (pages)**
+You are the on-call triage engineer. A batch of **24 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
 **suppress** it as noise. Waking someone for noise burns trust and sleep; missing a real
 incident is far worse.
@@ -13,7 +13,7 @@ incident is far worse.
 |------|------------|
 | `pages.json` | The batch of fired alerts. Each object has: `id`, `service`, `metric`, `severity`, `fired_at`, `value`, `threshold`, `fired_count_last_1h` (how often this same alert fired in the past hour), `auto_resolved_after_s` (seconds until it self-cleared, or `null` if it never did), `related_pattern` (id into `patterns.json`), `recent_deploy` (version id into `deploys.json`, or `null`). |
 | `metrics.csv` | `timestamp,service,metric,value` — baseline and incident-window samples for the services that matter. |
-| `patterns.json` | Clustered log signatures with `count`, `delta_vs_baseline_pct`, `sentiment`. The truth-teller for whether something is actually breaking. |
+| `patterns.json` | Clustered log signatures with `count`, `delta_vs_baseline_pct`, `sentiment`. The truth-teller for whether something is genuinely breaking. |
 | `deploys.json` | Deploy events (`timestamp`, `service`, `commit_sha`, `version`). Some land near an alert's onset without being its cause. |
 | `incidents_open.json` | Incidents a human is ALREADY working. A page that duplicates one of these should be suppressed. |
 

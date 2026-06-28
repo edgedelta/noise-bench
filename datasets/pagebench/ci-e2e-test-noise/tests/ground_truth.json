@@ -1,11 +1,12 @@
 {
   "scenario": "ci-e2e-test-noise",
-  "f1_threshold": 0.78,
+  "f1_threshold": 0.80,
   "miss_budget": 0,
   "positive_class": "page",
   "must_page": [
     "P01",
-    "P08"
+    "P08",
+    "P27"
   ],
   "labels": {
     "P01": "page",
@@ -33,7 +34,9 @@
     "P23": "suppress",
     "P24": "suppress",
     "P25": "suppress",
-    "P26": "suppress"
+    "P26": "suppress",
+    "P27": "page",
+    "P28": "suppress"
   },
   "rationale": {
     "P01": "Real prod web-app regression: SEV1 checkout 5xx, value 0.38 vs 0.02 threshold, never auto-resolved, rising in metrics.csv (0.38 then 0.44), corroborated by surging negative pat-web-prod-regression (real HTTP 500s on live checkout) right after the web-2026.06.24-rel deploy. Cardinal must-page.",
@@ -61,7 +64,9 @@
     "P21": "[ignore] Default Log Threshold Monitor flapper on web-app: 15 fires/hr, self-clears in 17s, flat pat-log-threshold. Suppress.",
     "P22": "CircleCI hourly_playwright failure on Platform API; self-resolved in 250s, neutral pat-ci-staging. Test-env signal, suppress.",
     "P23": "e2e Playwright failure with flat pat-e2e-flaky, self-resolved in 220s on retry. Test instability, suppress.",
-    "P25": "e2e Playwright failure on Platform API with flat pat-e2e-flaky, self-resolved in 230s on retry. Test instability, suppress."
+    "P25": "e2e Playwright failure on Platform API with flat pat-e2e-flaky, self-resolved in 230s on retry. Test instability, suppress.",
+    "P27": "Real prod payments degradation masquerading as a flapper: fired_count_last_1h is 15 and auto_resolved_after_s is 50, which both read as a chronic high-frequency flapper that self-clears. Cross-reference metrics.csv payment_decline_rate: it does NOT oscillate around a fixed baseline -- each cycle ratchets worse (peaks 0.10 at 10:00 -> 0.18 at 10:48 -> 0.27 at 11:36) and the troughs never return to the 0.011 baseline (0.06 at 10:18, 0.13 at 11:06, 0.22 at 12:00). That is an escalating outage, not a flapper. Corroborated by negative pat-payments-degrade (count 1180, +430% vs baseline, processor timeouts on /v1/charge). No deploy to blame; the trend is the disambiguator. Cardinal must-page; suppressing it as a flapper is the cardinal fail.",
+    "P28": "Precision trap that mimics P08 exactly: SEV1, api_5xx_ratio, auto_resolved_after_s null, single fire (fired_count 1), value rising vs a 0.01 threshold -- the canonical real-prod-regression signature. But the service is Platform API Canary, not prod. Cross-reference: metrics.csv shows the canary api_5xx_ratio rises then PLATEAUS (0.012 -> 0.044 -> 0.061 -> 0.063 -> 0.060) and stays under the canary_error_budget_ceiling of 0.08, and deploys.json platform-api-canary-2026.06.24-c is a 5%-traffic canary rollout with error_budget_ceiling 0.08. pat-canary-rollout is neutral, +4% vs baseline. The elevated 5xx is the expected within-envelope steady state of a hot 5%-traffic canary fleet, not a customer-facing prod regression. Suppress."
   },
-  "notes": "Three independent real prod incidents: P01 (web-app checkout 5xx SEV1, deploy web-2026.06.24-rel), P08 (Platform API 5xx SEV1, deploy platform-api-2026.06.24-rel) -- both cardinal must-page -- and P17 (data-pipeline ingest stall, quiet SEV3 recall trap, no deploy, monotonic rising lag, never recovers). P24 is P01's synthetic symptom (suppressed duplicate). P26 is the precision trap (loud SEV1 staging smoke test that flaps and self-resolves). All remaining alerts are CI/staging/e2e test-env noise, flaky retries, or log-threshold flappers."
+  "notes": "Four independent real prod incidents: P01 (web-app checkout 5xx SEV1, deploy web-2026.06.24-rel), P08 (Platform API 5xx SEV1, deploy platform-api-2026.06.24-rel), and P27 (payments-api decline-rate degradation, SEV2, no deploy) -- all three cardinal must-page -- plus P17 (data-pipeline ingest stall, quiet SEV3 recall trap, no deploy, monotonic rising lag, never recovers). P27 is the real-disguised-as-noise trap: fired_count 15 + auto_resolve 50s read as a flapper, but payment_decline_rate ratchets worse each cycle (0.10/0.18/0.27 peaks) and never returns to the 0.011 baseline -- a degrading prod service. P28 is the benign-disguised-as-real trap: a perfect P08 look-alike (SEV1, null auto-resolve, rising 5xx) but on the Platform API Canary fleet, where api_5xx_ratio plateaus at ~0.06 under the 0.08 canary error-budget ceiling tied to the 5%-traffic canary deploy -- expected canary steady state, suppress. P24 is P01's synthetic symptom (suppressed duplicate). P26 is the original precision trap (loud SEV1 staging smoke test that flaps and self-resolves). All remaining alerts are CI/staging/e2e test-env noise, flaky retries, or log-threshold flappers."
 }

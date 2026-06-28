@@ -21,3 +21,16 @@ timestamp,service,metric,value
 2026-06-20T07:26:00Z,kafka-trace-consumer,consumer_lag_records,98000
 2026-06-20T07:20:00Z,log-ingest-queue-large,queue_depth,5400
 2026-06-20T07:21:00Z,log-ingest-queue-large,queue_depth,2100
+2026-06-20T07:30:00Z,spanmetrics-rollup-consumer,queue_depth,210
+2026-06-20T07:55:00Z,spanmetrics-rollup-consumer,queue_depth,8200
+2026-06-20T08:02:00Z,spanmetrics-rollup-consumer,queue_depth,2050
+2026-06-20T08:25:00Z,spanmetrics-rollup-consumer,queue_depth,9800
+2026-06-20T08:33:00Z,spanmetrics-rollup-consumer,queue_depth,5100
+2026-06-20T08:45:00Z,spanmetrics-rollup-consumer,queue_depth,12400
+2026-06-20T08:52:00Z,spanmetrics-rollup-consumer,queue_depth,12050
+2026-06-20T09:20:00Z,spanmetrics-rollup-consumer,queue_depth,15700
+2026-06-20T07:45:00Z,kafka-event-archiver,consumer_lag_records,180000
+2026-06-20T08:05:00Z,kafka-event-archiver,consumer_lag_records,2600000
+2026-06-20T08:25:00Z,kafka-event-archiver,consumer_lag_records,2650000
+2026-06-20T08:50:00Z,kafka-event-archiver,consumer_lag_records,2100000
+2026-06-20T09:30:00Z,kafka-event-archiver,consumer_lag_records,1180000

@@ -1,8 +1,8 @@
 # PageBench — deploy-storm
 
-A busy deploy window: ten services rolled at once and 27 alerts fired in minutes. Most of it is deploy churn that self-heals as pods become ready. But a few alerts are real incidents that do NOT recover — and they hide among many deploy-correlated look-alikes. The trap is to wave the whole storm away as 'just deploys', or to over-page every blip that resembles one.
+A busy deploy window: a dozen services rolled at once and 29 alerts fired in minutes. Most of it is deploy churn that clears on its own as pods become ready. But a few alerts are real incidents that do NOT recover — and they hide among many deploy-correlated look-alikes. The risk is to wave the whole storm away as 'just deploys', or to over-page every blip that resembles one.
 
-You are the on-call triage engineer. A batch of **27 fired alerts (pages)**
+You are the on-call triage engineer. A batch of **29 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
 **suppress** it as noise. Waking someone for noise burns trust and sleep; missing a real
 incident is far worse.

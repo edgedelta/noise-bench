@@ -17,6 +17,8 @@
     { "page_id": "Q15", "decision": "page", "reason": "Sustained regression: checkout p99 climbs 910 -> 1990, never auto-resolves, no deploy, pat-checkout-pool-exhaust +380%. Page." },
     { "page_id": "Q16", "decision": "suppress", "reason": "Inventory 5xx real but already owned by INC-4471 (incidents_open.json). Duplicate of open incident." },
     { "page_id": "Q17", "decision": "suppress", "reason": "Promotions tagged SEV1 but fired 9x/hr, auto-resolved in 31s, 0.21 -> 0.04, deploy-correlated, pat-promo-rollout +4%. Flapping deploy churn." },
-    { "page_id": "Q18", "decision": "suppress", "reason": "Gateway-canary tagged SEV1 but fired 11x/hr, auto-resolved in 22s, 0.30 -> 0.02, pat-canary-misroute +2%. Flapper that auto-resolved." }
+    { "page_id": "Q18", "decision": "suppress", "reason": "Gateway-canary tagged SEV1 but fired 11x/hr, auto-resolved in 22s, 0.30 -> 0.02, pat-canary-misroute +2%. Flapper that auto-resolved." },
+    { "page_id": "Q19", "decision": "page", "reason": "ingest-worker open_fds auto-resolved once in 55s (reads transient) but fds re-climb 22000 -> 62500 toward the 65536 ceiling after, pat-fd-accept +260% socket leak, no deploy. Escalating fd exhaustion. Must page." },
+    { "page_id": "Q20", "decision": "suppress", "reason": "feed-cache memory rising + auto_resolved null, but deploy feed-cache-2026.05.20-c raised cache.max_heap_pct 55 -> 78; memory plateaus at 76-77 under the target (OOM line 90). Post-deploy steady state, pat-cache-warm +1%. Suppress." }
   ]
 }

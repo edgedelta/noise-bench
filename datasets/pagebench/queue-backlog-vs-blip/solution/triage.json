@@ -119,6 +119,16 @@
       "page_id": "P24",
       "decision": "suppress",
       "reason": "metric-ingestor-large queue age 345 vs 300, auto-resolved in 57s, pat-queue-blip flat/neutral. Self-draining blip."
+    },
+    {
+      "page_id": "P25",
+      "decision": "page",
+      "reason": "spanmetrics-rollup-consumer queue_depth 12400 vs 5000. Looks like a flapper (16 fires/hr, auto-resolves in 47s), but the metrics.csv trough ratchets up every cycle: drains to 2050, then 5100, then 12050, then 15700, never back to the 210 baseline. pat-rollup-queue-ratchet +260% negative. A saturating consumer, not noise."
+    },
+    {
+      "page_id": "P26",
+      "decision": "suppress",
+      "reason": "kafka-event-archiver consumer_lag_records 2.6M vs 200k, no auto-resolve, SEV2 — but archiver-backfill-2026.06.20-b (kind backfill-job, window 08:00-10:00, expected peak 3.0M, drain 40k/min) explains it, and the lag plateaus at 2.65M (under the 3.0M envelope) then drains 2.65M->2.10M->1.18M, well within the configured replay rate. Expected backfill steady-state."
     }
   ]
 }

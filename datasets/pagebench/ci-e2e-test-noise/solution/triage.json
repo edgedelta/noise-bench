@@ -129,6 +129,16 @@
       "page_id": "P26",
       "decision": "suppress",
       "reason": "Tagged SEV1 by a synthetic smoke-test monitor on Platform API Staging, but it flaps (7 fires/hr), auto-resolves in 90s, shares neutral pat-ci-staging, and aligns with the innocent admin-staging-2026.06.24-d fixture deploy. Loud-looking staging test noise, not prod."
+    },
+    {
+      "page_id": "P27",
+      "decision": "page",
+      "reason": "payments-api degradation that reads like a flapper (fired_count 15, auto-resolved 50s) but the metric ratchets worse each cycle and never returns to baseline: payment_decline_rate peaks 0.10 -> 0.18 -> 0.27 with troughs 0.06/0.13/0.22, baseline 0.011. Negative pat-payments-degrade (+430%, processor timeouts on /v1/charge). Escalating prod outage, not flapping; cardinal must-page."
+    },
+    {
+      "page_id": "P28",
+      "decision": "suppress",
+      "reason": "Looks like P08 (SEV1 api_5xx_ratio, auto-resolved null, single fire, rising vs 0.01) but it is the Platform API Canary fleet. metrics.csv shows api_5xx_ratio plateaus at ~0.06 under the 0.08 canary_error_budget_ceiling; deploys.json platform-api-canary-2026.06.24-c is a 5%-traffic canary with that ceiling; pat-canary-rollout neutral +4%. Expected within-envelope canary steady state, not prod."
     }
   ]
 }

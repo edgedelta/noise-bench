@@ -6,7 +6,8 @@
   "must_page": [
     "P01",
     "P02",
-    "P10"
+    "P10",
+    "P30"
   ],
   "labels": {
     "P01": "page",
@@ -37,7 +38,10 @@
     "P26": "suppress",
     "P27": "suppress",
     "P28": "suppress",
-    "P29": "suppress"
+    "P29": "suppress",
+    "P30": "page",
+    "P31": "suppress",
+    "P32": "suppress"
   },
   "rationale": {
     "P01": "api-edge http_5xx_rate 0.82 vs 0.05, pat-edge-upstream-down surging 8800% from ~zero baseline, never auto-resolved, metric still 0.85 at 03:00. Loud independent SEV1 edge outage. Must-page.",
@@ -68,7 +72,10 @@
     "P26": "gateway-canary synthetic probe 503: 8 fires/hr, auto-resolved in 17s, pat-canary-probe neutral delta 0%, no real traffic. SEV1 label is on a synthetic probe; not a real outage.",
     "P27": "analytics-batch queue marginally over threshold during batch drain, cleared in 21s (back to 2400). Routine.",
     "P28": "Downstream symptom of P02: cart error_rate via pat-pool-exhausted, onset within the cascade window. Duplicate of the payments-pool incident.",
-    "P29": "image-resize cpu blip auto-resolved in 30s (back to 48), neutral pat-gc-pause. Flapper."
+    "P29": "image-resize cpu blip auto-resolved in 30s (back to 48), neutral pat-gc-pause. Flapper.",
+    "P30": "token-broker auth_error_rate fired at 02:02 (0.12 vs 0.05), auto_resolved_after_s=58 and fired_count 5 make it read like a flapper. But metrics.csv shows the metric only dipped to 0.02 at 02:03, then re-escalated past threshold: 0.09 at 02:08, 0.18 at 02:25, 0.23 at 03:00 - each cycle worse, never back to the 0.004 baseline. pat-token-mint-fail delta 610% negative, count 1460. The single auto-resolve was the first flap of an escalating auth outage. Cross-reference: alert field (auto_resolved=58s, fired_count=5) says noise, but the post-resolve trajectory in metrics.csv ratchets up through the threshold and stays. Real escalating incident. Must-page (recall trap disguised as a flapper).",
+    "P31": "ledger-worker memory_pct fired at 02:36 (71 vs 70), auto_resolved_after_s=null and a clean rise from 40 -> 71 read like a memory-leak regression. But deploys.json ledger-2026.05.20-b at 02:34 is a replica_count change 12 -> 8 (container_mem_limit_pct 90). Fewer replicas => higher per-pod memory: metrics.csv shows 40 at 02:00, 71 at 02:36, then PLATEAUS flat at ~72/72/71.5 through 03:20 - an elevated-but-stable new normal that stays ~18 points under the 90 hard limit, not a runaway leak. Cross-reference: rising+null-resolve cue says page, but the capacity-change deploy + plateau-under-limit trajectory says safe new baseline. Suppress (benign disguised as real).",
+    "P32": "Downstream symptom of P02: shipping error_rate via pat-pool-exhausted, onset ~01:45 inside the payments-pool cascade window. Another duplicate of the one incident -> suppress."
   },
-  "notes": "Four page-class real incidents among heavy noise. (1) Loud SEV1 edge outage: P01 (api-edge, pat-edge-upstream-down, never resolves) - must-page. (2) Correlated payments-pool cascade collapsing to ONE page: P02 root SEV1 (payments-db pool exhausted, never resolves) - must-page; P03/P04/P05/P21/P28 share pat-pool-exhausted and onset window -> suppress as duplicates. (3) Quiet slow-burn: P10 (metering-pipeline consumer_lag rising monotonically, no deploy, never resolves) - SEV3 recall trap, must-page. (4) Deploy regression that looked self-healed but did not: P14 (search-indexer index_error_rate dipped after idx-2026.05.20-c then climbed back and stayed) - real page, non-must (miss_budget 1 tolerates a conservative model dropping it, but doing so costs F1). All other pages are noise: SEV1-mislabeled GC flappers (P09/P11/P19/P26), disk-rotate flappers (P06/P07/P08), recovered deploy transients (P15/P16/P22/P25), batch-drain/cold-cache/cache-evict sub-minute transients (P12/P17/P18/P23/P24/P27/P29/P20), and a duplicate of already-open INC-9142 (P13). must_page = the two SEV1 roots plus the quiet-but-dangerous slow-burn (P01, P02, P10)."
+  "notes": "Five page-class real incidents among heavy noise; precision AND recall are both stressed. (1) Loud SEV1 edge outage: P01 (api-edge, pat-edge-upstream-down, never resolves) - must-page. (2) Correlated payments-pool cascade collapsing to ONE page: P02 root SEV1 (payments-db pool exhausted, never resolves) - must-page; P03/P04/P05/P21/P28/P32 all share pat-pool-exhausted and the onset window -> suppress as duplicates (six symptoms now make the cluster more tempting to over-page). (3) Quiet slow-burn: P10 (metering-pipeline consumer_lag rising monotonically, no deploy, never resolves) - SEV3 recall trap, must-page. (4) Deploy regression that looked self-healed but did not: P14 (search-indexer index_error_rate dipped after idx-2026.05.20-c then climbed back and stayed) - real page, non-must. (5) FEATURE-MISLEADING real disguised as noise: P30 (token-broker auth_error_rate auto_resolved once in 58s + fired_count 5 like a flapper, but metrics.csv re-escalates 0.12->0.02->0.09->0.18->0.23 past threshold, never back to baseline) - must-page; suppressing it is a cardinal fail. FEATURE-MISLEADING benign disguised as real: P31 (ledger-worker memory_pct rising 40->71 with auto_resolved=null looks like a leak, but ledger-2026.05.20-b scaled replicas 12->8 at 02:34 and the metric plateaus flat at ~72 well under the 90 limit) -> suppress; paging it is a false-page that costs precision. All other pages are noise: SEV1-mislabeled GC flappers (P09/P11/P19/P26), disk-rotate flappers (P06/P07/P08), recovered deploy transients (P15/P16/P22/P25), batch-drain/cold-cache/cache-evict sub-minute transients (P12/P17/P18/P23/P24/P27/P29/P20), and a duplicate of already-open INC-9142 (P13). must_page = the two SEV1 roots, the quiet slow-burn, and the re-escalating auth outage (P01, P02, P10, P30)."
 }

@@ -5,7 +5,8 @@
   "positive_class": "page",
   "must_page": [
     "P03",
-    "P09"
+    "P09",
+    "P20"
   ],
   "labels": {
     "P01": "suppress",
@@ -25,7 +26,9 @@
     "P15": "suppress",
     "P16": "suppress",
     "P17": "suppress",
-    "P18": "suppress"
+    "P18": "suppress",
+    "P19": "suppress",
+    "P20": "page"
   },
   "rationale": {
     "P01": "edge-router 5xx tagged SEV1 by the LB rule but it is a health-check flap: 18 fires/hr, self-clears in 34s, metric snaps from 0.21 back to 0.004 the next minute. pat-lb-healthcheck-flap is neutral with ~0% delta. Loud but benign.",
@@ -45,7 +48,9 @@
     "P15": "edge-router health-check flapper again (18 fires/hr, cleared in 38s, snaps to 0.006).",
     "P16": "billing queue_depth matches already-open INC-9120 (pat-billing-backlog, oncall-payments owns it since 01:28). Dedup -> suppress.",
     "P17": "frontend cpu during the fe-2026.03.12-a rollout, auto-resolved in 36s, metric back to 42. Deploy transient.",
-    "P18": "cart cold-cache latency blip, auto-resolved in 20s, metric back to 260."
+    "P18": "cart cold-cache latency blip, auto-resolved in 20s, metric back to 260.",
+    "P19": "cache-service memory_pct shares the slow-burn surface of P03/P09/P14 (single fire, auto_resolved_after_s=null, monotonic rise 49->58->66->71), so a rising+null heuristic would page it. But the trajectory FLATTENS: 71->72->72->72 from 01:25 onward, a dead plateau ~28 points under the OOM line, and deploy cache-2026.03.12-b at 00:40 raised the cache heap budget 2GiB->6GiB while leaving the 70 soft threshold unchanged. pat-cache-warmup is neutral, ~8% delta, allocation rate tapering. The rise is the new post-deploy steady state, not a leak. Suppress; paging it spends precision budget.",
+    "P20": "session-store memory_pct wears the flapper costume (fired_count_last_1h=10, auto_resolved_after_s=58, pat-session-evict-flap neutral) so a flapping+auto-resolved heuristic would suppress it. But the metric never returns to baseline: each eviction cycle bottoms out HIGHER than the last -- troughs ratchet 76->82->88->94 and peaks 84->89->93->97 over 01:00-02:02, marching toward 100. The floor climbing every cycle is an escalating saturation, not churn. must-page."
   },
-  "notes": "Three real incidents are SLOW-BURN saturations that look benign: gradual monotonic rise toward a hard limit, single fire (fired_count_last_1h=1), auto_resolved_after_s=null, no recent_deploy, lower severity tags (SEV2/SEV3). (1) payments-ledger memory leak 62->96 (P03, must-page, minutes from OOM on a critical stateful service). (2) postgres-primary disk fill 74->97 (P09, must-page, minutes from a full DB disk = hard outage). (3) api-gateway connection-pool saturation 68->98 (P14, real page, recall-covered). The noise is LOUDER: SEV1-tagged LB health-check flappers (P01/P02/P15) and GC-pause spikes (P04/P10) with high fired_count that auto-resolve in <40s and snap back; deploy transients from fe-2026.03.12-a (P05/P06/P17); cold-cache blips (P07/P12/P13/P18); a media-transcode backlog that is already draining (P08); and a duplicate of open INC-9120 (P16). RECALL trap: a severity/loudness-triaging model suppresses the quiet slow-burns and fails the cardinal rule. must_page=[P03,P09]; miss_budget=0 so P14 must also be paged to pass; f1_threshold=0.80 leaves room for at most one false-page."
+  "notes": "Three of the four real incidents are SLOW-BURN saturations that look benign: gradual monotonic rise toward a hard limit, single fire (fired_count_last_1h=1), auto_resolved_after_s=null, no recent_deploy, lower severity tags (SEV2/SEV3). (1) payments-ledger memory leak 62->96 (P03, must-page, minutes from OOM on a critical stateful service). (2) postgres-primary disk fill 74->97 (P09, must-page, minutes from a full DB disk = hard outage). (3) api-gateway connection-pool saturation 68->98 (P14, real page, recall-covered). The fourth real incident hides as noise: (4) session-store memory ratcheting (P20, must-page) -- fired_count 10 and a 58s auto-resolve make it look like a flapper, but troughs ratchet 76->82->88->94 toward 100. Two feature-misleading traps invert the obvious heuristics: P19 (cache-service) presents the EXACT slow-burn surface (rising+null+single fire) yet is benign -- it plateaus dead-flat at 72 far under the limit and deploy cache-2026.03.12-b explains the higher baseline (heap budget 2GiB->6GiB); paging it on the rising+null cue costs precision. P20 presents the EXACT flapper surface (high fired_count + auto-resolve) yet is the most dangerous item -- the eviction floor ratchets up every cycle; suppressing it on the flapping cue is a cardinal fail. The rest is louder noise: SEV1-tagged LB health-check flappers (P01/P02/P15) and GC-pause spikes (P04/P10) that auto-resolve in <40s and snap back; deploy transients from fe-2026.03.12-a (P05/P06/P17); cold-cache blips (P07/P12/P13/P18); a media-transcode backlog already draining (P08); and a duplicate of open INC-9120 (P16). 'rising -> page' no longer works (P19 rises and is benign); 'flapping -> suppress' no longer works (P20 flaps and is deadly). The correct call requires reading the full metrics.csv trajectory (plateau-under-limit vs ratcheting-floor) plus the deploy capacity-change marker, not the single alert field. must_page=[P03,P09,P20]; miss_budget=0 so P14 must also be paged to pass; f1_threshold=0.80 leaves room for at most one extra false-page beyond a clean sheet."
 }

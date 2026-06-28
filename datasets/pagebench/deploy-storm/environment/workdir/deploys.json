@@ -64,5 +64,22 @@
     "service": "auth",
     "commit_sha": "ff03b29",
     "version": "auth-2026.04.08-a"
+  },
+  {
+    "timestamp": "2026-04-08T14:31:30Z",
+    "service": "gateway-proxy",
+    "commit_sha": "d77e210",
+    "version": "gwproxy-2026.04.08-a"
+  },
+  {
+    "timestamp": "2026-04-08T14:40:00Z",
+    "service": "image-resizer",
+    "commit_sha": "2b5c098",
+    "version": "imgresizer-2026.04.08-scaledown",
+    "replicas_before": 8,
+    "replicas_after": 4,
+    "cpu_request_per_pod_pct": 50,
+    "cpu_hpa_target_pct": 70,
+    "cpu_safe_ceiling_pct": 85
   }
 ]

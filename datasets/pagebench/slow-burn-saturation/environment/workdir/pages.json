@@ -232,5 +232,31 @@
     "auto_resolved_after_s": 20,
     "related_pattern": "pat-cold-cache",
     "recent_deploy": null
+  },
+  {
+    "id": "P19",
+    "service": "cache-service",
+    "metric": "memory_pct",
+    "severity": "SEV3",
+    "fired_at": "2026-03-12T01:25:00Z",
+    "value": 71.0,
+    "threshold": 70.0,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-cache-warmup",
+    "recent_deploy": "cache-2026.03.12-b"
+  },
+  {
+    "id": "P20",
+    "service": "session-store",
+    "metric": "memory_pct",
+    "severity": "SEV3",
+    "fired_at": "2026-03-12T01:40:00Z",
+    "value": 93.0,
+    "threshold": 80.0,
+    "fired_count_last_1h": 10,
+    "auto_resolved_after_s": 58,
+    "related_pattern": "pat-session-evict-flap",
+    "recent_deploy": null
   }
 ]

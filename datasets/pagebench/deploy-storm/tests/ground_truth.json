@@ -5,7 +5,8 @@
   "positive_class": "page",
   "must_page": [
     "D01",
-    "D26"
+    "D26",
+    "D28"
   ],
   "labels": {
     "D01": "page",
@@ -34,6 +35,8 @@
     "D24": "suppress",
     "D25": "suppress",
     "D26": "page",
-    "D27": "page"
+    "D27": "page",
+    "D28": "page",
+    "D29": "suppress"
   }
 }

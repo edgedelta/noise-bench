@@ -362,5 +362,33 @@
     "auto_resolved_after_s": 90,
     "related_pattern": "pat-ci-staging",
     "recent_deploy": "admin-staging-2026.06.24-d"
+  },
+  {
+    "id": "P27",
+    "service": "payments-api",
+    "monitor": "Payments Decline Rate Monitor",
+    "metric": "payment_decline_rate",
+    "severity": "SEV2",
+    "fired_at": "2026-06-24T11:36:00Z",
+    "value": 0.27,
+    "threshold": 0.03,
+    "fired_count_last_1h": 15,
+    "auto_resolved_after_s": 50,
+    "related_pattern": "pat-payments-degrade",
+    "recent_deploy": null
+  },
+  {
+    "id": "P28",
+    "service": "Platform API Canary",
+    "monitor": "Platform API HTTP 5xx Error",
+    "metric": "api_5xx_ratio",
+    "severity": "SEV1",
+    "fired_at": "2026-06-24T10:50:00Z",
+    "value": 0.061,
+    "threshold": 0.01,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-canary-rollout",
+    "recent_deploy": "platform-api-canary-2026.06.24-c"
   }
 ]

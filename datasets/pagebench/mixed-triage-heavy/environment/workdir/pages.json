@@ -375,5 +375,44 @@
     "auto_resolved_after_s": 30,
     "related_pattern": "pat-gc-pause",
     "recent_deploy": null
+  },
+  {
+    "id": "P30",
+    "service": "token-broker",
+    "metric": "auth_error_rate",
+    "severity": "SEV3",
+    "fired_at": "2026-05-20T02:02:00Z",
+    "value": 0.12,
+    "threshold": 0.05,
+    "fired_count_last_1h": 5,
+    "auto_resolved_after_s": 58,
+    "related_pattern": "pat-token-mint-fail",
+    "recent_deploy": null
+  },
+  {
+    "id": "P31",
+    "service": "ledger-worker",
+    "metric": "memory_pct",
+    "severity": "SEV2",
+    "fired_at": "2026-05-20T02:36:00Z",
+    "value": 71.0,
+    "threshold": 70.0,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-ledger-mem",
+    "recent_deploy": "ledger-2026.05.20-b"
+  },
+  {
+    "id": "P32",
+    "service": "shipping",
+    "metric": "error_rate",
+    "severity": "SEV3",
+    "fired_at": "2026-05-20T01:45:10Z",
+    "value": 0.16,
+    "threshold": 0.04,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-pool-exhausted",
+    "recent_deploy": null
   }
 ]

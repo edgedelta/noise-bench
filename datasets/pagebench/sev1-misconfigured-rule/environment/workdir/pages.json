@@ -284,5 +284,31 @@
     "auto_resolved_after_s": null,
     "related_pattern": "pat-db-pool-exhausted",
     "recent_deploy": null
+  },
+  {
+    "id": "P23",
+    "service": "event-pipeline",
+    "metric": "filesystem_pressure_pct",
+    "severity": "SEV1",
+    "fired_at": "2026-05-20T01:38:25Z",
+    "value": 48.0,
+    "threshold": 40.0,
+    "fired_count_last_1h": 15,
+    "auto_resolved_after_s": 41,
+    "related_pattern": "pat-fs-pressure-raterule",
+    "recent_deploy": "mon-2026.05.20-rules"
+  },
+  {
+    "id": "P24",
+    "service": "analytics-ingest",
+    "metric": "memory_pct",
+    "severity": "SEV2",
+    "fired_at": "2026-05-20T01:52:00Z",
+    "value": 78.0,
+    "threshold": 75.0,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-analytics-heap-resize",
+    "recent_deploy": "analytics-2026.05.20-scaleup"
   }
 ]

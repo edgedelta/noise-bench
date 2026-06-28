@@ -70,5 +70,21 @@
     "delta_vs_baseline_pct": 6,
     "sentiment": "neutral",
     "first_seen": "2026-06-21T16:00:00Z"
+  },
+  {
+    "pattern_id": "pat-ai-toolcall-err",
+    "signature": "ai-agent-svc tool-call dispatch failed; downstream tool 5xx, agent step aborted",
+    "count": 620,
+    "delta_vs_baseline_pct": 540,
+    "sentiment": "negative",
+    "first_seen": "2026-06-21T18:49:40Z"
+  },
+  {
+    "pattern_id": "pat-ai-gpu-warmup",
+    "signature": "GPU resident memory rose to new steady state after model preload / replica scale-up",
+    "count": 30,
+    "delta_vs_baseline_pct": 3,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-21T19:00:00Z"
   }
 ]

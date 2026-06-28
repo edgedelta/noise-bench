@@ -349,5 +349,31 @@
     "auto_resolved_after_s": null,
     "related_pattern": "pat-jwt-verify-fail",
     "recent_deploy": null
+  },
+  {
+    "id": "D28",
+    "service": "gateway-proxy",
+    "metric": "http_5xx_rate",
+    "severity": "SEV3",
+    "fired_at": "2026-04-08T14:33:00Z",
+    "value": 0.061,
+    "threshold": 0.05,
+    "fired_count_last_1h": 4,
+    "auto_resolved_after_s": 75,
+    "related_pattern": "pat-proxy-upstream-reset",
+    "recent_deploy": "gwproxy-2026.04.08-a"
+  },
+  {
+    "id": "D29",
+    "service": "image-resizer",
+    "metric": "cpu_pct",
+    "severity": "SEV2",
+    "fired_at": "2026-04-08T14:42:00Z",
+    "value": 78.0,
+    "threshold": 70.0,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-resizer-cpu-steady",
+    "recent_deploy": "imgresizer-2026.04.08-scaledown"
   }
 ]

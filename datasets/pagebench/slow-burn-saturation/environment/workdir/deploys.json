@@ -10,5 +10,12 @@
     "service": "checkout",
     "commit_sha": "c7e1a93",
     "version": "fe-2026.03.12-a"
+  },
+  {
+    "timestamp": "2026-03-12T00:40:00Z",
+    "service": "cache-service",
+    "commit_sha": "b2f4d80",
+    "version": "cache-2026.03.12-b",
+    "change": "raise in-process cache heap budget from 2GiB to 6GiB; memory_pct alert threshold left at the old 70 soft mark"
   }
 ]

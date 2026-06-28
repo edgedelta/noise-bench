@@ -1,12 +1,13 @@
 {
   "scenario": "ai-platform-alert-noise",
-  "f1_threshold": 0.78,
+  "f1_threshold": 0.80,
   "miss_budget": 0,
   "positive_class": "page",
   "must_page": [
     "P01",
     "P18",
-    "P05"
+    "P05",
+    "P21"
   ],
   "labels": {
     "P01": "page",
@@ -28,7 +29,9 @@
     "P17": "suppress",
     "P18": "page",
     "P19": "suppress",
-    "P20": "suppress"
+    "P20": "suppress",
+    "P21": "page",
+    "P22": "suppress"
   },
   "rationale": {
     "P01": "Real ai-agent-svc outage: OnCall AI Workflow Errors at workflow_500_rate 0.52 vs 0.05, never auto-resolves, metrics.csv shows it climbing (0.003 -> 0.52 -> 0.58), pat-ai-workflow-500 surging negative (+1050%) right after the ai-agent-svc-2026.06.21-b deploy. Cardinal must-page.",
@@ -50,7 +53,9 @@
     "P17": "Spending Cap Hit Monitor tagged SEV1 (90.8% vs 90% on inference-runner): the SEV1 tag is a misconfigured-rule artifact -- it is a spend_pct budget alert (pat-spend-cap, 0% delta), fired 6x/hr and auto-resolved in 33s, and metrics.csv shows spend_pct sitting at the cap line then dropping to 89.9. Loud label, cost noise underneath. Suppress (precision trap).",
     "P18": "Real inference-runner crashloop: Inference Runner 5xx Rate at inference_500_rate 0.41 vs 0.05, never auto-resolves, metrics.csv shows it climbing (0.004 -> 0.41 -> 0.47 -> 0.49), pat-inference-crashloop surging negative (+870%, CUDA context lost / restart loop) right after the inference-runner-2026.06.21-c deploy. Independent customer-visible incident. Must-page.",
     "P19": "Default Synthetic gpu_mem_pct tagged SEV1 (96% vs 95% on inference-runner): fired 9x/hr, auto-resolved in 28s, pat-ai-gpu-blip 4% delta neutral, metrics.csv shows gpu_mem dropping back to 71. High severity label on a self-cleared warmup blip. Suppress (precision trap).",
-    "P20": "Spending Cap Hit Monitor (90.2% on inference-runner): pat-spend-cap 0% delta, neutral. Budget governance. Suppress."
+    "P20": "Spending Cap Hit Monitor (90.2% on inference-runner): pat-spend-cap 0% delta, neutral. Budget governance. Suppress.",
+    "P21": "ai-agent-svc AI Agent Tool-Call Error Rate at tool_call_error_rate 0.18 vs 0.05. The alert auto_resolved_after_s=62 and fired only once, so it reads like a transient that already cleared -- but metrics.csv shows tool_call_error_rate spiking to 0.18 at 18:50, dipping to 0.02 by 18:52 (the auto-resolve), then climbing back HIGHER and not returning: 0.27 (19:05), 0.41 (19:30), 0.55 (20:10). pat-ai-toolcall-err is surging negative (+540%, tool-call dispatch failures aborting agent steps). The single auto-resolve was the first flap of an escalating outage on a different root than P01 (tool dispatch, not workflow_500), with no deploy to blame. Cross-reference auto_resolved field (looks transient) vs post-resolve metrics trajectory (re-escalation 0.02->0.27->0.41->0.55). Must-page (recall trap disguised as self-healed noise).",
+    "P22": "inference-runner GPU Memory Saturation Monitor at gpu_warmup_mem_pct 88 vs 85, auto_resolved_after_s=null and a single fire on a RISING metric -- the page-shaped cues (never resolved + climbing) make it look real. But metrics.csv shows gpu_warmup_mem_pct rising 70 (19:00) -> 82 (19:15) -> 88 (19:20) then PLATEAUING at 89 (19:45) and holding 89 (20:30), well under the 95 saturation/OOM line that the gpu_mem_pct monitor (P19, threshold 95) establishes as the danger ceiling. deploys.json inference-runner-2026.06.21-d at 18:58 is a replica scale-up 4->6 + model preload that raises the resident GPU memory floor; pat-ai-gpu-warmup is +3% neutral. Cross-reference rising-metric cue vs plateau-below-danger-line + capacity-change deploy. Suppress (precision trap: expected post-scale-up steady state, not saturation)."
   },
-  "notes": "Three independent real incidents: P01 (ai-agent-svc workflow_500 outage, deploy ai-agent-svc-2026.06.21-b), P18 (inference-runner crashloop, deploy inference-runner-2026.06.21-c), and P05 (ai-memory-svc write-failure spike -- quiet SEV3 recall trap, slow sustained rise, no deploy). All three must page. P17 (SEV1-tagged Spending Cap) and P19 (SEV1-tagged GPU blip) are precision traps: loud severity labels over self-resolving cost/blip noise. Remaining alerts are token-usage warns, spend-cap warns, log flappers, CPU blips, and a transient WARN."
+  "notes": "Four independent real incidents: P01 (ai-agent-svc workflow_500 outage), P18 (inference-runner crashloop), P05 (ai-memory-svc write-failure slow-burn), and P21 (ai-agent-svc tool-call error rate -- disguised as noise: auto-resolved once in 62s + single fire, but the post-resolve metrics trajectory re-escalates 0.02->0.27->0.41->0.55). All four must page. Feature-misleading items: P21 breaks the 'auto_resolved => transient' heuristic; P22 breaks the 'rising + auto_resolved=null => real' heuristic (GPU mem plateaus at 89 under the 95 OOM line, explained by the 18:58 scale-up deploy). Other precision traps: P17 (SEV1-tagged Spending Cap) and P19 (SEV1-tagged GPU blip). Remaining alerts are token-usage warns, spend-cap warns, log flappers, CPU blips, and a transient WARN."
 }

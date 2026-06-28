@@ -16,5 +16,15 @@
     "service": "recommendation",
     "commit_sha": "1d8f662",
     "version": "rec-2026.05.19-d"
+  },
+  {
+    "timestamp": "2026-05-20T02:34:00Z",
+    "service": "ledger-worker",
+    "commit_sha": "b913aa5",
+    "version": "ledger-2026.05.20-b",
+    "change": "replica_count",
+    "replicas_before": 12,
+    "replicas_after": 8,
+    "container_mem_limit_pct": 90
   }
 ]

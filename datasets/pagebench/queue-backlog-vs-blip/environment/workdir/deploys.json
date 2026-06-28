@@ -10,5 +10,16 @@
     "service": "enrichment-consumer",
     "commit_sha": "771188aaff44bbcc0099eeddff2233445566aabb",
     "version": "enrich-2026.06.20-c"
+  },
+  {
+    "timestamp": "2026-06-20T08:00:00Z",
+    "service": "kafka-event-archiver",
+    "commit_sha": "aa44bb88cc00dd11ee22ff3344556677889900aa",
+    "version": "archiver-backfill-2026.06.20-b",
+    "kind": "backfill-job",
+    "window": "2026-06-20T08:00:00Z/2026-06-20T10:00:00Z",
+    "replay_partitions": 64,
+    "expected_peak_lag_records": 3000000,
+    "drain_rate_records_per_min": 40000
   }
 ]

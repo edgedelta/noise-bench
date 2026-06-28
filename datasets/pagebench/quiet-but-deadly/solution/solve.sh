@@ -95,6 +95,16 @@ cat > /workdir/triage.json <<'JSON'
       "page_id": "Q18",
       "decision": "suppress",
       "reason": "Gateway-canary tagged SEV1 but fired 11x/hr, auto-resolved in 22s, 0.30 dropped to 0.02 next sample, pat-canary-misroute +2%. High-value-looking flapper that auto-resolved."
+    },
+    {
+      "page_id": "Q19",
+      "decision": "page",
+      "reason": "ingest-worker open_fds. Auto-resolved once in 55s and fired only once, so the alert reads transient. But metrics.csv shows fds drop to 22000 then climb back 37000 -> 46000 -> 54000 -> 59000 -> 62500 toward the 65536 ceiling; pat-fd-accept +260% socket leak, no deploy. First flap of an escalating fd-exhaustion outage. Must page."
+    },
+    {
+      "page_id": "Q20",
+      "decision": "suppress",
+      "reason": "feed-cache memory_pct rising with auto_resolved null + single fire, but deploy feed-cache-2026.05.20-c at 09:30 raised cache.max_heap_pct 55 -> 78 (oom_limit 90); memory rises to 76-77 and plateaus flat under the 78 target. Expected post-deploy steady state, pat-cache-warm +1%. Suppress."
     }
   ]
 }
@@ -103,7 +113,7 @@ JSON
 cat > /workdir/reasoning.md <<'MD'
 # Oracle reasoning — quiet-but-deadly
 
-Three independent real incidents must page:
+Four independent real incidents must page:
 
 - **Q01 (api-gateway error_rate)** — quiet slow-burn. Climbs 0.02 -> 0.14
   monotonically, never auto-resolves, no deploy to blame. Easy to dismiss as
@@ -114,6 +124,11 @@ Three independent real incidents must page:
   into Q13 as a symptom — suppress the duplicate, page the root.
 - **Q15 (checkout p99_latency_ms)** — moderate sustained regression. Climbs
   910 -> 1990, never auto-resolves, distinct service/root. Page.
+- **Q19 (ingest-worker open_fds)** — auto-resolved once in 55s on a single
+  fire, which reads transient. The disambiguator is the post-resolve trend:
+  fds drop to 22000 then climb back 37000 -> 46000 -> 54000 -> 59000 -> 62500
+  toward the 65536 ceiling (pat-fd-accept +260% socket leak). The auto-resolve
+  was the first flap of an fd-exhaustion outage, not a recovery. Must page.
 
 Everything else suppresses:
 
@@ -124,6 +139,11 @@ Everything else suppresses:
 - **Precision traps** (Q17, Q18): tagged SEV1 but they flap and auto-resolve
   within ~30s and the metric snaps back; one is deploy-correlated and recovered.
   Severity-looks-real noise — paging these tanks precision.
+- **Capacity-change steady state** (Q20): feed-cache memory rises with
+  auto_resolved null + single fire — the same shape as Q01/Q15 — but deploy
+  feed-cache-2026.05.20-c raised cache.max_heap_pct 55 -> 78 and the metric
+  plateaus flat at 76-77 under that target (and well under the 90 OOM line).
+  New safe normal, not a regression. Suppress.
 MD
 
 echo "wrote /workdir/triage.json and /workdir/reasoning.md"

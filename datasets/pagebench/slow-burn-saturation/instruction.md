@@ -1,8 +1,8 @@
 # PageBench — slow-burn-saturation
 
-It is the night shift. Over a ~2-hour window, 18 alerts fired across your fleet. Some are genuine, actionable incidents; many are repeatedly firing alerts, transient blips that already cleared on their own, correlated symptoms of a common root, duplicates of work a human already owns, and deploy churn. Decide who to wake up.
+It is the night shift. Over a ~2-hour window, 20 alerts fired across your fleet. Some are genuine, actionable incidents; many are repeatedly firing alerts, transient blips that already cleared on their own, correlated symptoms of a common root, duplicates of work a human already owns, and deploy churn. Decide who to wake up.
 
-You are the on-call triage engineer. A batch of **18 fired alerts (pages)**
+You are the on-call triage engineer. A batch of **20 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
 **suppress** it as noise. Waking someone for noise burns trust and sleep; missing a real
 incident is far worse.

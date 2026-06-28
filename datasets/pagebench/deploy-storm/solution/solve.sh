@@ -140,6 +140,16 @@ cat > /workdir/triage.json <<'JSON'
       "page_id": "D27",
       "decision": "page",
       "reason": "Slow-burn downstream break from the 14:30 auth key rotation: session-service token_validation_error_rate rising monotonically (0.04->0.07->0.11->0.15), auto_resolved_after_s null, pat-jwt-verify-fail (kid not found) at 9x baseline. No deploy on session-service itself, so it looks quiet, but it never recovers."
+    },
+    {
+      "page_id": "D28",
+      "decision": "page",
+      "reason": "Reads like a rollout transient (gwproxy-2026.04.08-a deploy at 14:31:30, auto_resolved_after_s=75, only 4 fires) but the trend disproves the heal: gateway-proxy http_5xx_rate dips to 0.006 at 14:34:30 then RE-escalates 0.072->0.13->0.21 and never returns to baseline. pat-proxy-upstream-reset (RST) is negative at 15x baseline, first_seen 14:34:30 AFTER the dip. Bad deploy that only briefly looked settled; must page."
+    },
+    {
+      "page_id": "D29",
+      "decision": "suppress",
+      "reason": "Looks like a real regression (SEV2, auto_resolved_after_s null, single fire, cpu_pct rising 41->78). But imgresizer-2026.04.08-scaledown at 14:40 cut replicas 8->4, so per-pod CPU steps to a new steady plateau (76/78/77/78.5/77.5) that stays under cpu_safe_ceiling_pct=85. pat-resizer-cpu-steady is neutral, delta 3%, no error pattern. Expected post-scale-down per-pod baseline, not a regression."
     }
   ]
 }
@@ -148,7 +158,9 @@ JSON
 cat > /workdir/reasoning.md <<'MD'
 # Oracle reasoning — deploy-storm
 
-Three real, page-worthy incidents hide in a storm of self-healing deploy churn.
+Four real, page-worthy incidents hide in a storm of deploy churn. Two of them are
+disguised: one real incident masquerades as a rollout transient, and one benign capacity
+change masquerades as a regression.
 
 PAGE (real incidents):
 - **D01** (SEV1, must-page): payment-gateway pool leak from pg-2026.04.08-c. error_rate
@@ -160,16 +172,31 @@ PAGE (real incidents):
   session-service unable to verify JWTs (kid not found). token_validation_error_rate rises
   0.04 -> 0.07 -> 0.11 -> 0.15 and never auto-resolves. It has NO deploy of its own, low
   severity and a gradual rise, so it reads like noise — but it is a genuine downstream break.
+- **D28** (SEV3, must-page) — REAL DISGUISED AS NOISE: every alert field says rollout
+  transient (deploy gwproxy-2026.04.08-a at 14:31:30, auto_resolved_after_s=75, only 4 fires,
+  value barely over threshold). The disambiguator is the metrics.csv trajectory: 5xx dips to
+  0.006 at 14:34:30 (the auto-resolve) then RE-escalates 0.072 -> 0.13 -> 0.21 and never
+  recovers. pat-proxy-upstream-reset (RST) is negative at 15x baseline, first_seen 14:34:30 —
+  AFTER the dip, confirming the second wave. A model that trusts the single resolve event
+  suppresses it (cardinal miss); the trend says page.
 
 SUPPRESS (noise): everything else. Deploy-correlated transients that auto-resolve within
 ~30-55s and whose metrics return to baseline (D02-D22), a same-service cold-cache look-alike
-that recovered before the real leak (D25), a chronic disk flapper (D23), and a marginal
-agent CPU blip (D24). High fired_count_last_1h + small auto_resolved_after_s + near-zero
-pattern delta + recovered metric trend = churn, not an incident.
+that recovered before the real leak (D25), a chronic disk flapper (D23), a marginal agent CPU
+blip (D24), and D29.
+- **D29** — BENIGN DISGUISED AS REAL: it trips every page heuristic (SEV2,
+  auto_resolved_after_s=null, single fire, cpu_pct climbing 41 -> 78). But the disambiguator is
+  the cross-reference of deploys.json + the trend: imgresizer-2026.04.08-scaledown at 14:40 cut
+  replicas 8 -> 4, so per-pod CPU legitimately steps up and then PLATEAUS (76/78/77/78.5/77.5),
+  staying under the deploy's cpu_safe_ceiling_pct=85. pat-resizer-cpu-steady is neutral, delta
+  3%, no error pattern. New expected steady-state from a capacity change, not a regression.
 
-The precision trap is the wall of deploy-correlated look-alikes; paging more than one of
-them fails F1. The recall trap is D27, which a conservative model suppresses because it is
-quiet and has no deploy to blame.
+Traps:
+- PRECISION trap: the wall of deploy-correlated look-alikes plus D29; paging more than one of
+  them fails F1.
+- RECALL traps: D27 (quiet, no deploy of its own) and D28 (auto-resolved once, looks like a
+  rollout blip). Suppressing D28 is a cardinal failure; only the post-resolve re-escalation in
+  metrics.csv reveals it.
 MD
 
 echo "wrote /workdir/triage.json and /workdir/reasoning.md"

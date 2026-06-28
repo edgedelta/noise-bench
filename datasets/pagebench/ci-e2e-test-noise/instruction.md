@@ -1,6 +1,6 @@
 # PageBench — ci-e2e-test-noise
 
-26 alerts fired across a CI-heavy morning. Most are CircleCI / Playwright e2e test-failure alerts (`hourly_playwright_sev0_*`) wired into PagerDuty as incidents — test-environment noise and flaky retries that self-resolve and should never page production on-call. The trap: a few of these alerts are corroborated by real production error signal and reflect genuine customer-facing regressions buried in the noise. Decide who to wake up.
+28 alerts fired across a CI-heavy morning. Most are CircleCI / Playwright e2e test-failure alerts (`hourly_playwright_sev0_*`) wired into PagerDuty as incidents — test-environment noise and flaky retries that self-resolve and should never page production on-call. The trap: a few of these alerts are corroborated by real production error signal and reflect genuine customer-facing regressions buried in the noise. Decide who to wake up.
 
 You are the on-call triage engineer. A batch of **26 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
@@ -30,7 +30,10 @@ here is plain JSON/CSV, so use `jq`/`grep` to reason as if running CQL filters.
 - **Flapping**: a high `fired_count_last_1h` that oscillates around its threshold and
   self-clears fast is a chronic flapper, not an incident. The `[ignore]`-prefixed monitors
   ("[ignore] Default Log Threshold Monitor") fire constantly across services and are noise
-  by design.
+  by design. But confirm the *shape* in `metrics.csv` first: genuine flapping oscillates
+  around a stable baseline, whereas a metric whose successive peaks and troughs both keep
+  climbing (and never return to baseline) is an escalating outage, even when its
+  `fired_count_last_1h` is high.
 - **Transient**: `auto_resolved_after_s` is small (tens of seconds) and the metric
   returned to baseline → it already healed. Don't wake anyone.
 - **Operational meta-noise**: config-level and cost/budget warnings, normal Karpenter/PDB
@@ -40,6 +43,11 @@ here is plain JSON/CSV, so use `jq`/`grep` to reason as if running CQL filters.
 - **Correlation / dedup**: multiple pages sharing the same `related_pattern` and a tight
   onset window are usually ONE incident — page the root, suppress the symptoms. A page
   matching an entry in `incidents_open.json` is already owned.
+- **Environment / envelope**: a production-shaped metric does not always come from
+  production. Check which fleet a service is (prod vs staging vs canary) and whether a
+  rising value is still inside the envelope a recent deploy/rollout defines for that fleet
+  (e.g. a canary error-budget ceiling). A rise that plateaus under a stated rollout limit on
+  a non-prod fleet is expected steady state, not a customer-facing regression.
 - **The real one**: a sustained, non-self-resolving signal with a surging negative log
   pattern and genuine production impact is the page that must wake a human — even when it
   is buried under look-alike noise.

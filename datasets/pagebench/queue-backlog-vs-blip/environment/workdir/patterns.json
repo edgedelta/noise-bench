@@ -38,5 +38,21 @@
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
     "first_seen": "2026-06-20T07:00:00Z"
+  },
+  {
+    "pattern_id": "pat-rollup-queue-ratchet",
+    "signature": "spanmetrics-rollup-consumer drains queue_depth then re-fills to a higher floor each cycle; flush batch size shrinking; per-cycle residual rising",
+    "count": 420,
+    "delta_vs_baseline_pct": 260,
+    "sentiment": "negative",
+    "first_seen": "2026-06-20T07:50:00Z"
+  },
+  {
+    "pattern_id": "pat-archiver-backfill-lag",
+    "signature": "kafka-event-archiver replaying historical partitions under backfill window archiver-backfill-2026.06.20-b; lag ramped then draining at configured replay rate",
+    "count": 305,
+    "delta_vs_baseline_pct": 70,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-20T08:04:00Z"
   }
 ]

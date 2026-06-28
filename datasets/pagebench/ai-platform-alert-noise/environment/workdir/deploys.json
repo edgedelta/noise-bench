@@ -16,5 +16,12 @@
     "service": "ai-memory-svc",
     "commit_sha": "26236ccdd33ee44ff5500112233445566778899a",
     "version": "ai-memory-svc-2026.06.21-a"
+  },
+  {
+    "timestamp": "2026-06-21T18:58:00Z",
+    "service": "inference-runner",
+    "commit_sha": "4a7b9c0d1e2f3a4b5c6d7e8f90a1b2c3d4e5f607",
+    "version": "inference-runner-2026.06.21-d",
+    "change": "replica scale-up 4->6 + model preload pinning; raises resident GPU memory floor"
   }
 ]

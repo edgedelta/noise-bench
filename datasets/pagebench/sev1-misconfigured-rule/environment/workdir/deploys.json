@@ -16,5 +16,11 @@
     "service": "checkout",
     "commit_sha": "e0f1c93",
     "version": "checkout-2026.05.20-c"
+  },
+  {
+    "timestamp": "2026-05-20T01:43:00Z",
+    "service": "analytics-ingest",
+    "commit_sha": "a91d7f2",
+    "version": "analytics-2026.05.20-scaleup"
   }
 ]
