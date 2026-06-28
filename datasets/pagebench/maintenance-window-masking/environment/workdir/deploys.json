@@ -1,0 +1,28 @@
+[
+  {
+    "timestamp": "2026-04-08T01:00:00Z",
+    "service": "orders-db",
+    "commit_sha": "mig4471",
+    "version": "maint-2026.04.08-dbmigrate",
+    "type": "maintenance",
+    "scope": ["orders-db", "checkout", "inventory", "payments-worker"],
+    "window_start": "2026-04-08T01:00:00Z",
+    "window_end": "2026-04-08T03:00:00Z"
+  },
+  {
+    "timestamp": "2026-04-08T01:05:00Z",
+    "service": "k8s-node-pool-blue",
+    "commit_sha": "n0de881",
+    "version": "maint-2026.04.08-nodeupgrade",
+    "type": "maintenance",
+    "scope": ["orders-db", "checkout", "inventory", "payments-worker"],
+    "window_start": "2026-04-08T01:00:00Z",
+    "window_end": "2026-04-08T03:00:00Z"
+  },
+  {
+    "timestamp": "2026-04-08T00:30:00Z",
+    "service": "recommendation",
+    "commit_sha": "7c2ab19",
+    "version": "rec-2026.04.07-e"
+  }
+]

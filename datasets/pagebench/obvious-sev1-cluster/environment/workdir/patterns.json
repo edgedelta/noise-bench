@@ -1,0 +1,66 @@
+[
+  {
+    "pattern_id": "pat-pgpool-exhausted",
+    "signature": "FATAL: remaining connection slots are reserved; pool exhausted on payments-db",
+    "count": 2410,
+    "delta_vs_baseline_pct": 1800,
+    "sentiment": "negative",
+    "first_seen": "2026-03-12T02:11:40Z"
+  },
+  {
+    "pattern_id": "pat-checkout-5xx",
+    "signature": "checkout: upstream returned 500 while finalizing order",
+    "count": 3120,
+    "delta_vs_baseline_pct": 2600,
+    "sentiment": "negative",
+    "first_seen": "2026-03-12T01:45:30Z"
+  },
+  {
+    "pattern_id": "pat-apigw-slow-upstream",
+    "signature": "api-gateway: upstream response time degraded; request queue building",
+    "count": 540,
+    "delta_vs_baseline_pct": 380,
+    "sentiment": "negative",
+    "first_seen": "2026-03-12T02:23:30Z"
+  },
+  {
+    "pattern_id": "pat-disk-rotate",
+    "signature": "disk usage high; triggering log rotation",
+    "count": 18,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-03-12T01:00:00Z"
+  },
+  {
+    "pattern_id": "pat-gc-pause",
+    "signature": "GC pause exceeded soft limit",
+    "count": 72,
+    "delta_vs_baseline_pct": 6,
+    "sentiment": "neutral",
+    "first_seen": "2026-03-12T00:00:00Z"
+  },
+  {
+    "pattern_id": "pat-rollout-503",
+    "signature": "upstream 503 during pod rollout",
+    "count": 11,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-03-12T00:41:00Z"
+  },
+  {
+    "pattern_id": "pat-cold-cache",
+    "signature": "cache miss storm after eviction",
+    "count": 38,
+    "delta_vs_baseline_pct": 7,
+    "sentiment": "neutral",
+    "first_seen": "2026-03-12T01:00:00Z"
+  },
+  {
+    "pattern_id": "pat-batch-drain",
+    "signature": "batch drain in progress",
+    "count": 5,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-03-12T01:09:00Z"
+  }
+]

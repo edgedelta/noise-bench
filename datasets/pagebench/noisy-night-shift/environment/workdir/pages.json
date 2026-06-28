@@ -145,14 +145,14 @@
   {
     "id": "P12",
     "service": "auth",
-    "metric": "cpu_pct",
-    "severity": "SEV4",
-    "fired_at": "2026-03-12T00:20:00Z",
-    "value": 90.5,
-    "threshold": 90.0,
+    "metric": "login_failure_rate",
+    "severity": "SEV1",
+    "fired_at": "2026-03-12T01:37:00Z",
+    "value": 0.92,
+    "threshold": 0.05,
     "fired_count_last_1h": 1,
-    "auto_resolved_after_s": 52,
-    "related_pattern": "pat-gc-pause",
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-tls-cert-expired",
     "recent_deploy": null
   },
   {
@@ -170,15 +170,15 @@
   },
   {
     "id": "P14",
-    "service": "recommendation",
-    "metric": "memory_pct",
-    "severity": "SEV4",
-    "fired_at": "2026-03-12T01:30:00Z",
-    "value": 88.0,
-    "threshold": 85.0,
-    "fired_count_last_1h": 2,
-    "auto_resolved_after_s": 60,
-    "related_pattern": "pat-gc-pause",
+    "service": "api-gateway",
+    "metric": "http_401_rate",
+    "severity": "SEV2",
+    "fired_at": "2026-03-12T01:38:20Z",
+    "value": 0.74,
+    "threshold": 0.05,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-tls-cert-expired",
     "recent_deploy": null
   },
   {
@@ -209,15 +209,15 @@
   },
   {
     "id": "P17",
-    "service": "cart",
+    "service": "session-store",
     "metric": "memory_pct",
-    "severity": "SEV4",
-    "fired_at": "2026-03-12T01:20:00Z",
-    "value": 86.0,
-    "threshold": 85.0,
-    "fired_count_last_1h": 1,
-    "auto_resolved_after_s": 45,
-    "related_pattern": "pat-gc-pause",
+    "severity": "SEV2",
+    "fired_at": "2026-03-12T02:08:00Z",
+    "value": 99.0,
+    "threshold": 90.0,
+    "fired_count_last_1h": 5,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-oomkill-restart",
     "recent_deploy": null
   },
   {
@@ -257,6 +257,19 @@
     "fired_count_last_1h": 15,
     "auto_resolved_after_s": 20,
     "related_pattern": "pat-disk-rotate",
+    "recent_deploy": null
+  },
+  {
+    "id": "P21",
+    "service": "session-store",
+    "metric": "pod_restart_count",
+    "severity": "SEV3",
+    "fired_at": "2026-03-12T02:11:00Z",
+    "value": 7.0,
+    "threshold": 2.0,
+    "fired_count_last_1h": 5,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-oomkill-restart",
     "recent_deploy": null
   }
 ]

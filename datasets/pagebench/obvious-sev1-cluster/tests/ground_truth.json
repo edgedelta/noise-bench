@@ -1,0 +1,47 @@
+{
+  "scenario": "obvious-sev1-cluster",
+  "f1_threshold": 0.8,
+  "miss_budget": 1,
+  "positive_class": "page",
+  "must_page": [
+    "A01",
+    "A04"
+  ],
+  "labels": {
+    "A01": "page",
+    "A02": "suppress",
+    "A03": "suppress",
+    "A04": "page",
+    "A05": "suppress",
+    "A06": "page",
+    "A07": "suppress",
+    "A08": "suppress",
+    "A09": "suppress",
+    "A10": "suppress",
+    "A11": "suppress",
+    "A12": "suppress",
+    "A13": "suppress",
+    "A14": "suppress",
+    "A15": "suppress",
+    "A16": "suppress"
+  },
+  "rationale": {
+    "A01": "payments-db connection pool exhausted to 0 available (threshold 10), never auto-resolved, held at 0 through 02:40; pat-pgpool-exhausted surges 1800% with negative sentiment. Root of the DB outage. SEV1 must-page.",
+    "A02": "orders p99 11.2s, same pat-pgpool-exhausted root, fired 50s after A01. Downstream symptom of the DB outage; collapse into A01.",
+    "A03": "cart error_rate 0.28, same pat-pgpool-exhausted root, fired within ~80s of A01. Downstream symptom; collapse into A01.",
+    "A04": "checkout http_5xx_rate 0.61 vs 0.05, never auto-resolved, held at 0.58-0.64 through 02:40; pat-checkout-5xx surges 2600% negative. Independent SEV1 checkout outage, no deploy to blame. Must-page.",
+    "A05": "web-bff 5xx 0.33, same pat-checkout-5xx root, fired 40s after A04. Downstream symptom of the checkout outage; collapse into A04.",
+    "A06": "api-gateway p99 4.2s vs 1.0s threshold, monotonically rising 4200->5600 through 02:45, never auto-resolved; pat-apigw-slow-upstream negative and growing. Independent sustained SEV2 latency breach. Page (non-must, covered by recall).",
+    "A07": "log-archiver disk flapper: 18 fires in the last hour, oscillates just over the 85% threshold, auto-resolved in 24s on log rotation; metric back to 82 the next minute. Chronic churn.",
+    "A08": "Same disk flapper as A07, another oscillation (18 fires/hr, auto-resolved in 21s, back to 82).",
+    "A09": "recommendation cpu blip auto-resolved in 33s; metric back to 46 the next minute. pat-gc-pause neutral. Sub-minute transient.",
+    "A10": "search cpu blip auto-resolved in 28s; metric back to 49. pat-gc-pause neutral. Sub-minute transient.",
+    "A11": "frontend 5xx bump during fe-2026.03.12-a rollout, auto-resolved in 40s; metric back to 0.003. pat-rollout-503 neutral. Deploy transient that recovered.",
+    "A12": "frontend cpu settle during the same fe-2026.03.12-a rollout, auto-resolved in 36s; back to 41. Deploy transient that recovered.",
+    "A13": "image-resize cold-cache latency blip, auto-resolved in 22s; back to 540. Transient.",
+    "A14": "notifications queue marginally over threshold during batch drain, auto-resolved in 19s; back to 2300. Routine.",
+    "A15": "image-resize cpu flapper: 12 fires/hr, auto-resolved in 30s; back to 43. Chronic churn.",
+    "A16": "notifications 5xx flicker barely over threshold, auto-resolved in 20s; back to 0.002. Transient."
+  },
+  "notes": "Three page-class incidents among the noise. (1) payments-db outage: A01 root (SEV1, must-page); A02/A03 are symptoms suppressed as duplicates. (2) checkout 5xx outage: A04 root (SEV1, must-page); A05 is the web-bff symptom suppressed as a duplicate. (3) api-gateway sustained latency breach: A06 (SEV2, page, non-must). All remaining alerts are disk/cpu flappers (high fired_count, sub-30s auto-resolve), sub-minute auto-resolved transients, or deploy-correlated blips that recovered to baseline. must_page is the two SEV1 roots (A01, A04); A06 is covered by recall (miss_budget 1 tolerates a conservative model dropping it, but doing so costs F1)."
+}

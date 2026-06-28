@@ -5,8 +5,7 @@
     "count": 640,
     "delta_vs_baseline_pct": 520,
     "sentiment": "negative",
-    "first_seen": "2026-05-20T09:12:00Z",
-    "note": "slowly rising count across the window; no deploy correlated"
+    "first_seen": "2026-05-20T09:12:00Z"
   },
   {
     "pattern_id": "pat-disk-rotate",
@@ -47,5 +46,45 @@
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
     "first_seen": "2026-05-20T09:20:00Z"
+  },
+  {
+    "pattern_id": "pat-payments-db-pool",
+    "signature": "payments: db connection pool exhausted; acquire timeout",
+    "count": 880,
+    "delta_vs_baseline_pct": 740,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T10:01:00Z"
+  },
+  {
+    "pattern_id": "pat-checkout-pool-exhaust",
+    "signature": "checkout: downstream call queue saturated; latency rising",
+    "count": 410,
+    "delta_vs_baseline_pct": 380,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T09:24:00Z"
+  },
+  {
+    "pattern_id": "pat-inventory-5xx",
+    "signature": "inventory: 500 from stock-ledger; retries climbing",
+    "count": 260,
+    "delta_vs_baseline_pct": 290,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T09:28:00Z"
+  },
+  {
+    "pattern_id": "pat-promo-rollout",
+    "signature": "promotions: 503 during canary weight shift",
+    "count": 36,
+    "delta_vs_baseline_pct": 4,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T09:22:00Z"
+  },
+  {
+    "pattern_id": "pat-canary-misroute",
+    "signature": "gateway-canary: route table reload, transient 5xx",
+    "count": 28,
+    "delta_vs_baseline_pct": 2,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T09:28:00Z"
   }
 ]

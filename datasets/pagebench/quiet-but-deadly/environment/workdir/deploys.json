@@ -3,7 +3,12 @@
     "timestamp": "2026-05-20T09:14:00Z",
     "service": "frontend",
     "commit_sha": "d7e1a02",
-    "version": "fe-2026.05.20-a",
-    "note": "asset bundle (innocent; recovered)"
+    "version": "fe-2026.05.20-a"
+  },
+  {
+    "timestamp": "2026-05-20T09:21:00Z",
+    "service": "promotions",
+    "commit_sha": "b3c99f1",
+    "version": "promo-2026.05.20-b"
   }
 ]

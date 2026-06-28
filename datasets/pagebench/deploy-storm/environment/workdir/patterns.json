@@ -5,8 +5,7 @@
     "count": 2200,
     "delta_vs_baseline_pct": 2100,
     "sentiment": "negative",
-    "first_seen": "2026-04-08T14:32:00Z",
-    "note": "appears only after pg-2026.04.08-c; monotonically rising"
+    "first_seen": "2026-04-08T14:32:00Z"
   },
   {
     "pattern_id": "pat-rollout-503",
@@ -14,8 +13,7 @@
     "count": 310,
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
-    "first_seen": "2026-04-08T14:30:00Z",
-    "note": "normal during rollouts, decays as pods become ready"
+    "first_seen": "2026-04-08T14:30:00Z"
   },
   {
     "pattern_id": "pat-cold-cache",
@@ -40,5 +38,21 @@
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
     "first_seen": "2026-04-08T14:00:00Z"
+  },
+  {
+    "pattern_id": "pat-orders-null-deref",
+    "signature": "orders: nil pointer dereference in fulfillment handler",
+    "count": 1640,
+    "delta_vs_baseline_pct": 1800,
+    "sentiment": "negative",
+    "first_seen": "2026-04-08T14:46:30Z"
+  },
+  {
+    "pattern_id": "pat-jwt-verify-fail",
+    "signature": "session-service: JWT signature verification failed (kid not found)",
+    "count": 760,
+    "delta_vs_baseline_pct": 940,
+    "sentiment": "negative",
+    "first_seen": "2026-04-08T14:43:00Z"
   }
 ]

@@ -1,0 +1,65 @@
+[
+  {
+    "pattern_id": "pat-migrate-readonly",
+    "signature": "ERROR: cannot execute UPDATE in a read-only transaction (schema migration in progress)",
+    "count": 410,
+    "delta_vs_baseline_pct": 300,
+    "sentiment": "neutral",
+    "first_seen": "2026-04-08T01:01:20Z",
+    "last_seen": "2026-04-08T02:03:50Z"
+  },
+  {
+    "pattern_id": "pat-conn-drain",
+    "signature": "connection reset by peer; node draining (cordon)",
+    "count": 280,
+    "delta_vs_baseline_pct": 250,
+    "sentiment": "neutral",
+    "first_seen": "2026-04-08T01:02:10Z",
+    "last_seen": "2026-04-08T01:53:40Z"
+  },
+  {
+    "pattern_id": "pat-origin-5xx",
+    "signature": "origin returned 502; upstream connection failed cdn-edge -> origin",
+    "count": 3120,
+    "delta_vs_baseline_pct": 9999,
+    "sentiment": "negative",
+    "first_seen": "2026-04-08T01:45:40Z",
+    "last_seen": "2026-04-08T02:55:00Z"
+  },
+  {
+    "pattern_id": "pat-repl-stall",
+    "signature": "WAL replication stalled; standby cannot apply, lag growing unbounded",
+    "count": 1970,
+    "delta_vs_baseline_pct": 2400,
+    "sentiment": "negative",
+    "first_seen": "2026-04-08T02:11:30Z",
+    "last_seen": "2026-04-08T02:58:00Z"
+  },
+  {
+    "pattern_id": "pat-disk-rotate",
+    "signature": "disk usage high; triggering log rotation",
+    "count": 14,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-04-08T00:30:00Z",
+    "last_seen": "2026-04-08T02:25:00Z"
+  },
+  {
+    "pattern_id": "pat-gc-pause",
+    "signature": "GC pause exceeded soft limit",
+    "count": 55,
+    "delta_vs_baseline_pct": 4,
+    "sentiment": "neutral",
+    "first_seen": "2026-04-08T00:00:00Z",
+    "last_seen": "2026-04-08T00:33:30Z"
+  },
+  {
+    "pattern_id": "pat-heap-growth",
+    "signature": "heap live set growing across GC cycles; reclaimed bytes trending down",
+    "count": 190,
+    "delta_vs_baseline_pct": 140,
+    "sentiment": "negative",
+    "first_seen": "2026-04-08T01:24:30Z",
+    "last_seen": "2026-04-08T02:58:00Z"
+  }
+]

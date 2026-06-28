@@ -3,70 +3,66 @@
     "timestamp": "2026-04-08T14:30:00Z",
     "service": "payment-gateway",
     "commit_sha": "c4e7a91",
-    "version": "pg-2026.04.08-c",
-    "note": "switch to new pooled http client (BAD: leaks on retry)"
+    "version": "pg-2026.04.08-c"
   },
   {
     "timestamp": "2026-04-08T14:29:00Z",
     "service": "frontend",
     "commit_sha": "11ab003",
-    "version": "fe-2026.04.08-a",
-    "note": "i18n strings"
+    "version": "fe-2026.04.08-a"
   },
   {
     "timestamp": "2026-04-08T14:29:30Z",
     "service": "cart",
     "commit_sha": "77cd112",
-    "version": "cart-2026.04.08-b",
-    "note": "ui tweak"
+    "version": "cart-2026.04.08-b"
   },
   {
     "timestamp": "2026-04-08T14:29:00Z",
     "service": "search",
     "commit_sha": "90fe334",
-    "version": "search-2026.04.08-a",
-    "note": "ranking"
+    "version": "search-2026.04.08-a"
   },
   {
     "timestamp": "2026-04-08T14:30:00Z",
     "service": "orders",
     "commit_sha": "b2a8d55",
-    "version": "orders-2026.04.08-a",
-    "note": "logging"
+    "version": "orders-2026.04.08-a"
+  },
+  {
+    "timestamp": "2026-04-08T14:46:00Z",
+    "service": "orders",
+    "commit_sha": "a91f7d2",
+    "version": "orders-2026.04.08-b"
   },
   {
     "timestamp": "2026-04-08T14:30:00Z",
     "service": "checkout",
     "commit_sha": "e6f7a88",
-    "version": "checkout-2026.04.08-a",
-    "note": "copy"
+    "version": "checkout-2026.04.08-a"
   },
   {
     "timestamp": "2026-04-08T14:29:00Z",
     "service": "recommendation",
     "commit_sha": "3c9b210",
-    "version": "rec-2026.04.08-a",
-    "note": "weights"
+    "version": "rec-2026.04.08-a"
   },
   {
     "timestamp": "2026-04-08T14:30:00Z",
     "service": "inventory",
     "commit_sha": "5d1e447",
-    "version": "inv-2026.04.08-a",
-    "note": "index"
+    "version": "inv-2026.04.08-a"
   },
   {
     "timestamp": "2026-04-08T14:30:00Z",
     "service": "notifications",
     "commit_sha": "8a2f661",
-    "version": "notif-2026.04.08-a",
-    "note": "template"
+    "version": "notif-2026.04.08-a"
   },
   {
     "timestamp": "2026-04-08T14:30:00Z",
     "service": "auth",
     "commit_sha": "ff03b29",
-    "version": "auth-2026.04.08-a",
-    "note": "rotate keys"
+    "version": "auth-2026.04.08-a"
   }
 ]

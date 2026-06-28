@@ -5,8 +5,7 @@
     "count": 88,
     "delta_vs_baseline_pct": 700,
     "sentiment": "negative",
-    "first_seen": "2026-06-19T22:39:40Z",
-    "note": "real node-health degradation, capacity dropped"
+    "first_seen": "2026-06-19T22:39:40Z"
   },
   {
     "pattern_id": "pat-pdb-block",
@@ -14,8 +13,7 @@
     "count": 24,
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
-    "first_seen": "2026-06-19T20:00:00Z",
-    "note": "normal PDB protection, operational meta-event"
+    "first_seen": "2026-06-19T20:00:00Z"
   },
   {
     "pattern_id": "pat-unconsolidatable",
@@ -23,8 +21,7 @@
     "count": 15,
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
-    "first_seen": "2026-06-19T20:00:00Z",
-    "note": "expected Karpenter config event"
+    "first_seen": "2026-06-19T20:00:00Z"
   },
   {
     "pattern_id": "pat-spot-consol",
@@ -32,8 +29,7 @@
     "count": 12,
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
-    "first_seen": "2026-06-19T20:00:00Z",
-    "note": "normal Karpenter NodePool config"
+    "first_seen": "2026-06-19T20:00:00Z"
   },
   {
     "pattern_id": "pat-store-validated",
@@ -41,8 +37,7 @@
     "count": 24,
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
-    "first_seen": "2026-06-19T20:00:00Z",
-    "note": "routine validation event"
+    "first_seen": "2026-06-19T20:00:00Z"
   },
   {
     "pattern_id": "pat-log-threshold",
@@ -50,7 +45,30 @@
     "count": 18,
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
-    "first_seen": "2026-06-19T20:00:00Z",
-    "note": "[ignore] flapper"
+    "first_seen": "2026-06-19T20:00:00Z"
+  },
+  {
+    "pattern_id": "pat-checkout-crashloop",
+    "signature": "CrashLoopBackOff checkout-api: panic nil pointer dereference in PaymentHandler, container restarting",
+    "count": 142,
+    "delta_vs_baseline_pct": 1400,
+    "sentiment": "negative",
+    "first_seen": "2026-06-19T21:54:30Z"
+  },
+  {
+    "pattern_id": "pat-mempressure-evict",
+    "signature": "MemoryPressure ip-10-0-9-21.us-east-1 evicting pods; ingest-gateway OOM, upstream 502 from edge",
+    "count": 64,
+    "delta_vs_baseline_pct": 900,
+    "sentiment": "negative",
+    "first_seen": "2026-06-19T22:04:50Z"
+  },
+  {
+    "pattern_id": "pat-billing-restart",
+    "signature": "billing-worker readiness probe timeout, container restarted, recovered",
+    "count": 56,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-19T20:00:00Z"
   }
 ]

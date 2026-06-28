@@ -1,0 +1,14 @@
+[
+  {
+    "timestamp": "2026-05-19T03:00:00Z",
+    "service": "traffic-director",
+    "commit_sha": "f0a1b2c",
+    "version": "failover-cutover-2026.05.19"
+  },
+  {
+    "timestamp": "2026-05-19T02:20:00Z",
+    "service": "recommendation-uswest",
+    "commit_sha": "7d4e9a1",
+    "version": "rec-2026.05.18-c"
+  }
+]

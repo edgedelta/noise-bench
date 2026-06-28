@@ -1,15 +1,16 @@
 {
   "scenario": "warning-spike-transients",
   "f1_threshold": 0.8,
-  "miss_budget": 0,
+  "miss_budget": 1,
   "positive_class": "page",
   "must_page": [
-    "P01"
+    "P01",
+    "P02"
   ],
   "labels": {
     "P01": "page",
-    "P02": "suppress",
-    "P03": "suppress",
+    "P02": "page",
+    "P03": "page",
     "P04": "suppress",
     "P05": "suppress",
     "P06": "suppress",
@@ -23,20 +24,20 @@
     "P14": "suppress"
   },
   "rationale": {
-    "P01": "Real error cascade leading edge: http-receiver warn_log_rate 340 vs 100, never auto-resolved, and pat-httprecv-cascade is surging negative (warns escalating into HTTP 500 errors) right after the http-receiver-2026.06.22-c deploy. Unlike the self-healing warn spikes, this one keeps climbing into a real error cascade. Cardinal must-page.",
-    "P14": "Downstream symptom of P01 (same pat-httprecv-cascade root, onset +13min): transformer error_rate climbing on the http-receiver failure path. Collapse into the cascade incident.",
-    "P02": "Transient Workflow WARN spike (AgenticLoopService/runMainLoop ctx.run) that returned to healthy INFO in 45s \u2014 the real 'application-warning-spike' pattern. Narrow transient, not a sustained outage.",
-    "P03": "Warning-level spike on Platform API that self-healed in 30s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise.",
-    "P04": "Transient Workflow WARN spike (AgenticLoopService/runMainLoop ctx.run) that returned to healthy INFO in 52s \u2014 the real 'application-warning-spike' pattern. Narrow transient, not a sustained outage.",
-    "P05": "Warning-level spike on transformer that self-healed in 38s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise.",
-    "P06": "Warning-level spike on olapdb-server that self-healed in 27s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise.",
-    "P07": "Transient Workflow WARN spike (AgenticLoopService/runMainLoop ctx.run) that returned to healthy INFO in 41s \u2014 the real 'application-warning-spike' pattern. Narrow transient, not a sustained outage.",
-    "P08": "Warning-level spike on kafka-metric-ingestor that self-healed in 33s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise.",
-    "P09": "Warning-level spike on Platform API that self-healed in 29s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise.",
-    "P10": "Warning-level spike on dashboard-svc that self-healed in 22s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise.",
-    "P11": "Warning-level spike on olapdb-tso that self-healed in 48s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise.",
-    "P12": "Warning-level spike on auditlog-ingestor that self-healed in 31s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise.",
-    "P13": "Warning-level spike on transformer that self-healed in 36s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+    "P01": "http-receiver warn_log_rate is the leading edge of a real cascade: 340 then 510 vs threshold 100, never auto-resolved, and pat-httprecv-cascade is surging 640% negative (warns escalating into HTTP 500s) with last_seen still live at 13:41. It keeps climbing instead of returning to the 40 baseline. Cardinal must-page.",
+    "P02": "edge-ingest-gateway http_5xx_rate 0.31 vs 0.05 and climbing (0.31 -> 0.38 -> 0.44), never auto-resolved, pat-edgegw-5xx surging 920% negative. A sustained SEV1 5xx outage on an edge service; the edge-ingest-gateway-2026.06.22-b deploy 4m earlier does not exonerate it because the rate keeps rising. Cardinal must-page.",
+    "P03": "olapdb-server mem_used_pct climbs 71 -> 88 -> 92 -> 95 -> 97 across two hours and never auto-resolves; pat-olap-mem-climb is negative and still live at 13:41. A slow, no-deploy saturation incident that looks quiet (SEV3, single fire) but never recovers and will OOM. Real, page-worthy; the recall trap a conservative triager misses.",
+    "P04": "transformer error_rate shares pat-httprecv-cascade with P01 and fires 13min after it on the same http-receiver failure path. Downstream symptom of the P01 cascade; collapse into that incident rather than paging separately.",
+    "P05": "inference-runner warn_log_rate 180 dropped to 35 one minute later; auto_resolved in 45s, pat-workflow-warn-transient neutral at 12% delta. Self-cleared transient.",
+    "P06": "Platform API warn spike on an [ignore]-prefixed monitor, fired_count 8 in the last hour, auto_resolved in 30s, pat-warn-transient neutral 6%. Chronic flapper noise.",
+    "P07": "workflow-engine warn_log_rate 210 dropped to 42 one minute later; auto_resolved in 52s, pat-workflow-warn-transient neutral. Self-cleared transient.",
+    "P08": "transformer warn spike auto_resolved in 38s, pat-warn-transient neutral 6%. Returned to baseline. Noise.",
+    "P09": "olapdb-tso warn spike on an [ignore]-prefixed monitor, fired_count 9, auto_resolved in 27s. Chronic flapper. Noise.",
+    "P10": "inference-runner warn spike auto_resolved in 41s, pat-workflow-warn-transient neutral. Self-cleared transient.",
+    "P11": "kafka-metric-ingestor warn spike auto_resolved in 33s, pat-warn-transient neutral. Noise.",
+    "P12": "Platform API warn spike on an [ignore]-prefixed monitor, fired_count 8, auto_resolved in 29s. Chronic flapper. Noise.",
+    "P13": "dashboard-svc warn spike auto_resolved in 22s, pat-warn-transient neutral. Noise.",
+    "P14": "auditlog-ingestor warn spike on an [ignore]-prefixed monitor, fired_count 7, auto_resolved in 31s. Chronic flapper. Noise."
   },
-  "notes": "Real cascade = P01 (http-receiver WARN -> 500s, culprit deploy http-receiver-2026.06.22-c); P14 is its downstream transformer symptom. All other spikes self-heal (Workflow transient + generic warn transients)."
+  "notes": "Three real page-class incidents: P01 (http-receiver warn leading edge of an escalating 500 cascade), P02 (sustained climbing edge-ingest-gateway 5xx SEV1), P03 (slow olapdb-server memory saturation that never recovers). must_page = the two that read clearly real once trend is checked (P01, P02). P03 is the recall trap (looks quiet, SEV3, one fire) and falls under miss_budget=1. P04 is the downstream cascade symptom of P01 (suppress as duplicate). P05-P14 are self-clearing warn transients and [ignore]-monitor flappers, distinguished from P01 purely by auto_resolved_after_s, fired_count, neutral low-delta patterns, and metric trend returning to baseline."
 }

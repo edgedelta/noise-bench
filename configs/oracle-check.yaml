@@ -1,0 +1,28 @@
+jobs_dir: jobs
+n_attempts: 1
+n_concurrent_trials: 6
+quiet: false
+environment:
+  type: docker
+agents:
+  - name: oracle
+datasets:
+  - path: datasets/pagebench
+    task_names:
+      - ai-platform-alert-noise
+      - cert-expiry-fanout
+      - ci-e2e-test-noise
+      - deploy-storm
+      - disk-pressure-flapper-storm
+      - escalation-loopback-noise
+      - maintenance-window-masking
+      - mixed-triage-heavy
+      - node-event-noise
+      - noisy-night-shift
+      - obvious-sev1-cluster
+      - queue-backlog-vs-blip
+      - quiet-but-deadly
+      - region-failover-mixed
+      - sev1-misconfigured-rule
+      - slow-burn-saturation
+      - warning-spike-transients

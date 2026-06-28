@@ -1,0 +1,27 @@
+[
+  {
+    "incident_id": "CHG-5521",
+    "service": "orders-db",
+    "metric": "*",
+    "opened_at": "2026-04-08T01:00:00Z",
+    "status": "in-progress",
+    "owner": "platform-dba",
+    "related_pattern": "pat-migrate-readonly",
+    "kind": "change-request",
+    "window_start": "2026-04-08T01:00:00Z",
+    "window_end": "2026-04-08T03:00:00Z",
+    "scope": ["orders-db", "checkout", "inventory", "payments-worker"],
+    "summary": "Scheduled schema migration + blue node-pool upgrade. Read-only transactions and connection drains expected on scoped services until window_end."
+  },
+  {
+    "incident_id": "INC-9120",
+    "service": "log-archiver",
+    "metric": "disk_usage_pct",
+    "opened_at": "2026-04-07T22:10:00Z",
+    "status": "monitoring",
+    "owner": "oncall-infra",
+    "related_pattern": "pat-disk-rotate",
+    "kind": "incident",
+    "summary": "Known log-archiver disk oscillation around rotation threshold; rotation auto-triggers. Tracking only."
+  }
+]

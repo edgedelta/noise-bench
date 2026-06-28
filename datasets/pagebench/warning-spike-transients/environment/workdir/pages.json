@@ -15,6 +15,48 @@
   },
   {
     "id": "P02",
+    "service": "edge-ingest-gateway",
+    "monitor": "Edge Gateway 5xx Monitor",
+    "metric": "http_5xx_rate",
+    "severity": "SEV1",
+    "fired_at": "2026-06-22T12:38:00Z",
+    "value": 0.31,
+    "threshold": 0.05,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-edgegw-5xx",
+    "recent_deploy": "edge-ingest-gateway-2026.06.22-b"
+  },
+  {
+    "id": "P03",
+    "service": "olapdb-server",
+    "monitor": "OLAP Memory Saturation Monitor",
+    "metric": "mem_used_pct",
+    "severity": "SEV3",
+    "fired_at": "2026-06-22T11:48:00Z",
+    "value": 88,
+    "threshold": 85,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-olap-mem-climb",
+    "recent_deploy": null
+  },
+  {
+    "id": "P04",
+    "service": "transformer",
+    "monitor": "Default Synthetic Monitor",
+    "metric": "error_rate",
+    "severity": "SEV2",
+    "fired_at": "2026-06-22T13:18:00Z",
+    "value": 0.16,
+    "threshold": 0.05,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-httprecv-cascade",
+    "recent_deploy": null
+  },
+  {
+    "id": "P05",
     "service": "inference-runner",
     "monitor": "AI Assistant Overall Error Monitor",
     "metric": "warn_log_rate",
@@ -28,7 +70,7 @@
     "recent_deploy": null
   },
   {
-    "id": "P03",
+    "id": "P06",
     "service": "Platform API",
     "monitor": "[ignore] Default Log Threshold Monitor",
     "metric": "warn_log_rate",
@@ -42,7 +84,7 @@
     "recent_deploy": null
   },
   {
-    "id": "P04",
+    "id": "P07",
     "service": "workflow-engine",
     "monitor": "Default Synthetic Monitor",
     "metric": "warn_log_rate",
@@ -56,7 +98,7 @@
     "recent_deploy": null
   },
   {
-    "id": "P05",
+    "id": "P08",
     "service": "transformer",
     "monitor": "Default Synthetic Monitor",
     "metric": "warn_log_rate",
@@ -70,8 +112,8 @@
     "recent_deploy": null
   },
   {
-    "id": "P06",
-    "service": "olapdb-server",
+    "id": "P09",
+    "service": "olapdb-tso",
     "monitor": "[ignore] Default Log Threshold Monitor",
     "metric": "warn_log_rate",
     "severity": "SEV3",
@@ -84,7 +126,7 @@
     "recent_deploy": null
   },
   {
-    "id": "P07",
+    "id": "P10",
     "service": "inference-runner",
     "monitor": "AI Assistant Overall Error Monitor",
     "metric": "warn_log_rate",
@@ -98,7 +140,7 @@
     "recent_deploy": null
   },
   {
-    "id": "P08",
+    "id": "P11",
     "service": "kafka-metric-ingestor",
     "monitor": "Default Synthetic Monitor",
     "metric": "warn_log_rate",
@@ -112,7 +154,7 @@
     "recent_deploy": null
   },
   {
-    "id": "P09",
+    "id": "P12",
     "service": "Platform API",
     "monitor": "[ignore] Default Log Threshold Monitor",
     "metric": "warn_log_rate",
@@ -126,7 +168,7 @@
     "recent_deploy": null
   },
   {
-    "id": "P10",
+    "id": "P13",
     "service": "dashboard-svc",
     "monitor": "Default Synthetic Monitor",
     "metric": "warn_log_rate",
@@ -140,21 +182,7 @@
     "recent_deploy": null
   },
   {
-    "id": "P11",
-    "service": "olapdb-tso",
-    "monitor": "Default Synthetic Monitor",
-    "metric": "warn_log_rate",
-    "severity": "SEV3",
-    "fired_at": "2026-06-22T11:30:00Z",
-    "value": 190,
-    "threshold": 100,
-    "fired_count_last_1h": 2,
-    "auto_resolved_after_s": 48,
-    "related_pattern": "pat-warn-transient",
-    "recent_deploy": null
-  },
-  {
-    "id": "P12",
+    "id": "P14",
     "service": "auditlog-ingestor",
     "monitor": "[ignore] Default Log Threshold Monitor",
     "metric": "warn_log_rate",
@@ -165,34 +193,6 @@
     "fired_count_last_1h": 7,
     "auto_resolved_after_s": 31,
     "related_pattern": "pat-warn-transient",
-    "recent_deploy": null
-  },
-  {
-    "id": "P13",
-    "service": "transformer",
-    "monitor": "Default Synthetic Monitor",
-    "metric": "warn_log_rate",
-    "severity": "SEV3",
-    "fired_at": "2026-06-22T13:15:00Z",
-    "value": 145,
-    "threshold": 100,
-    "fired_count_last_1h": 3,
-    "auto_resolved_after_s": 36,
-    "related_pattern": "pat-warn-transient",
-    "recent_deploy": null
-  },
-  {
-    "id": "P14",
-    "service": "transformer",
-    "monitor": "Default Synthetic Monitor",
-    "metric": "error_rate",
-    "severity": "SEV2",
-    "fired_at": "2026-06-22T13:18:00Z",
-    "value": 0.16,
-    "threshold": 0.05,
-    "fired_count_last_1h": 1,
-    "auto_resolved_after_s": null,
-    "related_pattern": "pat-httprecv-cascade",
     "recent_deploy": null
   }
 ]

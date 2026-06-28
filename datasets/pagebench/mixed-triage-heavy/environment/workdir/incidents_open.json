@@ -1,0 +1,12 @@
+[
+  {
+    "incident_id": "INC-9142",
+    "service": "payments-api",
+    "metric": "queue_depth",
+    "opened_at": "2026-05-20T02:12:00Z",
+    "status": "investigating",
+    "owner": "oncall-payments",
+    "related_pattern": "pat-billing-backlog",
+    "summary": "payments-api worker queue backlog; consumer lag growing since 02:05."
+  }
+]

@@ -4,7 +4,8 @@
   "miss_budget": 0,
   "positive_class": "page",
   "must_page": [
-    "Q01"
+    "Q01",
+    "Q13"
   ],
   "labels": {
     "Q01": "page",
@@ -18,21 +19,32 @@
     "Q09": "suppress",
     "Q10": "suppress",
     "Q11": "suppress",
-    "Q12": "suppress"
+    "Q12": "suppress",
+    "Q13": "page",
+    "Q14": "suppress",
+    "Q15": "page",
+    "Q16": "suppress",
+    "Q17": "suppress",
+    "Q18": "suppress"
   },
   "rationale": {
-    "Q01": "Slow-burn real incident: error rate has climbed monotonically 2% -> 11% over 40 min (see metrics.csv), NEVER auto-resolved, no deploy to blame, upstream-timeout pattern steadily rising. Quiet but real. Must page.",
-    "Q02": "Disk flapper, 13 fires/hr, clears on rotation in 20s. Noise.",
-    "Q03": "Transient CPU blip, auto-resolved in 40s. Noise.",
-    "Q04": "Cold-cache latency blip, recovered in 28s. Noise.",
-    "Q05": "Post-deploy 5xx flicker on fe-2026.05.20-a, self-healed in 44s. The only recent deploy \u2014 tempting to blame, but it recovered and is a different service from the real incident. Suppress.",
-    "Q06": "Transient CPU blip, auto-resolved in 33s. Noise.",
-    "Q07": "Marginal queue blip during batch drain, cleared in 17s. Noise.",
-    "Q08": "Cold-cache latency blip, recovered in 25s. Noise.",
-    "Q09": "Single marginal CPU blip, auto-resolved in 48s. Noise.",
-    "Q10": "Same disk flapper as Q02, another oscillation. Noise.",
-    "Q11": "Transient CPU blip, auto-resolved in 35s. Noise.",
-    "Q12": "Brief memory blip, recovered in 50s. Noise."
-  },
-  "notes": "Eleven low-grade flaps/transients plus one quiet, deploy-less slow-burn (Q01 api-gateway error-rate climb) that never auto-resolves and must page. Q05 is the only deploy and it recovered \u2014 a decoy for the 'blame the deploy' bias."
+    "Q01": "Quiet slow-burn. error_rate climbs monotonically 0.02 -> 0.14 across the window (metrics.csv), auto_resolved_after_s null, no recent_deploy, pat-upstream-timeout count 640 / delta +520%. Looks low-grade but is real. Cardinal must_page; conservative models that anchor on 'modest value, no deploy' wrongly suppress it.",
+    "Q02": "disk_usage_pct, fired_count_last_1h 13, auto_resolved_after_s 20, value barely over threshold, pat-disk-rotate delta 0%, metric returns to 83 next sample. Chronic flapper.",
+    "Q03": "cpu_pct 91 vs 90, auto_resolved_after_s 40, pat-gc-pause delta 3%, metric back to 43 next sample.",
+    "Q04": "p99_latency_ms 850 vs 800, auto_resolved_after_s 28, pat-cold-cache delta 5%.",
+    "Q05": "http_5xx_rate 0.06 vs 0.05, auto_resolved_after_s 44, deploy fe-2026.05.20-a correlated but 5xx drops to 0.003 two minutes later. Recovered deploy churn, different service from the real incidents.",
+    "Q06": "cpu_pct 92 vs 90, auto_resolved_after_s 33, pat-gc-pause.",
+    "Q07": "queue_depth 5050 vs 5000, auto_resolved_after_s 17, pat-batch-drain delta 0%.",
+    "Q08": "p99_latency_ms 820 vs 800, auto_resolved_after_s 25, pat-cold-cache.",
+    "Q09": "cpu_pct 90.5 vs 90, auto_resolved_after_s 48, pat-gc-pause.",
+    "Q10": "Same disk flapper as Q02 (pat-disk-rotate, fired_count 13, auto_resolved_after_s 19), another oscillation.",
+    "Q11": "cpu_pct 91 vs 90, auto_resolved_after_s 35, pat-gc-pause.",
+    "Q12": "memory_pct 86 vs 85, auto_resolved_after_s 50, pat-gc-pause.",
+    "Q13": "Loud SEV1 root. payments http_5xx_rate 0.62 vs 0.02 and rising 0.62 -> 0.78 (metrics.csv), auto_resolved_after_s null, pat-payments-db-pool count 880 / delta +740%. Clear page; cardinal must_page.",
+    "Q14": "payments p99_latency_ms 2400 vs 1200, same service and same root pattern pat-payments-db-pool as Q13, fired within one minute. Symptom of the Q13 db-pool exhaustion; collapses into Q13. Page the root (Q13), suppress the duplicate.",
+    "Q15": "Moderate sustained regression. checkout p99_latency_ms climbs 910 -> 1990 across the window (metrics.csv), auto_resolved_after_s null, no deploy, pat-checkout-pool-exhaust delta +380%. Independent real incident, distinct service/root from Q13. Page.",
+    "Q16": "inventory http_5xx_rate rising, real, but already owned: incidents_open.json INC-4471 covers inventory / pat-inventory-5xx, opened 09:33, status investigating. A human is on it. Suppress as duplicate of an open incident.",
+    "Q17": "promotions http_5xx_rate tagged SEV1 but fired_count_last_1h 9, auto_resolved_after_s 31, 0.21 drops to 0.04 one minute later, deploy promo-2026.05.20-b correlated, pat-promo-rollout delta 4%. Severity-looks-real precision trap: flapping deploy churn that self-healed.",
+    "Q18": "gateway-canary error_rate tagged SEV1 but fired_count_last_1h 11, auto_resolved_after_s 22, 0.30 drops to 0.02 next sample, pat-canary-misroute delta 2%. Precision trap: high-value-looking canary flapper that auto-resolved."
+  }
 }

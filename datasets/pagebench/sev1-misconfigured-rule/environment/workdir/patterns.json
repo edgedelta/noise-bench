@@ -1,0 +1,74 @@
+[
+  {
+    "pattern_id": "pat-fs-pressure-raterule",
+    "signature": "filesystem pressure rule threshold crossed",
+    "count": 256,
+    "delta_vs_baseline_pct": 2,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T01:00:30Z"
+  },
+  {
+    "pattern_id": "pat-gc-pause",
+    "signature": "GC pause exceeded soft limit",
+    "count": 58,
+    "delta_vs_baseline_pct": 4,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T00:00:00Z"
+  },
+  {
+    "pattern_id": "pat-rollout-503",
+    "signature": "upstream 503 during pod rollout",
+    "count": 11,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T00:33:00Z"
+  },
+  {
+    "pattern_id": "pat-db-pool-exhausted",
+    "signature": "payments: timed out acquiring connection from pool",
+    "count": 1470,
+    "delta_vs_baseline_pct": 1180,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T02:18:40Z"
+  },
+  {
+    "pattern_id": "pat-disk-rotate",
+    "signature": "disk usage high; triggering log rotation",
+    "count": 14,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T01:00:00Z"
+  },
+  {
+    "pattern_id": "pat-billing-backlog",
+    "signature": "billing worker queue depth growing",
+    "count": 240,
+    "delta_vs_baseline_pct": 28,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T01:25:00Z"
+  },
+  {
+    "pattern_id": "pat-checkout-5xx-regress",
+    "signature": "checkout: nil pointer in promo-code handler after deploy",
+    "count": 1920,
+    "delta_vs_baseline_pct": 3100,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T01:57:40Z"
+  },
+  {
+    "pattern_id": "pat-cold-cache",
+    "signature": "cache miss storm after eviction",
+    "count": 38,
+    "delta_vs_baseline_pct": 6,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T01:00:00Z"
+  },
+  {
+    "pattern_id": "pat-mem-creep",
+    "signature": "session-store heap in-use bytes rising; no GC reclaim",
+    "count": 410,
+    "delta_vs_baseline_pct": 240,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T00:45:00Z"
+  }
+]

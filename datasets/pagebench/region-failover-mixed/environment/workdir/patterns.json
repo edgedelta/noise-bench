@@ -1,0 +1,82 @@
+[
+  {
+    "pattern_id": "pat-failover-dns-reresolve",
+    "signature": "upstream 503: endpoint re-resolution after region cutover",
+    "count": 90,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-19T03:00:30Z"
+  },
+  {
+    "pattern_id": "pat-failover-conn-reset",
+    "signature": "connection reset by peer during traffic shift",
+    "count": 140,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-19T03:00:50Z"
+  },
+  {
+    "pattern_id": "pat-coldstart-cache",
+    "signature": "cache miss storm warming us-west replicas",
+    "count": 75,
+    "delta_vs_baseline_pct": 6,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-19T03:01:30Z"
+  },
+  {
+    "pattern_id": "pat-jvm-warmup-gc",
+    "signature": "GC pause during JIT warmup on freshly scheduled pods",
+    "count": 50,
+    "delta_vs_baseline_pct": 4,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-19T03:02:00Z"
+  },
+  {
+    "pattern_id": "pat-lb-healthcheck-flap",
+    "signature": "backend healthcheck transitioned unhealthy then healthy",
+    "count": 28,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-19T03:00:50Z"
+  },
+  {
+    "pattern_id": "pat-failover-drain-catchup",
+    "signature": "queue drain catching up after consumer reconnect",
+    "count": 18,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-19T03:04:00Z"
+  },
+  {
+    "pattern_id": "pat-uswest-saturation",
+    "signature": "payments-api worker pool exhausted; requests queuing without drain",
+    "count": 2900,
+    "delta_vs_baseline_pct": 1700,
+    "sentiment": "negative",
+    "first_seen": "2026-05-19T03:06:10Z"
+  },
+  {
+    "pattern_id": "pat-xregion-replica-lag",
+    "signature": "cross-region WAL apply falling behind; replica serving stale snapshots",
+    "count": 1320,
+    "delta_vs_baseline_pct": 980,
+    "sentiment": "negative",
+    "first_seen": "2026-05-19T03:11:50Z"
+  },
+  {
+    "pattern_id": "pat-audit-disk-fill",
+    "signature": "audit segment write; volume utilization rising",
+    "count": 64,
+    "delta_vs_baseline_pct": 22,
+    "sentiment": "negative",
+    "first_seen": "2026-05-19T02:30:00Z"
+  },
+  {
+    "pattern_id": "pat-billing-backlog",
+    "signature": "billing worker queue depth growing",
+    "count": 240,
+    "delta_vs_baseline_pct": 28,
+    "sentiment": "negative",
+    "first_seen": "2026-05-19T02:48:00Z"
+  }
+]

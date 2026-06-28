@@ -1,0 +1,74 @@
+[
+  {
+    "pattern_id": "pat-tls-cert-expired",
+    "signature": "tls: certificate has expired or is not yet valid (star.svc.internal)",
+    "count": 4120,
+    "delta_vs_baseline_pct": 9999,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T23:01:50Z"
+  },
+  {
+    "pattern_id": "pat-db-pool-exhausted",
+    "signature": "could not acquire connection from pool: timed out after 8000ms",
+    "count": 2240,
+    "delta_vs_baseline_pct": 1800,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T22:46:40Z"
+  },
+  {
+    "pattern_id": "pat-ingest-backlog",
+    "signature": "ingest consumer lag growing; partitions behind by",
+    "count": 980,
+    "delta_vs_baseline_pct": 540,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T22:34:00Z"
+  },
+  {
+    "pattern_id": "pat-encoder-backlog",
+    "signature": "media encoder queue depth growing",
+    "count": 410,
+    "delta_vs_baseline_pct": 70,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T22:18:00Z"
+  },
+  {
+    "pattern_id": "pat-disk-rotate",
+    "signature": "disk usage high; triggering log rotation",
+    "count": 16,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T22:00:00Z"
+  },
+  {
+    "pattern_id": "pat-gc-pause",
+    "signature": "GC pause exceeded soft limit",
+    "count": 72,
+    "delta_vs_baseline_pct": 4,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T22:00:00Z"
+  },
+  {
+    "pattern_id": "pat-rollout-503",
+    "signature": "upstream 503 during pod rollout",
+    "count": 14,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T22:30:00Z"
+  },
+  {
+    "pattern_id": "pat-cold-cache",
+    "signature": "cache miss storm after eviction",
+    "count": 38,
+    "delta_vs_baseline_pct": 6,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T22:10:00Z"
+  },
+  {
+    "pattern_id": "pat-batch-drain",
+    "signature": "batch drain in progress",
+    "count": 6,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T22:20:00Z"
+  }
+]

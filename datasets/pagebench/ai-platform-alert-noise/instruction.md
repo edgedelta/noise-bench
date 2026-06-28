@@ -1,6 +1,6 @@
 # PageBench — ai-platform-alert-noise
 
-20 alerts fired on the AI platform over a ~4-hour evening window. Most are cost/usage noise — `LLM 24 Hour Token Usage` Warns creeping over their daily threshold and `Spending Cap Hit Monitor` budget alerts — plus the usual [ignore] log flappers and CPU blips. Buried among them is a real ai-agent-svc outage: `OnCall AI Workflow Errors` + `AI Assistant Overall Error Monitor` lighting up with genuine Workflow 500s. Decide who to wake up.
+20 alerts fired on the AI platform over a ~5-hour evening window. Many are cost/usage chatter — `LLM 24 Hour Token Usage` Warns creeping over their daily threshold and `Spending Cap Hit Monitor` budget alerts — plus the usual [ignore] log flappers and CPU/GPU blips, and a couple of alerts wearing high-severity labels that may or may not deserve them. Mixed in are genuine production failures. Decide who to wake up.
 
 You are the on-call triage engineer. A batch of **20 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
@@ -29,20 +29,21 @@ here is plain JSON/CSV, so use `jq`/`grep` to reason as if running CQL filters.
 
 - **Flapping**: a high `fired_count_last_1h` that oscillates around its threshold and
   self-clears fast is a chronic flapper, not an incident. The `[ignore]`-prefixed monitors
-  ("[ignore] Default Log Threshold Monitor") fire constantly across services and are noise
-  by design.
+  ("[ignore] Default Log Threshold Monitor") fire constantly across services.
 - **Transient**: `auto_resolved_after_s` is small (tens of seconds) and the metric
   returned to baseline → it already healed. Don't wake anyone.
-- **Operational meta-noise**: config-level and cost/budget warnings, normal Karpenter/PDB
-  operational events ("Pdb prevents pod evictions", "SpotToSpotConsolidation disabled",
-  "Unconsolidatable", "store validated"), and CI/test-failure alerts firing as incidents
-  are usually NOT a production outage.
+- **Operational meta-noise**: config-level and cost/budget warnings (token-usage and
+  spend-cap alerts) describe capacity and billing, not service health.
+- **Severity label vs. behavior**: a `severity` field is only as good as the rule that set
+  it — judge by what the metric, pattern, and auto-resolve actually did, not the label alone.
 - **Correlation / dedup**: multiple pages sharing the same `related_pattern` and a tight
   onset window are usually ONE incident — page the root, suppress the symptoms. A page
   matching an entry in `incidents_open.json` is already owned.
-- **The real one**: a sustained, non-self-resolving signal with a surging negative log
-  pattern and genuine production impact is the page that must wake a human — even when it
-  is buried under look-alike noise.
+- **The real ones**: a sustained, non-self-resolving signal with a surging negative log
+  pattern and genuine production impact is a page that must wake a human — even when buried
+  under look-alike noise.
+- **The quiet ones**: a small but monotonically rising metric that never auto-resolves can
+  be a real slow-burn incident even with a low severity label and no deploy to blame.
 
 ## Rules
 
@@ -68,7 +69,7 @@ here is plain JSON/CSV, so use `jq`/`grep` to reason as if running CQL filters.
    `"page"` or `"suppress"`.
 
 2. `/workdir/reasoning.md` — free-form notes: how you grouped correlated pages, what you
-   treated as noise and why, and which single incident (if any) you are confident is real.
+   treated as noise and why, and which incidents you are confident are real.
 
 ## How you are scored
 

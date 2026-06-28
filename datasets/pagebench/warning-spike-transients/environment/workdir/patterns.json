@@ -1,12 +1,30 @@
 [
   {
     "pattern_id": "pat-httprecv-cascade",
-    "signature": "WARN backpressure on http-receiver escalating to HTTP 500 write failures post-deploy",
+    "signature": "WARN backpressure on http-receiver escalating to HTTP 500 write failures",
     "count": 760,
     "delta_vs_baseline_pct": 640,
     "sentiment": "negative",
     "first_seen": "2026-06-22T13:04:40Z",
-    "note": "real cascade; warns -> errors, never recovered"
+    "last_seen": "2026-06-22T13:41:00Z"
+  },
+  {
+    "pattern_id": "pat-edgegw-5xx",
+    "signature": "ERROR edge-ingest-gateway upstream connect timeout returning HTTP 503",
+    "count": 1180,
+    "delta_vs_baseline_pct": 920,
+    "sentiment": "negative",
+    "first_seen": "2026-06-22T12:37:30Z",
+    "last_seen": "2026-06-22T13:16:00Z"
+  },
+  {
+    "pattern_id": "pat-olap-mem-climb",
+    "signature": "WARN olapdb-server heap region pressure, compaction backlog growing",
+    "count": 295,
+    "delta_vs_baseline_pct": 210,
+    "sentiment": "negative",
+    "first_seen": "2026-06-22T11:47:30Z",
+    "last_seen": "2026-06-22T13:41:00Z"
   },
   {
     "pattern_id": "pat-workflow-warn-transient",
@@ -15,15 +33,15 @@
     "delta_vs_baseline_pct": 12,
     "sentiment": "neutral",
     "first_seen": "2026-06-22T11:30:00Z",
-    "note": "classic transient application-warning-spike; self-heals"
+    "last_seen": "2026-06-22T13:21:00Z"
   },
   {
     "pattern_id": "pat-warn-transient",
-    "signature": "transient WARN log spike, returns to baseline",
+    "signature": "WARN log spike returns to INFO baseline",
     "count": 44,
     "delta_vs_baseline_pct": 6,
     "sentiment": "neutral",
     "first_seen": "2026-06-22T11:00:00Z",
-    "note": "self-clears within ~30s"
+    "last_seen": "2026-06-22T13:00:30Z"
   }
 ]

@@ -1,0 +1,14 @@
+[
+  {
+    "timestamp": "2026-03-12T00:44:00Z",
+    "service": "frontend",
+    "commit_sha": "c7e1a93",
+    "version": "fe-2026.03.12-a"
+  },
+  {
+    "timestamp": "2026-03-12T00:44:30Z",
+    "service": "checkout",
+    "commit_sha": "c7e1a93",
+    "version": "fe-2026.03.12-a"
+  }
+]

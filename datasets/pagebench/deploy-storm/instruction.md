@@ -1,8 +1,8 @@
 # PageBench — deploy-storm
 
-A busy deploy window: ten services rolled at once and 25 alerts fired in minutes. Almost all of it is deploy churn that self-heals as pods become ready. But ONE deploy shipped a real regression that does NOT recover. The trap is to wave the whole storm away as 'just deploys'.
+A busy deploy window: ten services rolled at once and 27 alerts fired in minutes. Most of it is deploy churn that self-heals as pods become ready. But a few alerts are real incidents that do NOT recover — and they hide among many deploy-correlated look-alikes. The trap is to wave the whole storm away as 'just deploys', or to over-page every blip that resembles one.
 
-You are the on-call triage engineer. A batch of **25 fired alerts (pages)**
+You are the on-call triage engineer. A batch of **27 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
 **suppress** it as noise. Waking someone for noise burns trust and sleep; missing a real
 incident is far worse.
@@ -14,7 +14,7 @@ incident is far worse.
 | `pages.json` | The batch of fired alerts. Each object has: `id`, `service`, `metric`, `severity`, `fired_at`, `value`, `threshold`, `fired_count_last_1h` (how often this same alert fired in the past hour), `auto_resolved_after_s` (seconds until it self-cleared, or `null` if it never did), `related_pattern` (id into `patterns.json`), `recent_deploy` (version id into `deploys.json`, or `null`). |
 | `metrics.csv` | `timestamp,service,metric,value` — baseline and incident-window samples for the services that matter. |
 | `patterns.json` | Clustered log signatures with `count`, `delta_vs_baseline_pct`, `sentiment`. The truth-teller for whether something is actually breaking. |
-| `deploys.json` | Deploy events (`timestamp`, `service`, `commit_sha`, `version`). Some are innocent decoys near incident onset. |
+| `deploys.json` | Deploy events (`timestamp`, `service`, `commit_sha`, `version`). Many services rolled in the same window. |
 | `incidents_open.json` | Incidents a human is ALREADY working. A page that duplicates one of these should be suppressed. |
 
 You have shell tools (`jq`, `grep`, `cat`, …) to query the data. EdgeDelta's query
@@ -60,15 +60,15 @@ here is plain JSON/CSV, so use `jq`/`grep` to reason as if running CQL filters.
    `"page"` or `"suppress"`.
 
 2. `/workdir/reasoning.md` — free-form notes: how you grouped correlated pages, what you
-   treated as noise and why, and which single incident (if any) you are confident is real.
+   treated as noise and why, and which incidents you are confident are real.
 
 ## How you are scored
 
 - Positive class = `page`. We compute precision / recall / **F1** against ground-truth
   labels. You must reach **F1 ≥ 0.78**.
-- **Cardinal rule**: there is at least one real, high-severity incident that MUST be
-  paged. Suppressing it scores **zero**, no matter how good your F1 is. When in doubt
-  about a real incident, page it.
+- **Cardinal rule**: there are real, high-severity incidents that MUST be
+  paged. Suppressing any of them scores **zero**, no matter how good your F1 is. When in
+  doubt about a real incident, page it.
 - Over-paging is penalized: every piece of noise you page hurts precision (and your
   team's trust). The bar rewards waking humans for real incidents and *only* real
   incidents.

@@ -1,0 +1,98 @@
+[
+  {
+    "pattern_id": "pat-edge-upstream-down",
+    "signature": "all upstreams unhealthy: 503 from api-edge router",
+    "count": 4120,
+    "delta_vs_baseline_pct": 8800,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T02:17:40Z"
+  },
+  {
+    "pattern_id": "pat-pool-exhausted",
+    "signature": "payments-db: connection pool exhausted, waiters timing out",
+    "count": 3050,
+    "delta_vs_baseline_pct": 2600,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T01:41:50Z"
+  },
+  {
+    "pattern_id": "pat-metering-lag",
+    "signature": "metering consumer lag above target; offsets falling behind",
+    "count": 970,
+    "delta_vs_baseline_pct": 240,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T00:37:30Z"
+  },
+  {
+    "pattern_id": "pat-index-write-fail",
+    "signature": "search-indexer: bulk write rejected, mapping conflict",
+    "count": 1180,
+    "delta_vs_baseline_pct": 520,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T01:57:40Z"
+  },
+  {
+    "pattern_id": "pat-disk-rotate",
+    "signature": "disk usage high; triggering log rotation",
+    "count": 14,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T00:30:00Z"
+  },
+  {
+    "pattern_id": "pat-gc-pause",
+    "signature": "GC pause exceeded soft limit",
+    "count": 72,
+    "delta_vs_baseline_pct": 4,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T00:00:00Z"
+  },
+  {
+    "pattern_id": "pat-batch-drain",
+    "signature": "batch drain in progress",
+    "count": 6,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T00:58:00Z"
+  },
+  {
+    "pattern_id": "pat-billing-backlog",
+    "signature": "payments-api worker queue depth growing",
+    "count": 410,
+    "delta_vs_baseline_pct": 35,
+    "sentiment": "negative",
+    "first_seen": "2026-05-20T02:05:00Z"
+  },
+  {
+    "pattern_id": "pat-rollout-503",
+    "signature": "upstream 503 during pod rollout",
+    "count": 18,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T00:45:00Z"
+  },
+  {
+    "pattern_id": "pat-cold-cache",
+    "signature": "cache miss storm after eviction",
+    "count": 46,
+    "delta_vs_baseline_pct": 7,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T01:00:00Z"
+  },
+  {
+    "pattern_id": "pat-cache-evict",
+    "signature": "session-store cache eviction sweep",
+    "count": 33,
+    "delta_vs_baseline_pct": 3,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T02:50:00Z"
+  },
+  {
+    "pattern_id": "pat-canary-probe",
+    "signature": "synthetic canary probe 503 (no real traffic)",
+    "count": 9,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-05-20T02:38:00Z"
+  }
+]

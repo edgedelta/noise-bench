@@ -1,0 +1,12 @@
+[
+  {
+    "incident_id": "INC-9142",
+    "service": "media-encoder",
+    "metric": "queue_depth",
+    "opened_at": "2026-05-20T22:21:00Z",
+    "status": "investigating",
+    "owner": "oncall-media",
+    "related_pattern": "pat-encoder-backlog",
+    "summary": "Media encoder queue depth growing since 22:18; consumer being scaled out."
+  }
+]

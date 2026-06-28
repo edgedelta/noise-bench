@@ -323,5 +323,31 @@
     "auto_resolved_after_s": 49,
     "related_pattern": "pat-cold-cache",
     "recent_deploy": "pg-2026.04.08-c"
+  },
+  {
+    "id": "D26",
+    "service": "orders",
+    "metric": "error_rate",
+    "severity": "SEV1",
+    "fired_at": "2026-04-08T14:47:30Z",
+    "value": 0.18,
+    "threshold": 0.05,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-orders-null-deref",
+    "recent_deploy": "orders-2026.04.08-b"
+  },
+  {
+    "id": "D27",
+    "service": "session-service",
+    "metric": "token_validation_error_rate",
+    "severity": "SEV2",
+    "fired_at": "2026-04-08T14:45:00Z",
+    "value": 0.11,
+    "threshold": 0.05,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-jwt-verify-fail",
+    "recent_deploy": null
   }
 ]

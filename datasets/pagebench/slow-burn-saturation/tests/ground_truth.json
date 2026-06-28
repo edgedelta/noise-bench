@@ -1,0 +1,51 @@
+{
+  "scenario": "slow-burn-saturation",
+  "f1_threshold": 0.8,
+  "miss_budget": 0,
+  "positive_class": "page",
+  "must_page": [
+    "P03",
+    "P09"
+  ],
+  "labels": {
+    "P01": "suppress",
+    "P02": "suppress",
+    "P03": "page",
+    "P04": "suppress",
+    "P05": "suppress",
+    "P06": "suppress",
+    "P07": "suppress",
+    "P08": "suppress",
+    "P09": "page",
+    "P10": "suppress",
+    "P11": "suppress",
+    "P12": "suppress",
+    "P13": "suppress",
+    "P14": "page",
+    "P15": "suppress",
+    "P16": "suppress",
+    "P17": "suppress",
+    "P18": "suppress"
+  },
+  "rationale": {
+    "P01": "edge-router 5xx tagged SEV1 by the LB rule but it is a health-check flap: 18 fires/hr, self-clears in 34s, metric snaps from 0.21 back to 0.004 the next minute. pat-lb-healthcheck-flap is neutral with ~0% delta. Loud but benign.",
+    "P02": "Same edge-router health-check flapper, another oscillation (18 fires/hr, cleared in 29s, metric back to 0.005).",
+    "P03": "payments-ledger memory_pct rising monotonically 62->69->77->84->91->96 over ~90m, single fire, never auto-resolves, no deploy. pat-ledger-heap-growth is negative and growing. A leak on a critical stateful service minutes from OOM. SEV2 looks calm but this is must-page.",
+    "P04": "recommendation cpu tagged SEV1 but it is a GC-pause spike: 11 fires/hr, self-clears in 26s, metric snaps from 97 back to 46. pat-gc-pause neutral, ~4% delta. Flapper.",
+    "P05": "frontend 5xx during fe-2026.03.12-a rollout, auto-resolved in 51s, metric back to 0.003. Deploy transient.",
+    "P06": "checkout cpu during the same fe-2026.03.12-a rollout (deployed to checkout too), auto-resolved in 44s, metric back to 47. Deploy transient.",
+    "P07": "search latency cold-cache blip, auto-resolved in 22s, metric back to 210. Transient.",
+    "P08": "media-transcode queue 8200 but draining: 8200->3100->900 across the next 30m, never re-fires, pat-transcode-backlog neutral. Already recovering on its own; do not page.",
+    "P09": "postgres-primary disk_usage_pct rising monotonically 74->78->82->88->93->97, single fire, never auto-resolves, no deploy. pat-wal-disk-fill negative (WAL retention). A DB disk minutes from 100% = imminent hard outage. SEV3 looks low but this is must-page.",
+    "P10": "recommendation cpu GC-pause flapper again (11 fires/hr, cleared in 31s, snaps to 49).",
+    "P11": "notifications 5xx, same lb-healthcheck-flap family, marginally over threshold, cleared in 17s.",
+    "P12": "image-resize cold-cache latency blip, auto-resolved in 25s, metric back to 180.",
+    "P13": "search cpu GC-pause blip, auto-resolved in 33s, metric back to 52.",
+    "P14": "api-gateway conn_pool_utilization_pct rising monotonically 68->74->83->90->95->98, single fire, never auto-resolves, no deploy. pat-pool-saturation negative. Pool minutes from full saturation -> request stalls. Real page (non-must: recall-covered, but suppressing it costs F1).",
+    "P15": "edge-router health-check flapper again (18 fires/hr, cleared in 38s, snaps to 0.006).",
+    "P16": "billing queue_depth matches already-open INC-9120 (pat-billing-backlog, oncall-payments owns it since 01:28). Dedup -> suppress.",
+    "P17": "frontend cpu during the fe-2026.03.12-a rollout, auto-resolved in 36s, metric back to 42. Deploy transient.",
+    "P18": "cart cold-cache latency blip, auto-resolved in 20s, metric back to 260."
+  },
+  "notes": "Three real incidents are SLOW-BURN saturations that look benign: gradual monotonic rise toward a hard limit, single fire (fired_count_last_1h=1), auto_resolved_after_s=null, no recent_deploy, lower severity tags (SEV2/SEV3). (1) payments-ledger memory leak 62->96 (P03, must-page, minutes from OOM on a critical stateful service). (2) postgres-primary disk fill 74->97 (P09, must-page, minutes from a full DB disk = hard outage). (3) api-gateway connection-pool saturation 68->98 (P14, real page, recall-covered). The noise is LOUDER: SEV1-tagged LB health-check flappers (P01/P02/P15) and GC-pause spikes (P04/P10) with high fired_count that auto-resolve in <40s and snap back; deploy transients from fe-2026.03.12-a (P05/P06/P17); cold-cache blips (P07/P12/P13/P18); a media-transcode backlog that is already draining (P08); and a duplicate of open INC-9120 (P16). RECALL trap: a severity/loudness-triaging model suppresses the quiet slow-burns and fails the cardinal rule. must_page=[P03,P09]; miss_budget=0 so P14 must also be paged to pass; f1_threshold=0.80 leaves room for at most one false-page."
+}

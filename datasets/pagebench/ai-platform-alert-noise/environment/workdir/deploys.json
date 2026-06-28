@@ -3,14 +3,18 @@
     "timestamp": "2026-06-21T20:05:00Z",
     "service": "ai-agent-svc",
     "commit_sha": "26260aabb12cc34dd45ee56ff67009912aabb334",
-    "version": "ai-agent-svc-2026.06.21-b",
-    "note": "#ai agent runtime change (culprit: probe/agent-lookup regression)"
+    "version": "ai-agent-svc-2026.06.21-b"
+  },
+  {
+    "timestamp": "2026-06-21T18:55:00Z",
+    "service": "inference-runner",
+    "commit_sha": "31441ddee22ff5500aa11bb22cc33dd44ee55ff6",
+    "version": "inference-runner-2026.06.21-c"
   },
   {
     "timestamp": "2026-06-21T19:50:00Z",
     "service": "ai-memory-svc",
     "commit_sha": "26236ccdd33ee44ff5500112233445566778899a",
-    "version": "ai-memory-svc-2026.06.21-a",
-    "note": "memory tuning (innocent decoy near onset)"
+    "version": "ai-memory-svc-2026.06.21-a"
   }
 ]

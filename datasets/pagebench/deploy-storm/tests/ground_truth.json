@@ -1,10 +1,11 @@
 {
   "scenario": "deploy-storm",
   "f1_threshold": 0.78,
-  "miss_budget": 0,
+  "miss_budget": 1,
   "positive_class": "page",
   "must_page": [
-    "D01"
+    "D01",
+    "D26"
   ],
   "labels": {
     "D01": "page",
@@ -31,34 +32,8 @@
     "D22": "suppress",
     "D23": "suppress",
     "D24": "suppress",
-    "D25": "suppress"
-  },
-  "rationale": {
-    "D01": "Real regression: deploy pg-2026.04.08-c at 14:30 leaks connections; error rate 27% and climbing, NEVER auto-resolved, pool-exhausted pattern at 22x baseline. This is the one bad deploy in the storm. SEV1 must page.",
-    "D02": "Deploy-correlated transient on fe-2026.04.08-a rollout; self-healed in 44s (pat-rollout-503). Expected churn during the deploy window.",
-    "D03": "Deploy-correlated transient on cart-2026.04.08-b rollout; self-healed in 37s (pat-rollout-503). Expected churn during the deploy window.",
-    "D04": "Deploy-correlated transient on search-2026.04.08-a rollout; self-healed in 33s (pat-cold-cache). Expected churn during the deploy window.",
-    "D05": "Deploy-correlated transient on orders-2026.04.08-a rollout; self-healed in 33s (pat-rollout-503). Expected churn during the deploy window.",
-    "D06": "Deploy-correlated transient on checkout-2026.04.08-a rollout; self-healed in 54s (pat-cold-cache). Expected churn during the deploy window.",
-    "D07": "Deploy-correlated transient on rec-2026.04.08-a rollout; self-healed in 49s (pat-gc-pause). Expected churn during the deploy window.",
-    "D08": "Deploy-correlated transient on fe-2026.04.08-a rollout; self-healed in 53s (pat-gc-pause). Expected churn during the deploy window.",
-    "D09": "Deploy-correlated transient on inv-2026.04.08-a rollout; self-healed in 33s (pat-cold-cache). Expected churn during the deploy window.",
-    "D10": "Deploy-correlated transient on notif-2026.04.08-a rollout; self-healed in 36s (pat-rollout-503). Expected churn during the deploy window.",
-    "D11": "Deploy-correlated transient on auth-2026.04.08-a rollout; self-healed in 32s (pat-cold-cache). Expected churn during the deploy window.",
-    "D12": "Deploy-correlated transient on cart-2026.04.08-b rollout; self-healed in 35s (pat-gc-pause). Expected churn during the deploy window.",
-    "D13": "Deploy-correlated transient on search-2026.04.08-a rollout; self-healed in 41s (pat-rollout-503). Expected churn during the deploy window.",
-    "D14": "Deploy-correlated transient on orders-2026.04.08-a rollout; self-healed in 34s (pat-gc-pause). Expected churn during the deploy window.",
-    "D15": "Deploy-correlated transient on checkout-2026.04.08-a rollout; self-healed in 41s (pat-rollout-503). Expected churn during the deploy window.",
-    "D16": "Deploy-correlated transient on inv-2026.04.08-a rollout; self-healed in 37s (pat-gc-pause). Expected churn during the deploy window.",
-    "D17": "Deploy-correlated transient on fe-2026.04.08-a rollout; self-healed in 46s (pat-gc-pause). Expected churn during the deploy window.",
-    "D18": "Deploy-correlated transient on rec-2026.04.08-a rollout; self-healed in 37s (pat-cold-cache). Expected churn during the deploy window.",
-    "D19": "Deploy-correlated transient on notif-2026.04.08-a rollout; self-healed in 46s (pat-gc-pause). Expected churn during the deploy window.",
-    "D20": "Deploy-correlated transient on auth-2026.04.08-a rollout; self-healed in 45s (pat-rollout-503). Expected churn during the deploy window.",
-    "D21": "Deploy-correlated transient on cart-2026.04.08-b rollout; self-healed in 51s (pat-gc-pause). Expected churn during the deploy window.",
-    "D22": "Deploy-correlated transient on search-2026.04.08-a rollout; self-healed in 34s (pat-gc-pause). Expected churn during the deploy window.",
-    "D23": "Chronic disk flapper, 14 fires/hr, clears on rotation in 19s. Not deploy related, still pure noise.",
-    "D24": "Marginal CPU blip on the agent, auto-resolved in 36s. Noise.",
-    "D25": "Same service/deploy as D01 but a cold-cache latency blip that self-healed in 49s BEFORE the pool leak manifested. Distinct from the real error-rate regression; do not double-page."
-  },
-  "notes": "Busy deploy window: 23 deploy-correlated transients + 2 flappers that self-heal, plus a same-service look-alike (D25) that recovered. Only D01 (payment-gateway pool leak from pg-2026.04.08-c) never self-heals and must page. The trap is over-suppressing D01 as 'just another deploy blip'."
+    "D25": "suppress",
+    "D26": "page",
+    "D27": "page"
+  }
 }

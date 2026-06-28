@@ -1,8 +1,8 @@
 # PageBench — node-event-noise
 
-18 Kubernetes-event alerts fired over a ~2.5-hour window. Most are normal Karpenter / PodDisruptionBudget operational meta-events — `Pdb prevents pod evictions`, `SpotToSpotConsolidation disabled`, `Unconsolidatable` NodePool notices, and routine `store validated` events — that are expected cluster behaviour, not incidents. Buried among them is a real `NodeNotReady` event that dropped cluster capacity. Decide who to wake up.
+23 Kubernetes alerts fired over a ~2.5-hour window. Most are normal Karpenter / PodDisruptionBudget operational meta-events — `Pdb prevents pod evictions`, `SpotToSpotConsolidation disabled`, `Unconsolidatable` NodePool notices, and routine `store validated` events — plus chronic log-threshold alerts, all expected cluster behaviour rather than incidents. Buried among them are a few genuinely actionable failures (node/capacity, pod, and customer-impact signals). Decide who to wake up.
 
-You are the on-call triage engineer. A batch of **18 fired alerts (pages)**
+You are the on-call triage engineer. A batch of **23 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
 **suppress** it as noise. Waking someone for noise burns trust and sleep; missing a real
 incident is far worse.
@@ -17,7 +17,7 @@ host, monitor, and identifier values are fictional stand-ins.
 | `pages.json` | The batch of fired alerts. Each object has: `id`, `service`, `monitor`, `metric`, `severity`, `fired_at`, `value`, `threshold`, `fired_count_last_1h` (how often this same alert fired in the past hour), `auto_resolved_after_s` (seconds until it self-cleared, or `null` if it never did), `related_pattern` (id into `patterns.json`), `recent_deploy` (version id into `deploys.json`, or `null`). |
 | `metrics.csv` | `timestamp,service,metric,value` — baseline and incident-window samples for the services that matter. |
 | `patterns.json` | Clustered log signatures with `count`, `delta_vs_baseline_pct`, `sentiment`. The truth-teller for whether something is actually breaking. |
-| `deploys.json` | Deploy events (`timestamp`, `service`, `commit_sha`, `version`). Some are innocent decoys near incident onset. |
+| `deploys.json` | Deploy events (`timestamp`, `service`, `commit_sha`, `version`). A deploy near an alert's onset may or may not be the cause — check the metric trend. |
 | `incidents_open.json` | Incidents a human is ALREADY working. A page that duplicates one of these should be suppressed. |
 
 You have shell tools (`jq`, `grep`, `cat`, …) to query the data. EdgeDelta's query

@@ -1,6 +1,6 @@
 # PageBench — warning-spike-transients
 
-14 WARN-level log-rate spikes fired over a ~2-hour window. Most are transient warning spikes (including the classic short-lived Workflow WARN bursts) that returned to healthy INFO within a minute — self-healed, no impact. Buried among them is one warning spike that is the LEADING EDGE of a real error cascade on http-receiver: it keeps climbing into HTTP 500s instead of healing. Decide who to wake up.
+Over a ~2-hour window, 14 alerts fired across your fleet — mostly WARN-level log-rate spikes, plus a few error-rate and saturation alerts. Some are genuine, actionable incidents; many are repeatedly firing warning spikes and transient blips that already cleared on their own, plus a correlated downstream symptom of a common root. Severity and a nearby deploy can mislead in both directions: a quiet-looking alert can be a real, climbing problem, and a scary-looking spike can already have recovered. Read the trend, not just the headline. Decide who to wake up.
 
 You are the on-call triage engineer. A batch of **14 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
@@ -17,7 +17,7 @@ host, monitor, and identifier values are fictional stand-ins.
 | `pages.json` | The batch of fired alerts. Each object has: `id`, `service`, `monitor`, `metric`, `severity`, `fired_at`, `value`, `threshold`, `fired_count_last_1h` (how often this same alert fired in the past hour), `auto_resolved_after_s` (seconds until it self-cleared, or `null` if it never did), `related_pattern` (id into `patterns.json`), `recent_deploy` (version id into `deploys.json`, or `null`). |
 | `metrics.csv` | `timestamp,service,metric,value` — baseline and incident-window samples for the services that matter. |
 | `patterns.json` | Clustered log signatures with `count`, `delta_vs_baseline_pct`, `sentiment`. The truth-teller for whether something is actually breaking. |
-| `deploys.json` | Deploy events (`timestamp`, `service`, `commit_sha`, `version`). Some are innocent decoys near incident onset. |
+| `deploys.json` | Deploy events (`timestamp`, `service`, `commit_sha`, `version`). Some land near an alert's onset without being its cause. |
 | `incidents_open.json` | Incidents a human is ALREADY working. A page that duplicates one of these should be suppressed. |
 
 You have shell tools (`jq`, `grep`, `cat`, …) to query the data. EdgeDelta's query
@@ -27,29 +27,24 @@ here is plain JSON/CSV, so use `jq`/`grep` to reason as if running CQL filters.
 
 ## How to think about it
 
-- **Flapping**: a high `fired_count_last_1h` that oscillates around its threshold and
-  self-clears fast is a chronic flapper, not an incident. The `[ignore]`-prefixed monitors
-  ("[ignore] Default Log Threshold Monitor") fire constantly across services and are noise
-  by design.
+- **Repeated firing**: a high `fired_count_last_1h` that oscillates around its threshold
+  and clears fast on its own is chronic churn, not an incident.
 - **Transient**: `auto_resolved_after_s` is small (tens of seconds) and the metric
-  returned to baseline → it already healed. Don't wake anyone.
-- **Operational meta-noise**: config-level and cost/budget warnings, normal Karpenter/PDB
-  operational events ("Pdb prevents pod evictions", "SpotToSpotConsolidation disabled",
-  "Unconsolidatable", "store validated"), and CI/test-failure alerts firing as incidents
-  are usually NOT a production outage.
+  returned to baseline → it already recovered. Don't wake anyone.
 - **Correlation / dedup**: multiple pages sharing the same `related_pattern` and a tight
   onset window are usually ONE incident — page the root, suppress the symptoms. A page
   matching an entry in `incidents_open.json` is already owned.
-- **The real one**: a sustained, non-self-resolving signal with a surging negative log
-  pattern and genuine production impact is the page that must wake a human — even when it
-  is buried under look-alike noise.
+- **Deploy churn vs. regression**: a deploy-correlated blip that recovers on its own is
+  expected; one that keeps climbing and never resolves is a regression.
+- **The quiet ones**: a small but monotonically rising metric that never auto-resolves
+  can be a genuine slow-burn incident even with no deploy to blame.
 
 ## Rules
 
-1. Decide each page independently into exactly one of: `page` (wake a human now — a real, actionable incident) or `suppress` (noise that should not page anyone).
+1. Decide each page independently into exactly one of: `page` (wake a human now — a genuine, actionable incident) or `suppress` (noise that should not page anyone).
 2. Be specific in `reason`: cite the evidence (auto-resolve time, fired_count, pattern delta, deploy correlation, open-incident dedup, monitor name) that drove the call.
-3. Do NOT speculate. If a page is genuinely ambiguous, fall back to the SAFE default: when a real, high-severity incident might be at stake, `page` it. Suppress only when the evidence clearly says noise.
-4. A real incident often fires SEVERAL correlated pages (root + downstream symptoms). Collapse correlated pages that share a root pattern and onset window into ONE page (the root); suppress the rest as duplicates.
+3. Do NOT speculate. If a page is genuinely ambiguous, fall back to the SAFE default: when a genuine, high-severity incident might be at stake, `page` it. Suppress only when the evidence clearly says noise.
+4. A genuine incident often fires SEVERAL correlated pages (root + downstream symptoms). Collapse correlated pages that share a root pattern and onset window into ONE page (the root); suppress the rest as duplicates.
 5. If a page duplicates an incident already in `incidents_open.json`, suppress it — a human is already engaged.
 
 ## Output — write these two files
@@ -68,15 +63,15 @@ here is plain JSON/CSV, so use `jq`/`grep` to reason as if running CQL filters.
    `"page"` or `"suppress"`.
 
 2. `/workdir/reasoning.md` — free-form notes: how you grouped correlated pages, what you
-   treated as noise and why, and which single incident (if any) you are confident is real.
+   treated as noise and why, and which incidents you are confident are real.
 
 ## How you are scored
 
 - Positive class = `page`. We compute precision / recall / **F1** against ground-truth
   labels. You must reach **F1 ≥ 0.80**.
-- **Cardinal rule**: there is at least one real, high-severity incident that MUST be
+- **Cardinal rule**: there is at least one genuine, high-severity incident that MUST be
   paged. Suppressing it scores **zero**, no matter how good your F1 is. When in doubt
-  about a real incident, page it.
+  about a genuine incident, page it.
 - Over-paging is penalized: every piece of noise you page hurts precision (and your
-  team's trust). The bar rewards waking humans for real incidents and *only* real
+  team's trust). The bar rewards waking humans for genuine incidents and *only* genuine
   incidents.

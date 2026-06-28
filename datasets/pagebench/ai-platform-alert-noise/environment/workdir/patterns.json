@@ -5,8 +5,23 @@
     "count": 1180,
     "delta_vs_baseline_pct": 1050,
     "sentiment": "negative",
-    "first_seen": "2026-06-21T20:13:50Z",
-    "note": "real AI runtime outage, never recovered"
+    "first_seen": "2026-06-21T20:13:50Z"
+  },
+  {
+    "pattern_id": "pat-inference-crashloop",
+    "signature": "inference-runner worker panic; CUDA context lost, process restart loop, 5xx to callers",
+    "count": 940,
+    "delta_vs_baseline_pct": 870,
+    "sentiment": "negative",
+    "first_seen": "2026-06-21T19:01:40Z"
+  },
+  {
+    "pattern_id": "pat-ai-memory-write-fail",
+    "signature": "ai-memory-svc write rejected; vector store commit failed, retry exhausted",
+    "count": 410,
+    "delta_vs_baseline_pct": 380,
+    "sentiment": "negative",
+    "first_seen": "2026-06-21T16:35:00Z"
   },
   {
     "pattern_id": "pat-llm-tokens",
@@ -14,17 +29,15 @@
     "count": 6,
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
-    "first_seen": "2026-06-21T16:00:00Z",
-    "note": "cost/usage warning, not an outage"
+    "first_seen": "2026-06-21T16:00:00Z"
   },
   {
     "pattern_id": "pat-spend-cap",
     "signature": "monthly spend approaching configured cap",
-    "count": 6,
+    "count": 8,
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
-    "first_seen": "2026-06-21T16:00:00Z",
-    "note": "budget governance signal, not degradation"
+    "first_seen": "2026-06-21T16:00:00Z"
   },
   {
     "pattern_id": "pat-log-threshold",
@@ -32,14 +45,21 @@
     "count": 17,
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
-    "first_seen": "2026-06-21T16:00:00Z",
-    "note": "[ignore] flapper"
+    "first_seen": "2026-06-21T16:00:00Z"
   },
   {
     "pattern_id": "pat-ai-cpu-blip",
     "signature": "CPU briefly over soft limit during model load",
     "count": 8,
     "delta_vs_baseline_pct": 5,
+    "sentiment": "neutral",
+    "first_seen": "2026-06-21T16:00:00Z"
+  },
+  {
+    "pattern_id": "pat-ai-gpu-blip",
+    "signature": "GPU memory briefly over soft limit during batch warmup",
+    "count": 22,
+    "delta_vs_baseline_pct": 4,
     "sentiment": "neutral",
     "first_seen": "2026-06-21T16:00:00Z"
   },

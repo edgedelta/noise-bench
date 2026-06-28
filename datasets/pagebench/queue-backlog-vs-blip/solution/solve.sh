@@ -9,102 +9,122 @@ cat > /workdir/triage.json <<'JSON'
     {
       "page_id": "P01",
       "decision": "page",
-      "reason": "Real sustained backlog: metric-ingest-queue-1 oldest-message age 1048s vs 300s, rising (810s->1048s) and NEVER draining, with pat-queue-stalled surging negative (SQS ack failures + downstream write 500s). This is the genuine queue-backlog incident, not a blip. Cardinal must-page."
+      "reason": "metric-ingest-queue-1 oldest-message age 1048s vs 300s, rising 810->1048->1290->1610 and never auto-resolving; pat-queue-stalled +980% negative. Sustained backlog, root incident."
     },
     {
       "page_id": "P02",
       "decision": "suppress",
-      "reason": "Transient queue blip on metric-ingestor-large (queue_oldest_msg_age_s marginally over threshold), drained on its own in 70s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise."
+      "reason": "metric-ingestor-large queue age 360 vs 300, auto-resolved in 70s, pat-queue-blip flat/neutral. Self-draining blip."
     },
     {
       "page_id": "P03",
       "decision": "suppress",
-      "reason": "Transient queue blip on metric-ingestor-large (queue_depth marginally over threshold), drained on its own in 55s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise."
+      "reason": "metric-ingestor-large queue_depth 5400 vs 5000, auto-resolved in 55s, pat-queue-blip flat/neutral. Self-draining blip."
     },
     {
       "page_id": "P04",
       "decision": "suppress",
-      "reason": "Transient queue blip on kafka-metric-ingestor (queue_oldest_msg_age_s marginally over threshold), drained on its own in 48s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise."
+      "reason": "kafka-metric-ingestor queue age 340 vs 300, auto-resolved in 48s, pat-queue-blip flat/neutral. Self-draining blip."
     },
     {
       "page_id": "P05",
       "decision": "suppress",
-      "reason": "Transient queue blip on auditlog-ingestor (queue_depth marginally over threshold), drained on its own in 62s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise."
+      "reason": "auditlog-ingestor queue_depth 5200 vs 5000, auto-resolved in 62s, pat-queue-blip flat/neutral. Self-draining blip."
     },
     {
       "page_id": "P06",
       "decision": "suppress",
-      "reason": "Transient queue blip on kafka-metric-ingestor (queue_oldest_msg_age_s marginally over threshold), drained on its own in 44s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise."
+      "reason": "kafka-metric-ingestor queue age 315 vs 300, auto-resolved in 44s, pat-queue-blip flat/neutral. Self-draining blip."
     },
     {
       "page_id": "P07",
       "decision": "suppress",
-      "reason": "Transient queue blip on metric-ingestor-large (queue_oldest_msg_age_s marginally over threshold), drained on its own in 66s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise."
+      "reason": "metric-ingestor-large queue age 370 vs 300, auto-resolved in 66s, pat-queue-blip flat/neutral. Self-draining blip."
     },
     {
       "page_id": "P08",
       "decision": "suppress",
-      "reason": "Transient queue blip on auditlog-ingestor (queue_oldest_msg_age_s marginally over threshold), drained on its own in 58s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise."
+      "reason": "auditlog-ingestor queue age 330 vs 300, auto-resolved in 58s, pat-queue-blip flat/neutral. Self-draining blip."
     },
     {
       "page_id": "P09",
       "decision": "suppress",
-      "reason": "Transient queue blip on kafka-metric-ingestor (queue_depth marginally over threshold), drained on its own in 51s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise."
+      "reason": "kafka-metric-ingestor queue_depth 5300 vs 5000, auto-resolved in 51s, pat-queue-blip flat/neutral. Self-draining blip."
     },
     {
       "page_id": "P10",
       "decision": "suppress",
-      "reason": "Transient queue blip on metric-ingestor-large (queue_depth marginally over threshold), drained on its own in 49s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise."
+      "reason": "metric-ingestor-large queue_depth 5150 vs 5000, auto-resolved in 49s, pat-queue-blip flat/neutral. Self-draining blip."
     },
     {
       "page_id": "P11",
       "decision": "suppress",
-      "reason": "[ignore] Default Log Threshold Monitor flapper on olapdb-tso: 18 fires/hr, self-clears in 19s. Noise."
+      "reason": "[ignore] Default Log Threshold Monitor on olapdb-tso, 18 fires/hr, auto-resolved in 19s, pat-log-threshold delta 0. Chronic flapper."
     },
     {
       "page_id": "P12",
       "decision": "suppress",
-      "reason": "[ignore] Default Log Threshold Monitor flapper on transformer: 20 fires/hr, self-clears in 22s. Noise."
+      "reason": "[ignore] Default Log Threshold Monitor on transformer, 20 fires/hr, auto-resolved in 22s, pat-log-threshold delta 0. Chronic flapper."
     },
     {
       "page_id": "P13",
       "decision": "suppress",
-      "reason": "Transient queue blip on auditlog-ingestor (queue_oldest_msg_age_s marginally over threshold), drained on its own in 53s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise."
+      "reason": "auditlog-ingestor queue age 320 vs 300, auto-resolved in 53s, pat-queue-blip flat/neutral. Self-draining blip."
     },
     {
       "page_id": "P14",
       "decision": "suppress",
-      "reason": "Transient queue blip on kafka-metric-ingestor (queue_depth marginally over threshold), drained on its own in 47s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise."
+      "reason": "kafka-metric-ingestor queue_depth 5250 vs 5000, auto-resolved in 47s, pat-queue-blip flat/neutral. Self-draining blip."
     },
     {
       "page_id": "P15",
       "decision": "suppress",
-      "reason": "Transient queue blip on metric-ingestor-large (queue_oldest_msg_age_s marginally over threshold), drained on its own in 60s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise."
+      "reason": "metric-ingestor-large queue age 350 vs 300, auto-resolved in 60s, pat-queue-blip flat/neutral. Self-draining blip."
     },
     {
       "page_id": "P16",
       "decision": "suppress",
-      "reason": "[ignore] Default Log Threshold Monitor flapper on olapdb-server: 16 fires/hr, self-clears in 18s. Noise."
+      "reason": "[ignore] Default Log Threshold Monitor on olapdb-server, 16 fires/hr, auto-resolved in 18s, pat-log-threshold delta 0. Chronic flapper."
     },
     {
       "page_id": "P17",
       "decision": "suppress",
-      "reason": "Transient queue blip on auditlog-ingestor (queue_depth marginally over threshold), drained on its own in 56s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise."
+      "reason": "auditlog-ingestor queue_depth 5180 vs 5000, auto-resolved in 56s, pat-queue-blip flat/neutral. Self-draining blip."
     },
     {
       "page_id": "P18",
       "decision": "suppress",
-      "reason": "Transient queue blip on kafka-metric-ingestor (queue_oldest_msg_age_s marginally over threshold), drained on its own in 42s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise."
+      "reason": "kafka-metric-ingestor queue age 310 vs 300, auto-resolved in 42s, pat-queue-blip flat/neutral. Self-draining blip."
     },
     {
       "page_id": "P19",
       "decision": "suppress",
-      "reason": "Downstream symptom of P01 (same pat-queue-stalled root): olapdb-vw-write 500s as the stalled queue blocks the write path. Collapse into the backlog incident."
+      "reason": "olapdb-vw-write 5xx, same pat-queue-stalled root and onset window as P01 (write path blocked by the stalled queue). Correlated symptom; collapse into P01."
     },
     {
       "page_id": "P20",
+      "decision": "page",
+      "reason": "metric-dlq-redrive-1 dlq_depth 2200 vs 500, rising 40->2200->6400->9100 and never auto-resolving; pat-consumer-crashloop +1700% negative, correlated to enrich-2026.06.20-c. DLQ fill from a crashlooping consumer, root incident."
+    },
+    {
+      "page_id": "P21",
       "decision": "suppress",
-      "reason": "Downstream symptom of P01 (same pat-queue-stalled root): DLQ depth growing on metric-dlq-1 as messages fail to drain. Collapse into the backlog incident."
+      "reason": "enrichment-consumer pod_restart_count 37 vs 5, same pat-consumer-crashloop root and enrich-2026.06.20-c deploy as P20. Correlated symptom; collapse into P20."
+    },
+    {
+      "page_id": "P22",
+      "decision": "page",
+      "reason": "kafka-trace-consumer consumer_lag_records 1.85M vs 200k, climbing 95k->1.85M->3.2M->4.9M and never auto-resolving; pat-consumer-lag-sustained +540% negative, no deploy to blame. Quiet but real sustained SLO breach."
+    },
+    {
+      "page_id": "P23",
+      "decision": "suppress",
+      "reason": "kafka-trace-consumer lag 240k vs 200k, auto-resolved in 38s (lag fell 240k->98k), 6 fires/hr, pat-queue-blip flat/neutral. Self-draining lag blip on the same service as P22, but it recovered."
+    },
+    {
+      "page_id": "P24",
+      "decision": "suppress",
+      "reason": "metric-ingestor-large queue age 345 vs 300, auto-resolved in 57s, pat-queue-blip flat/neutral. Self-draining blip."
     }
   ]
 }
@@ -113,9 +133,13 @@ JSON
 cat > /workdir/reasoning.md <<'MD'
 # Oracle reasoning — queue-backlog-vs-blip
 
-The single real, must-page incident is **P01**: a sustained, non-draining backlog on metric-ingest-queue-1 — oldest-message age rising 810s->1048s->1290s and never recovering, pat-queue-stalled surging negative (SQS ack failures + commitParts timeouts). P19 (olapdb-vw-write 500s) and P20 (DLQ depth growing) are downstream symptoms of the same stalled queue and collapse into P01. Every other queue alert is a transient blip that drained on its own within ~60s (pat-queue-blip, returns to baseline) plus [ignore] log flappers.
+Three independent real incidents must wake a human; everything else is self-draining noise or a correlated symptom.
 
-See `tests/ground_truth.json` rationale for the per-page justification.
+- **P01 (page, root):** metric-ingest-queue-1 oldest-message age rising 810->1048->1290->1610s and never recovering, pat-queue-stalled surging +980% negative. **P19** (olapdb-vw-write 5xx) is the same pat-queue-stalled root at the same onset — a downstream symptom of the stalled queue, suppressed as a duplicate of P01.
+- **P20 (page, root):** metric-dlq-redrive-1 DLQ depth rising 40->2200->6400->9100 and never draining, pat-consumer-crashloop +1700% negative, correlated to the enrich-2026.06.20-c deploy. **P21** (enrichment-consumer pod_restart_count 37) shares the same crashloop root + deploy and is suppressed as a symptom of P20.
+- **P22 (page, root):** kafka-trace-consumer consumer lag climbing 95k->1.85M->3.2M->4.9M, never auto-resolving, pat-consumer-lag-sustained +540% negative, with no deploy to blame. A quiet, slow-rising but genuine SLO breach. **P23** is the look-alike decoy: same service + metric, but a 240k blip that drained back to 98k in 38s (pat-queue-blip) — suppress.
+
+All remaining queue alerts (P02-P18 minus P11/P12/P16, plus P24) are pat-queue-blip: marginally over threshold and auto-resolved within ~40-70s. P11/P12/P16 are [ignore] log-threshold flappers. See `tests/ground_truth.json` rationale for the per-page justification.
 MD
 
 echo "wrote /workdir/triage.json and /workdir/reasoning.md"

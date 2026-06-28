@@ -1,8 +1,8 @@
 # PageBench — escalation-loopback-noise
 
-16 PagerDuty-related alerts fired over a ~3-hour window. Most are escalation-policy META noise — loop-back warnings where policy P7X2K9A re-routes to the same responder (config defect OPS-2031) and missed-ack reminders on transient staging CI that self-resolved. Buried among them is a genuine missed acknowledgement on a real, live SEV1 Platform API 5xx outage. Decide who to wake up.
+17 PagerDuty-related alerts fired over a ~3-hour window. Many are escalation-policy meta-events — loop-back warnings where policy P7X2K9A re-routes to the same responder, missed-ack reminders on transient staging CI, notification-delivery confirmations, and policy-config warnings. Other alerts come from production services. Decide who to wake up.
 
-You are the on-call triage engineer. A batch of **16 fired alerts (pages)**
+You are the on-call triage engineer. A batch of **17 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
 **suppress** it as noise. Waking someone for noise burns trust and sleep; missing a real
 incident is far worse.
@@ -17,7 +17,7 @@ host, monitor, and identifier values are fictional stand-ins.
 | `pages.json` | The batch of fired alerts. Each object has: `id`, `service`, `monitor`, `metric`, `severity`, `fired_at`, `value`, `threshold`, `fired_count_last_1h` (how often this same alert fired in the past hour), `auto_resolved_after_s` (seconds until it self-cleared, or `null` if it never did), `related_pattern` (id into `patterns.json`), `recent_deploy` (version id into `deploys.json`, or `null`). |
 | `metrics.csv` | `timestamp,service,metric,value` — baseline and incident-window samples for the services that matter. |
 | `patterns.json` | Clustered log signatures with `count`, `delta_vs_baseline_pct`, `sentiment`. The truth-teller for whether something is actually breaking. |
-| `deploys.json` | Deploy events (`timestamp`, `service`, `commit_sha`, `version`). Some are innocent decoys near incident onset. |
+| `deploys.json` | Deploy events (`timestamp`, `service`, `commit_sha`, `version`). Some land near an alert's onset without being its cause. |
 | `incidents_open.json` | Incidents a human is ALREADY working. A page that duplicates one of these should be suppressed. |
 
 You have shell tools (`jq`, `grep`, `cat`, …) to query the data. EdgeDelta's query
@@ -40,9 +40,12 @@ here is plain JSON/CSV, so use `jq`/`grep` to reason as if running CQL filters.
 - **Correlation / dedup**: multiple pages sharing the same `related_pattern` and a tight
   onset window are usually ONE incident — page the root, suppress the symptoms. A page
   matching an entry in `incidents_open.json` is already owned.
-- **The real one**: a sustained, non-self-resolving signal with a surging negative log
-  pattern and genuine production impact is the page that must wake a human — even when it
-  is buried under look-alike noise.
+- **Deploy churn vs. regression**: a deploy-correlated blip that returns to baseline is
+  expected; a signal that keeps climbing and never auto-resolves is a regression.
+- **The real ones**: a sustained, non-self-resolving signal with a surging negative log
+  pattern and genuine production impact must wake a human — even when it is buried under
+  look-alike noise, and even when its severity is low or it rises only gradually. There may
+  be more than one independent real incident in the batch.
 
 ## Rules
 

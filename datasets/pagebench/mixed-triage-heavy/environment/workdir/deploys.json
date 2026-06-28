@@ -1,0 +1,20 @@
+[
+  {
+    "timestamp": "2026-05-20T00:44:00Z",
+    "service": "frontend",
+    "commit_sha": "c4a7d10",
+    "version": "fe-2026.05.20-a"
+  },
+  {
+    "timestamp": "2026-05-20T01:54:00Z",
+    "service": "search-indexer",
+    "commit_sha": "7e2b985",
+    "version": "idx-2026.05.20-c"
+  },
+  {
+    "timestamp": "2026-05-19T23:50:00Z",
+    "service": "recommendation",
+    "commit_sha": "1d8f662",
+    "version": "rec-2026.05.19-d"
+  }
+]

@@ -11,3 +11,16 @@ timestamp,service,metric,value
 2026-04-08T14:36:00Z,search,p99_latency_ms,260.0
 2026-04-08T14:28:00Z,payment-gateway,p99_latency_ms,1100.0
 2026-04-08T14:30:00Z,payment-gateway,p99_latency_ms,230.0
+2026-04-08T14:35:00Z,orders,http_5xx_rate,0.07
+2026-04-08T14:37:00Z,orders,http_5xx_rate,0.004
+2026-04-08T14:45:00Z,orders,error_rate,0.003
+2026-04-08T14:47:00Z,orders,error_rate,0.14
+2026-04-08T14:50:00Z,orders,error_rate,0.18
+2026-04-08T15:00:00Z,orders,error_rate,0.23
+2026-04-08T14:30:00Z,session-service,token_validation_error_rate,0.002
+2026-04-08T14:40:00Z,session-service,token_validation_error_rate,0.04
+2026-04-08T14:45:00Z,session-service,token_validation_error_rate,0.07
+2026-04-08T14:55:00Z,session-service,token_validation_error_rate,0.11
+2026-04-08T15:05:00Z,session-service,token_validation_error_rate,0.15
+2026-04-08T14:30:00Z,auth,p99_latency_ms,910.0
+2026-04-08T14:33:00Z,auth,p99_latency_ms,240.0

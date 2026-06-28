@@ -4,7 +4,7 @@
     "service": "play-svc",
     "monitor": "Pod Eviction Monitor - K8s Event",
     "metric": "node_disk_pressure",
-    "severity": "SEV2",
+    "severity": "SEV1",
     "fired_at": "2026-06-20T15:16:27Z",
     "value": 1,
     "threshold": 1,
@@ -305,6 +305,34 @@
     "fired_count_last_1h": 5,
     "auto_resolved_after_s": 26,
     "related_pattern": "pat-disk-warn",
+    "recent_deploy": null
+  },
+  {
+    "id": "P23",
+    "service": "ingest-router",
+    "monitor": "Pod Eviction Monitor - K8s Event",
+    "metric": "node_disk_pressure",
+    "severity": "SEV1",
+    "fired_at": "2026-06-20T15:31:09Z",
+    "value": 1,
+    "threshold": 1,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-diskpressure-evict-7-88",
+    "recent_deploy": null
+  },
+  {
+    "id": "P24",
+    "service": "clickhouse-keeper",
+    "monitor": "PVC Capacity Monitor",
+    "metric": "pvc_used_pct",
+    "severity": "SEV1",
+    "fired_at": "2026-06-20T15:22:00Z",
+    "value": 100.0,
+    "threshold": 95.0,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-pvc-full-writefail",
     "recent_deploy": null
   }
 ]

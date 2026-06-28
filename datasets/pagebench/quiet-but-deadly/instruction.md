@@ -1,8 +1,8 @@
 # PageBench — quiet-but-deadly
 
-A quiet morning. Twelve alerts, almost all low-grade flaps and transients. One is a slow-burn real incident: an error rate creeping up for 40 minutes, never auto-resolving, with NO recent deploy to pin it on. It is easy to blame the one deploy in the window (which recovered) and ignore the quiet climb. Don't.
+A busy-looking morning. Eighteen alerts: most are low-grade flaps and brief transients, a couple look alarming but recover on their own within seconds, and a few are genuinely breaking. One breakage is loud and obvious; another is a quiet error rate creeping up for an hour with NO deploy to pin it on. It is easy to over-trust a severity tag and easy to dismiss a quiet climb. Do neither.
 
-You are the on-call triage engineer. A batch of **12 fired alerts (pages)**
+You are the on-call triage engineer. A batch of **18 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
 **suppress** it as noise. Waking someone for noise burns trust and sleep; missing a real
 incident is far worse.
@@ -14,7 +14,7 @@ incident is far worse.
 | `pages.json` | The batch of fired alerts. Each object has: `id`, `service`, `metric`, `severity`, `fired_at`, `value`, `threshold`, `fired_count_last_1h` (how often this same alert fired in the past hour), `auto_resolved_after_s` (seconds until it self-cleared, or `null` if it never did), `related_pattern` (id into `patterns.json`), `recent_deploy` (version id into `deploys.json`, or `null`). |
 | `metrics.csv` | `timestamp,service,metric,value` — baseline and incident-window samples for the services that matter. |
 | `patterns.json` | Clustered log signatures with `count`, `delta_vs_baseline_pct`, `sentiment`. The truth-teller for whether something is actually breaking. |
-| `deploys.json` | Deploy events (`timestamp`, `service`, `commit_sha`, `version`). Some are innocent decoys near incident onset. |
+| `deploys.json` | Deploy events (`timestamp`, `service`, `commit_sha`, `version`). Some land near an alert's onset without causing it. |
 | `incidents_open.json` | Incidents a human is ALREADY working. A page that duplicates one of these should be suppressed. |
 
 You have shell tools (`jq`, `grep`, `cat`, …) to query the data. EdgeDelta's query

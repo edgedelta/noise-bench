@@ -1,8 +1,8 @@
 # PageBench — ci-e2e-test-noise
 
-24 alerts fired across a CI-heavy morning. Most are CircleCI / Playwright e2e test-failure alerts (`hourly_playwright_sev0_*`) wired into PagerDuty as incidents — test-environment noise and flaky retries that self-resolve and should never page production on-call. The trap: ONE e2e failure is corroborated by real production error signal and reflects a genuine customer-facing web-app regression. Decide who to wake up.
+26 alerts fired across a CI-heavy morning. Most are CircleCI / Playwright e2e test-failure alerts (`hourly_playwright_sev0_*`) wired into PagerDuty as incidents — test-environment noise and flaky retries that self-resolve and should never page production on-call. The trap: a few of these alerts are corroborated by real production error signal and reflect genuine customer-facing regressions buried in the noise. Decide who to wake up.
 
-You are the on-call triage engineer. A batch of **24 fired alerts (pages)**
+You are the on-call triage engineer. A batch of **26 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
 **suppress** it as noise. Waking someone for noise burns trust and sleep; missing a real
 incident is far worse.

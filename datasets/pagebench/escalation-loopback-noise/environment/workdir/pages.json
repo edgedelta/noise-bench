@@ -211,16 +211,30 @@
   },
   {
     "id": "P16",
-    "service": "http-receiver",
-    "monitor": "Default Synthetic Monitor",
-    "metric": "error_rate",
+    "service": "ingest-gateway",
+    "monitor": "Ingest Gateway HTTP 5xx Error",
+    "metric": "http_5xx_rate",
     "severity": "SEV2",
-    "fired_at": "2026-06-23T18:22:00Z",
-    "value": 0.19,
+    "fired_at": "2026-06-23T17:05:00Z",
+    "value": 0.22,
     "threshold": 0.05,
     "fired_count_last_1h": 1,
     "auto_resolved_after_s": null,
-    "related_pattern": "pat-adminapi-5xx",
+    "related_pattern": "pat-ingest-5xx",
+    "recent_deploy": null
+  },
+  {
+    "id": "P17",
+    "service": "checkout-api",
+    "monitor": "Checkout API p99 Latency SLO",
+    "metric": "request_latency_p99_ms",
+    "severity": "SEV3",
+    "fired_at": "2026-06-23T16:30:00Z",
+    "value": 2180,
+    "threshold": 800,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-checkout-latency",
     "recent_deploy": null
   }
 ]

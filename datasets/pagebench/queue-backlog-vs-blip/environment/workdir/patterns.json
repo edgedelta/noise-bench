@@ -5,8 +5,23 @@
     "count": 1340,
     "delta_vs_baseline_pct": 980,
     "sentiment": "negative",
-    "first_seen": "2026-06-20T08:09:40Z",
-    "note": "real sustained backlog; consumer stalled, never drains"
+    "first_seen": "2026-06-20T08:09:40Z"
+  },
+  {
+    "pattern_id": "pat-consumer-crashloop",
+    "signature": "enrichment-consumer panic: nil map deref in enrich.v3 handler; pod CrashLoopBackOff; messages routed to DLQ",
+    "count": 910,
+    "delta_vs_baseline_pct": 1700,
+    "sentiment": "negative",
+    "first_seen": "2026-06-20T08:22:30Z"
+  },
+  {
+    "pattern_id": "pat-consumer-lag-sustained",
+    "signature": "kafka-trace-consumer group rebalancing repeatedly; partition lag climbing; offsets not committing",
+    "count": 670,
+    "delta_vs_baseline_pct": 540,
+    "sentiment": "negative",
+    "first_seen": "2026-06-20T07:38:00Z"
   },
   {
     "pattern_id": "pat-queue-blip",
@@ -14,8 +29,7 @@
     "count": 52,
     "delta_vs_baseline_pct": 5,
     "sentiment": "neutral",
-    "first_seen": "2026-06-20T07:00:00Z",
-    "note": "transient, self-drains within ~60s"
+    "first_seen": "2026-06-20T07:00:00Z"
   },
   {
     "pattern_id": "pat-log-threshold",
@@ -23,7 +37,6 @@
     "count": 18,
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
-    "first_seen": "2026-06-20T07:00:00Z",
-    "note": "[ignore] flapper"
+    "first_seen": "2026-06-20T07:00:00Z"
   }
 ]

@@ -13,8 +13,7 @@
     "count": 15,
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
-    "first_seen": "2026-03-12T01:00:00Z",
-    "note": "fires on every rotation cycle; chronic flapper"
+    "first_seen": "2026-03-12T01:00:00Z"
   },
   {
     "pattern_id": "pat-gc-pause",
@@ -30,8 +29,7 @@
     "count": 220,
     "delta_vs_baseline_pct": 30,
     "sentiment": "negative",
-    "first_seen": "2026-03-12T01:40:00Z",
-    "note": "already tracked under INC-8800"
+    "first_seen": "2026-03-12T01:40:00Z"
   },
   {
     "pattern_id": "pat-rollout-503",
@@ -56,5 +54,21 @@
     "delta_vs_baseline_pct": 8,
     "sentiment": "neutral",
     "first_seen": "2026-03-12T01:00:00Z"
+  },
+  {
+    "pattern_id": "pat-tls-cert-expired",
+    "signature": "tls: certificate has expired or is not yet valid",
+    "count": 2630,
+    "delta_vs_baseline_pct": 9999,
+    "sentiment": "negative",
+    "first_seen": "2026-03-12T01:36:40Z"
+  },
+  {
+    "pattern_id": "pat-oomkill-restart",
+    "signature": "container session-store OOMKilled; back-off restarting",
+    "count": 310,
+    "delta_vs_baseline_pct": 620,
+    "sentiment": "negative",
+    "first_seen": "2026-03-12T02:07:30Z"
   }
 ]

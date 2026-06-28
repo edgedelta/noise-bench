@@ -3,72 +3,72 @@
     {
       "page_id": "P01",
       "decision": "page",
-      "reason": "Real error cascade leading edge: http-receiver warn_log_rate 340 vs 100, never auto-resolved, and pat-httprecv-cascade is surging negative (warns escalating into HTTP 500 errors) right after the http-receiver-2026.06.22-c deploy. Unlike the self-healing warn spikes, this one keeps climbing into a real error cascade. Cardinal must-page."
+      "reason": "http-receiver warn_log_rate is the leading edge of a real cascade: 340 then 510 vs threshold 100, never auto-resolved, pat-httprecv-cascade surging 640% negative into HTTP 500s and still live at 13:41. Keeps climbing instead of returning to its 40 baseline. Cardinal must-page."
     },
     {
       "page_id": "P02",
-      "decision": "suppress",
-      "reason": "Transient Workflow WARN spike (AgenticLoopService/runMainLoop ctx.run) that returned to healthy INFO in 45s \u2014 the real 'application-warning-spike' pattern. Narrow transient, not a sustained outage."
+      "decision": "page",
+      "reason": "edge-ingest-gateway http_5xx_rate 0.31 vs 0.05 and climbing 0.31 -> 0.38 -> 0.44, never auto-resolved, pat-edgegw-5xx surging 920% negative. Sustained SEV1 5xx outage; the deploy 4m earlier does not exonerate it because the rate keeps rising. Cardinal must-page."
     },
     {
       "page_id": "P03",
-      "decision": "suppress",
-      "reason": "Warning-level spike on Platform API that self-healed in 30s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+      "decision": "page",
+      "reason": "olapdb-server mem_used_pct climbs 71 -> 88 -> 92 -> 95 -> 97 over two hours, never auto-resolves, pat-olap-mem-climb negative and still live. Slow no-deploy saturation that looks quiet (SEV3, one fire) but never recovers and will OOM. Real."
     },
     {
       "page_id": "P04",
       "decision": "suppress",
-      "reason": "Transient Workflow WARN spike (AgenticLoopService/runMainLoop ctx.run) that returned to healthy INFO in 52s \u2014 the real 'application-warning-spike' pattern. Narrow transient, not a sustained outage."
+      "reason": "transformer error_rate shares pat-httprecv-cascade with P01 and fires 13min later on the same http-receiver failure path. Downstream symptom of the P01 cascade; collapse into it."
     },
     {
       "page_id": "P05",
       "decision": "suppress",
-      "reason": "Warning-level spike on transformer that self-healed in 38s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+      "reason": "inference-runner warn 180 dropped to 35 one minute later; auto_resolved in 45s, pat-workflow-warn-transient neutral 12%. Self-cleared transient."
     },
     {
       "page_id": "P06",
       "decision": "suppress",
-      "reason": "Warning-level spike on olapdb-server that self-healed in 27s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+      "reason": "Platform API warn on an [ignore]-prefixed monitor, fired_count 8, auto_resolved in 30s, pat-warn-transient neutral 6%. Chronic flapper noise."
     },
     {
       "page_id": "P07",
       "decision": "suppress",
-      "reason": "Transient Workflow WARN spike (AgenticLoopService/runMainLoop ctx.run) that returned to healthy INFO in 41s \u2014 the real 'application-warning-spike' pattern. Narrow transient, not a sustained outage."
+      "reason": "workflow-engine warn 210 dropped to 42 one minute later; auto_resolved in 52s, pat-workflow-warn-transient neutral. Self-cleared transient."
     },
     {
       "page_id": "P08",
       "decision": "suppress",
-      "reason": "Warning-level spike on kafka-metric-ingestor that self-healed in 33s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+      "reason": "transformer warn auto_resolved in 38s, pat-warn-transient neutral 6%. Returned to baseline. Noise."
     },
     {
       "page_id": "P09",
       "decision": "suppress",
-      "reason": "Warning-level spike on Platform API that self-healed in 29s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+      "reason": "olapdb-tso warn on an [ignore]-prefixed monitor, fired_count 9, auto_resolved in 27s. Chronic flapper. Noise."
     },
     {
       "page_id": "P10",
       "decision": "suppress",
-      "reason": "Warning-level spike on dashboard-svc that self-healed in 22s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+      "reason": "inference-runner warn auto_resolved in 41s, pat-workflow-warn-transient neutral. Self-cleared transient."
     },
     {
       "page_id": "P11",
       "decision": "suppress",
-      "reason": "Warning-level spike on olapdb-tso that self-healed in 48s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+      "reason": "kafka-metric-ingestor warn auto_resolved in 33s, pat-warn-transient neutral. Noise."
     },
     {
       "page_id": "P12",
       "decision": "suppress",
-      "reason": "Warning-level spike on auditlog-ingestor that self-healed in 31s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+      "reason": "Platform API warn on an [ignore]-prefixed monitor, fired_count 8, auto_resolved in 29s. Chronic flapper. Noise."
     },
     {
       "page_id": "P13",
       "decision": "suppress",
-      "reason": "Warning-level spike on transformer that self-healed in 36s and returned to baseline (pat-warn-transient flat/neutral). Transient, no error cascade. Noise."
+      "reason": "dashboard-svc warn auto_resolved in 22s, pat-warn-transient neutral. Noise."
     },
     {
       "page_id": "P14",
       "decision": "suppress",
-      "reason": "Downstream symptom of P01 (same pat-httprecv-cascade root, onset +13min): transformer error_rate climbing on the http-receiver failure path. Collapse into the cascade incident."
+      "reason": "auditlog-ingestor warn on an [ignore]-prefixed monitor, fired_count 7, auto_resolved in 31s. Chronic flapper. Noise."
     }
   ]
 }

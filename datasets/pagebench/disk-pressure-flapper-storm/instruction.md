@@ -1,8 +1,8 @@
 # PageBench — disk-pressure-flapper-storm
 
-Over a ~2.5-hour window, 22 alerts fired across the fleet. Most are the chronic `[ignore] Default Log Threshold Monitor` flapping across services and disk-usage warnings on nodes that self-resolve on log rotation. Buried among them is a real Kubernetes node DiskPressure event with active pod-eviction risk. Decide who to wake up.
+Over a ~2.5-hour window, 24 alerts fired across the fleet. Most are the chronic `[ignore] Default Log Threshold Monitor` flapping across services and disk-usage warnings on nodes that self-resolve on log rotation. Buried among them are a few genuinely actionable incidents — Kubernetes node DiskPressure with active pod-eviction risk, and a storage volume that has run out of space. Decide who to wake up.
 
-You are the on-call triage engineer. A batch of **22 fired alerts (pages)**
+You are the on-call triage engineer. A batch of **24 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
 **suppress** it as noise. Waking someone for noise burns trust and sleep; missing a real
 incident is far worse.

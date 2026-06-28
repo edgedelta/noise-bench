@@ -1,0 +1,51 @@
+{
+  "scenario": "maintenance-window-masking",
+  "f1_threshold": 0.8,
+  "miss_budget": 1,
+  "positive_class": "page",
+  "must_page": [
+    "M03",
+    "M09"
+  ],
+  "labels": {
+    "M01": "suppress",
+    "M02": "suppress",
+    "M03": "page",
+    "M04": "suppress",
+    "M05": "suppress",
+    "M06": "suppress",
+    "M07": "suppress",
+    "M08": "suppress",
+    "M09": "page",
+    "M10": "suppress",
+    "M11": "suppress",
+    "M12": "suppress",
+    "M13": "suppress",
+    "M14": "suppress",
+    "M15": "page",
+    "M16": "suppress",
+    "M17": "suppress",
+    "M18": "suppress"
+  },
+  "rationale": {
+    "M01": "checkout 5xx during the node-pool drain (pat-conn-drain, in maintenance scope). Spiked to 0.14 then fell to 0.006 by 01:12; auto_resolved in 95s. Expected, time-boxed maintenance blast. Suppress.",
+    "M02": "inventory read-only-transaction errors (pat-migrate-readonly, in scope) from the schema migration. 0.21 -> 0.02 within minutes, auto_resolved 120s. Expected migration churn covered by CHG-5521. Suppress.",
+    "M03": "cdn-edge origin_error_rate 0.61 -> 0.72, NOT in the maintenance scope, no recent_deploy, pat-origin-5xx surging 9999x and never auto-resolves (still rising at 02:55). A genuine outage that has nothing to do with the window. SEV1 must-page.",
+    "M04": "orders-db connection_errors during migration (pat-migrate-readonly, in scope). 0.33 -> 0.03 in ~3 min, auto_resolved 110s. Expected drain. Suppress.",
+    "M05": "payments-worker queue_depth bump from the node drain (pat-conn-drain, in scope). 8200 -> 1400, auto_resolved 140s. Expected, recovered. Suppress.",
+    "M06": "checkout p99 latency during drain (pat-conn-drain, in scope). 1450 -> 280, auto_resolved 88s. Expected, recovered. Suppress.",
+    "M07": "inventory p99 latency during migration (pat-migrate-readonly, in scope). 2100 -> 320, auto_resolved 105s. Expected, recovered. Suppress.",
+    "M08": "log-archiver disk oscillation, 14 fires/hr, clears in 21s on rotation; matches already-tracked INC-9120. Suppress.",
+    "M09": "orders-db replication_lag IS an in-scope service, but the trend EXCEEDS the expected maintenance blast: lag climbs 140 -> 380 -> 690 -> 910s and never recovers, and the pattern is pat-repl-stall (replication stalled, 2400x, negative), NOT the benign pat-migrate-readonly that the other in-scope alerts recover from. A real regression introduced by the migration that is not self-healing. SEV1 must-page.",
+    "M10": "checkout 5xx sharing pat-repl-stall with M09, fired ~90s after it, climbing and never resolving. Downstream symptom of the M09 replication-stall incident. Collapse into M09; suppress as duplicate.",
+    "M11": "payments-worker error_rate sharing pat-repl-stall with M09, fired ~2 min after it, climbing. Downstream symptom of the M09 incident. Collapse into M09; suppress as duplicate.",
+    "M12": "recommendation cpu blip from the pre-window rec-2026.04.07-e deploy (pat-gc-pause). 92 -> 48 the next minute, auto_resolved 36s. Outside the window and self-healed. Suppress.",
+    "M13": "inventory read-only errors (pat-migrate-readonly, in scope), 0.18 -> 0.003, auto_resolved 115s. Another expected migration oscillation. Suppress.",
+    "M14": "checkout 5xx during drain (pat-conn-drain, in scope), 0.12 then recovered, auto_resolved 92s. Expected maintenance blast. Suppress.",
+    "M15": "search-indexer memory_pct 91 and rising 79 -> 91 -> 95 -> 98, NOT in maintenance scope, no deploy, pat-heap-growth negative, never auto-resolves. A quiet slow-burn leak independent of the window. Real SEV2; page. Non-must (recall-covered).",
+    "M16": "payments-worker queue_depth bump from drain (pat-conn-drain, in scope), 7600 -> 1300, auto_resolved 130s. Expected, recovered. Suppress.",
+    "M17": "log-archiver disk oscillation again, clears in 19s; INC-9120. Suppress.",
+    "M18": "orders-db connection_errors (pat-migrate-readonly, in scope) at 02:02, 0.29 -> 0.02, auto_resolved 118s. Late-window migration drain, recovered. Suppress."
+  },
+  "notes": "An announced maintenance window (CHG-5521: schema migration maint-2026.04.08-dbmigrate + blue node-pool upgrade maint-2026.04.08-nodeupgrade, 01:00-03:00Z, scope = orders-db/checkout/inventory/payments-worker) produces ~12 EXPECTED benign alerts on in-scope services. Each carries a maintenance recent_deploy, a benign maintenance pattern (pat-migrate-readonly / pat-conn-drain, neutral sentiment), a short auto_resolved_after_s, and a metric trend that spikes then RECOVERS to baseline -> suppress. Three real page-class incidents hide in the noise: (a) M03 cdn-edge, a service OUTSIDE the maintenance scope with a genuine origin outage (must-page SEV1); (b) M09 orders-db replication-stall, an IN-SCOPE service whose alert EXCEEDS the expected blast -- pat-repl-stall (not the benign migrate-readonly), lag climbing unbounded and never recovering (must-page SEV1, with M10/M11 as downstream symptoms suppressed as duplicates); (c) M15 search-indexer, a quiet independent SEV2 heap leak unrelated to the window (page, non-must). A model that suppresses everything 'because maintenance' misses M03/M09/M15 (cardinal + recall fail); a model that pages all maintenance churn over-pages and fails F1. must_page = [M03, M09]; miss_budget 1 tolerates dropping the quiet M15 but it costs F1."
+}

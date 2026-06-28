@@ -1,0 +1,94 @@
+{
+  "decisions": [
+    {
+      "page_id": "M01",
+      "decision": "suppress",
+      "reason": "checkout 5xx during the node-pool drain (pat-conn-drain, in maintenance scope). 0.14 -> 0.006 by 01:12, auto_resolved 95s. Expected, time-boxed maintenance blast."
+    },
+    {
+      "page_id": "M02",
+      "decision": "suppress",
+      "reason": "inventory read-only-transaction errors (pat-migrate-readonly, in scope) from the schema migration. 0.21 -> 0.02, auto_resolved 120s. Expected migration churn under CHG-5521."
+    },
+    {
+      "page_id": "M03",
+      "decision": "page",
+      "reason": "cdn-edge origin_error_rate 0.61 -> 0.72, NOT in maintenance scope, no deploy, pat-origin-5xx surging 9999x, never auto-resolves. Genuine origin outage unrelated to the window. SEV1."
+    },
+    {
+      "page_id": "M04",
+      "decision": "suppress",
+      "reason": "orders-db connection_errors during migration (pat-migrate-readonly, in scope). 0.33 -> 0.03, auto_resolved 110s. Expected drain."
+    },
+    {
+      "page_id": "M05",
+      "decision": "suppress",
+      "reason": "payments-worker queue_depth from node drain (pat-conn-drain, in scope). 8200 -> 1400, auto_resolved 140s. Expected, recovered."
+    },
+    {
+      "page_id": "M06",
+      "decision": "suppress",
+      "reason": "checkout p99 latency during drain (pat-conn-drain, in scope). 1450 -> 280, auto_resolved 88s. Expected, recovered."
+    },
+    {
+      "page_id": "M07",
+      "decision": "suppress",
+      "reason": "inventory p99 latency during migration (pat-migrate-readonly, in scope). 2100 -> 320, auto_resolved 105s. Expected, recovered."
+    },
+    {
+      "page_id": "M08",
+      "decision": "suppress",
+      "reason": "log-archiver disk oscillation, 14 fires/hr, clears in 21s on rotation; matches already-tracked INC-9120."
+    },
+    {
+      "page_id": "M09",
+      "decision": "page",
+      "reason": "orders-db replication_lag is in scope BUT exceeds the expected blast: lag climbs 140 -> 380 -> 690 -> 910s and never recovers, pattern is pat-repl-stall (2400x, negative), NOT the benign pat-migrate-readonly the other in-scope alerts recover from. Real regression riding the migration. SEV1."
+    },
+    {
+      "page_id": "M10",
+      "decision": "suppress",
+      "reason": "checkout 5xx sharing pat-repl-stall with M09, fired ~90s later, climbing and never resolving. Downstream symptom of the M09 replication-stall incident; collapse into M09."
+    },
+    {
+      "page_id": "M11",
+      "decision": "suppress",
+      "reason": "payments-worker error_rate sharing pat-repl-stall with M09, fired ~2 min later, climbing. Downstream symptom of the M09 incident; collapse into M09."
+    },
+    {
+      "page_id": "M12",
+      "decision": "suppress",
+      "reason": "recommendation cpu blip from the pre-window rec-2026.04.07-e deploy (pat-gc-pause). 92 -> 48 next minute, auto_resolved 36s. Outside the window, self-healed."
+    },
+    {
+      "page_id": "M13",
+      "decision": "suppress",
+      "reason": "inventory read-only errors (pat-migrate-readonly, in scope), 0.18 -> 0.003, auto_resolved 115s. Another expected migration oscillation."
+    },
+    {
+      "page_id": "M14",
+      "decision": "suppress",
+      "reason": "checkout 5xx during drain (pat-conn-drain, in scope), 0.12 then recovered, auto_resolved 92s. Expected maintenance blast."
+    },
+    {
+      "page_id": "M15",
+      "decision": "page",
+      "reason": "search-indexer memory 91 and rising 79 -> 91 -> 95 -> 98, NOT in maintenance scope, no deploy, pat-heap-growth negative, never auto-resolves. Quiet slow-burn leak independent of the window. SEV2."
+    },
+    {
+      "page_id": "M16",
+      "decision": "suppress",
+      "reason": "payments-worker queue_depth from drain (pat-conn-drain, in scope), 7600 -> 1300, auto_resolved 130s. Expected, recovered."
+    },
+    {
+      "page_id": "M17",
+      "decision": "suppress",
+      "reason": "log-archiver disk oscillation again, clears in 19s; INC-9120."
+    },
+    {
+      "page_id": "M18",
+      "decision": "suppress",
+      "reason": "orders-db connection_errors (pat-migrate-readonly, in scope) at 02:02, 0.29 -> 0.02, auto_resolved 118s. Late-window migration drain, recovered."
+    }
+  ]
+}

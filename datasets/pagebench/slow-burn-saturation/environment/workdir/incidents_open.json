@@ -1,0 +1,12 @@
+[
+  {
+    "incident_id": "INC-9120",
+    "service": "billing",
+    "metric": "queue_depth",
+    "opened_at": "2026-03-12T01:28:00Z",
+    "status": "investigating",
+    "owner": "oncall-payments",
+    "related_pattern": "pat-billing-backlog",
+    "summary": "Billing worker backlog; consumer lag growing since 01:20."
+  }
+]

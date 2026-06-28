@@ -5,8 +5,23 @@
     "count": 980,
     "delta_vs_baseline_pct": 800,
     "sentiment": "negative",
-    "first_seen": "2026-06-24T11:41:30Z",
-    "note": "real prod regression, customer-facing, never recovered"
+    "first_seen": "2026-06-24T11:41:30Z"
+  },
+  {
+    "pattern_id": "pat-api-prod-5xx",
+    "signature": "HTTP 503 from platform-api /v1/query; upstream connection pool exhausted post platform-api-2026.06.24-rel",
+    "count": 612,
+    "delta_vs_baseline_pct": 540,
+    "sentiment": "negative",
+    "first_seen": "2026-06-24T10:35:20Z"
+  },
+  {
+    "pattern_id": "pat-ingest-backlog",
+    "signature": "ingest consumer lag growing; partition offsets falling behind producer on data-pipeline",
+    "count": 1340,
+    "delta_vs_baseline_pct": 210,
+    "sentiment": "negative",
+    "first_seen": "2026-06-24T08:54:30Z"
   },
   {
     "pattern_id": "pat-ci-staging",
@@ -14,8 +29,7 @@
     "count": 28,
     "delta_vs_baseline_pct": 6,
     "sentiment": "neutral",
-    "first_seen": "2026-06-24T08:00:00Z",
-    "note": "staging CI failures, no app degradation; self-resolve"
+    "first_seen": "2026-06-24T08:00:00Z"
   },
   {
     "pattern_id": "pat-e2e-flaky",
@@ -23,8 +37,7 @@
     "count": 22,
     "delta_vs_baseline_pct": 8,
     "sentiment": "neutral",
-    "first_seen": "2026-06-24T08:00:00Z",
-    "note": "flaky e2e, passes on retry; test instability"
+    "first_seen": "2026-06-24T08:00:00Z"
   },
   {
     "pattern_id": "pat-log-threshold",
@@ -32,7 +45,6 @@
     "count": 16,
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
-    "first_seen": "2026-06-24T08:00:00Z",
-    "note": "[ignore] flapper"
+    "first_seen": "2026-06-24T08:00:00Z"
   }
 ]

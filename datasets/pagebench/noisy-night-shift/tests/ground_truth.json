@@ -1,10 +1,11 @@
 {
   "scenario": "noisy-night-shift",
   "f1_threshold": 0.8,
-  "miss_budget": 0,
+  "miss_budget": 1,
   "positive_class": "page",
   "must_page": [
-    "P01"
+    "P01",
+    "P12"
   ],
   "labels": {
     "P01": "page",
@@ -18,37 +19,39 @@
     "P09": "suppress",
     "P10": "suppress",
     "P11": "suppress",
-    "P12": "suppress",
+    "P12": "page",
     "P13": "suppress",
     "P14": "suppress",
     "P15": "suppress",
     "P16": "suppress",
-    "P17": "suppress",
+    "P17": "page",
     "P18": "suppress",
     "P19": "suppress",
-    "P20": "suppress"
+    "P20": "suppress",
+    "P21": "suppress"
   },
   "rationale": {
-    "P01": "Primary replication lag 420s >> 30s threshold, never auto-resolved, connection-refused pattern surging 14x baseline. Root of the cascade. SEV1.",
+    "P01": "Primary replication lag 420s and still climbing (510s at 02:40), never auto-resolved, connection-refused pattern surging 14x baseline. Root of the DB cascade. SEV1 must-page.",
     "P02": "Downstream symptom of P01 (same pat-db-conn-refused, onset 40s after the DB page). Collapse into the DB incident; do not page separately.",
     "P03": "Downstream symptom of P01 (DB-bound query latency, same root pattern). Duplicate of the DB cascade incident.",
     "P04": "Downstream symptom of P01, same root pattern. Part of the one DB incident.",
-    "P05": "Chronic flapper: 15 fires in the last hour, oscillates around the 85% threshold and self-clears in ~22s on log rotation. Pure noise.",
-    "P06": "Transient CPU blip, auto-resolved in 41s (GC pause). Below page-worthy duration.",
-    "P07": "Transient CPU blip, auto-resolved in 28s. Self-healed, no customer impact.",
-    "P08": "Duplicate of already-open incident INC-8800 (billing queue backlog) in incidents_open.json. A human is already engaged; do not re-page.",
-    "P09": "Brief 5xx bump during fe-2026.03.12-a rollout, auto-resolved in 47s once pods finished rolling. Expected deploy transient.",
-    "P10": "Marginally over threshold during scheduled batch drain, cleared in 19s. Routine.",
-    "P11": "Cold-cache latency blip, self-resolved in 33s. Noise.",
-    "P12": "Single marginal CPU blip, auto-resolved in 52s. Noise.",
-    "P13": "Same disk flapper as P05, another oscillation. Noise.",
-    "P14": "Memory ticked over during GC, recovered in 60s. Noise.",
-    "P15": "Cold-cache latency blip, recovered in 24s. Noise.",
-    "P16": "Post-deploy CPU settle, auto-resolved in 38s. Expected.",
-    "P17": "Brief memory blip, recovered in 45s. Noise.",
-    "P18": "Minor 5xx flicker, self-cleared in 21s. Noise.",
-    "P19": "Transient CPU blip, auto-resolved in 30s. Noise.",
-    "P20": "Disk flapper oscillation (see P05). Noise."
+    "P05": "15 fires in the last hour, oscillates around the 85% threshold and self-clears in ~22s on log rotation; metric returns to 83. Chronic flapping.",
+    "P06": "CPU blip auto-resolved in 41s (GC pause); metric back to 44 the next minute. Below page-worthy duration.",
+    "P07": "CPU blip auto-resolved in 28s. Self-cleared, no sustained impact.",
+    "P08": "Matches already-open incident INC-8800 (billing queue backlog) in incidents_open.json. A human is already engaged; do not re-page.",
+    "P09": "5xx bump during fe-2026.03.12-a rollout, auto-resolved in 47s once pods finished; metric back to 0.003. Deploy transient.",
+    "P10": "Marginally over threshold during batch drain, cleared in 19s. Routine.",
+    "P11": "Cold-cache latency blip, self-resolved in 33s.",
+    "P12": "Auth login failures 0.92 vs 0.05 threshold, never auto-resolved, still 0.96 at 02:30; pat-tls-cert-expired pattern surges from ~zero baseline. Independent SEV1 (expired TLS cert) blocking logins; no deploy to blame. Must-page.",
+    "P13": "Same disk flapper as P05, another oscillation (15 fires/hr, cleared in 18s).",
+    "P14": "Downstream symptom of P12: api-gateway 401 surge sharing pat-tls-cert-expired, onset within ~80s of P12. Collapse into the auth cert incident.",
+    "P15": "Cold-cache latency blip, recovered in 24s.",
+    "P16": "Post-deploy CPU settle (fe-2026.03.12-a), auto-resolved in 38s.",
+    "P17": "session-store memory pinned at 99% (rose 71->99, no recovery), pat-oomkill-restart pattern, never auto-resolved. Real SEV2 OOM/restart loop on a stateful worker. Page (root of the OOM incident).",
+    "P18": "Minor 5xx flicker, self-cleared in 21s.",
+    "P19": "CPU blip auto-resolved in 30s.",
+    "P20": "Disk flapper oscillation (see P05), cleared in 20s.",
+    "P21": "Downstream symptom of P17: session-store pod_restart_count climbing, same pat-oomkill-restart root and onset window. Duplicate of the OOM incident; suppress."
   },
-  "notes": "Real DB cascade = one incident (P01 root; P02-P04 symptoms suppressed as duplicates). All other pages are flaps, transients, a known-open duplicate (P08/INC-8800), or a self-healed deploy blip."
+  "notes": "Three independent real incidents among the noise. (1) DB cascade: P01 root (SEV1, must-page); P02-P04 are symptoms suppressed as duplicates. (2) Auth TLS cert expiry: P12 root (SEV1, must-page); P14 is the api-gateway symptom suppressed as a duplicate. (3) session-store OOM/restart loop: P17 root (SEV2, page); P21 is the restart-count symptom suppressed. All other pages are disk flappers, sub-minute auto-resolved transients, a self-healed deploy blip, or a duplicate of already-open INC-8800. must_page is the two SEV1 roots (P01, P12); P17 is a non-must real incident covered by recall (miss_budget 1 tolerates a conservative model dropping it, but doing so costs F1)."
 }

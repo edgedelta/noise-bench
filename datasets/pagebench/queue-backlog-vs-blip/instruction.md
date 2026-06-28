@@ -1,8 +1,8 @@
 # PageBench — queue-backlog-vs-blip
 
-20 ingestion-queue alerts fired over a ~2.5-hour window across the olapdb ingestion path. Most are transient queue-depth / oldest-message-age blips that marginally crossed threshold and drained on their own within a minute. Buried among them is ONE sustained, non-draining backlog on `metric-ingest-queue-1` whose oldest message keeps aging and is blocking the write path. Decide who to wake up.
+24 ingestion-queue alerts fired over a ~3-hour window across the olapdb ingestion path. Most are transient queue-depth / oldest-message-age blips that marginally crossed threshold and drained on their own within a minute. Buried among them are a handful of sustained, non-draining problems whose backing metrics keep climbing and never recover. Decide who to wake up.
 
-You are the on-call triage engineer. A batch of **20 fired alerts (pages)**
+You are the on-call triage engineer. A batch of **24 fired alerts (pages)**
 is waiting in `/workdir/pages.json`. For each one you must decide: **page** a human, or
 **suppress** it as noise. Waking someone for noise burns trust and sleep; missing a real
 incident is far worse.
@@ -40,9 +40,10 @@ here is plain JSON/CSV, so use `jq`/`grep` to reason as if running CQL filters.
 - **Correlation / dedup**: multiple pages sharing the same `related_pattern` and a tight
   onset window are usually ONE incident — page the root, suppress the symptoms. A page
   matching an entry in `incidents_open.json` is already owned.
-- **The real one**: a sustained, non-self-resolving signal with a surging negative log
-  pattern and genuine production impact is the page that must wake a human — even when it
-  is buried under look-alike noise.
+- **The real ones**: a sustained, non-self-resolving signal with a surging negative log
+  pattern and genuine production impact is a page that must wake a human — even when it
+  is buried under look-alike noise, and even when its severity looks modest or its rise is
+  slow. There can be more than one such incident in a single batch.
 
 ## Rules
 

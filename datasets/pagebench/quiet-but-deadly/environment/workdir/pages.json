@@ -154,5 +154,83 @@
     "auto_resolved_after_s": 50,
     "related_pattern": "pat-gc-pause",
     "recent_deploy": null
+  },
+  {
+    "id": "Q13",
+    "service": "payments",
+    "metric": "http_5xx_rate",
+    "severity": "SEV1",
+    "fired_at": "2026-05-20T10:02:00Z",
+    "value": 0.62,
+    "threshold": 0.02,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-payments-db-pool",
+    "recent_deploy": null
+  },
+  {
+    "id": "Q14",
+    "service": "payments",
+    "metric": "p99_latency_ms",
+    "severity": "SEV3",
+    "fired_at": "2026-05-20T10:03:00Z",
+    "value": 2400.0,
+    "threshold": 1200.0,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-payments-db-pool",
+    "recent_deploy": null
+  },
+  {
+    "id": "Q15",
+    "service": "checkout",
+    "metric": "p99_latency_ms",
+    "severity": "SEV2",
+    "fired_at": "2026-05-20T09:38:00Z",
+    "value": 1450.0,
+    "threshold": 900.0,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-checkout-pool-exhaust",
+    "recent_deploy": null
+  },
+  {
+    "id": "Q16",
+    "service": "inventory",
+    "metric": "http_5xx_rate",
+    "severity": "SEV2",
+    "fired_at": "2026-05-20T09:42:00Z",
+    "value": 0.09,
+    "threshold": 0.03,
+    "fired_count_last_1h": 1,
+    "auto_resolved_after_s": null,
+    "related_pattern": "pat-inventory-5xx",
+    "recent_deploy": null
+  },
+  {
+    "id": "Q17",
+    "service": "promotions",
+    "metric": "http_5xx_rate",
+    "severity": "SEV1",
+    "fired_at": "2026-05-20T09:22:00Z",
+    "value": 0.21,
+    "threshold": 0.05,
+    "fired_count_last_1h": 9,
+    "auto_resolved_after_s": 31,
+    "related_pattern": "pat-promo-rollout",
+    "recent_deploy": "promo-2026.05.20-b"
+  },
+  {
+    "id": "Q18",
+    "service": "gateway-canary",
+    "metric": "error_rate",
+    "severity": "SEV1",
+    "fired_at": "2026-05-20T09:28:00Z",
+    "value": 0.30,
+    "threshold": 0.05,
+    "fired_count_last_1h": 11,
+    "auto_resolved_after_s": 22,
+    "related_pattern": "pat-canary-misroute",
+    "recent_deploy": null
   }
 ]

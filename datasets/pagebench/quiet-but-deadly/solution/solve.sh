@@ -9,62 +9,92 @@ cat > /workdir/triage.json <<'JSON'
     {
       "page_id": "Q01",
       "decision": "page",
-      "reason": "Slow-burn real incident: error rate has climbed monotonically 2% -> 11% over 40 min (see metrics.csv), NEVER auto-resolved, no deploy to blame, upstream-timeout pattern steadily rising. Quiet but real. Must page."
+      "reason": "Quiet slow-burn: api-gateway error_rate climbs 0.02 -> 0.14 monotonically (metrics.csv), never auto-resolves, no deploy, pat-upstream-timeout +520%. Real. Must page."
     },
     {
       "page_id": "Q02",
       "decision": "suppress",
-      "reason": "Disk flapper, 13 fires/hr, clears on rotation in 20s. Noise."
+      "reason": "Disk flapper: fired 13x/hr, auto-resolved in 20s, barely over threshold, returns to 83 next sample. Noise."
     },
     {
       "page_id": "Q03",
       "decision": "suppress",
-      "reason": "Transient CPU blip, auto-resolved in 40s. Noise."
+      "reason": "CPU blip 91 vs 90, auto-resolved in 40s, back to 43 next sample. Noise."
     },
     {
       "page_id": "Q04",
       "decision": "suppress",
-      "reason": "Cold-cache latency blip, recovered in 28s. Noise."
+      "reason": "Cold-cache latency blip 850 vs 800, recovered in 28s. Noise."
     },
     {
       "page_id": "Q05",
       "decision": "suppress",
-      "reason": "Post-deploy 5xx flicker on fe-2026.05.20-a, self-healed in 44s. The only recent deploy \u2014 tempting to blame, but it recovered and is a different service from the real incident. Suppress."
+      "reason": "Frontend 5xx 0.06 vs 0.05, deploy-correlated but dropped to 0.003 two minutes later, auto-resolved in 44s. Recovered deploy churn."
     },
     {
       "page_id": "Q06",
       "decision": "suppress",
-      "reason": "Transient CPU blip, auto-resolved in 33s. Noise."
+      "reason": "CPU blip 92 vs 90, auto-resolved in 33s. Noise."
     },
     {
       "page_id": "Q07",
       "decision": "suppress",
-      "reason": "Marginal queue blip during batch drain, cleared in 17s. Noise."
+      "reason": "Queue depth 5050 vs 5000 during batch drain, cleared in 17s. Noise."
     },
     {
       "page_id": "Q08",
       "decision": "suppress",
-      "reason": "Cold-cache latency blip, recovered in 25s. Noise."
+      "reason": "Cold-cache latency blip 820 vs 800, recovered in 25s. Noise."
     },
     {
       "page_id": "Q09",
       "decision": "suppress",
-      "reason": "Single marginal CPU blip, auto-resolved in 48s. Noise."
+      "reason": "Marginal CPU blip 90.5 vs 90, auto-resolved in 48s. Noise."
     },
     {
       "page_id": "Q10",
       "decision": "suppress",
-      "reason": "Same disk flapper as Q02, another oscillation. Noise."
+      "reason": "Same disk flapper as Q02, another oscillation, auto-resolved in 19s. Noise."
     },
     {
       "page_id": "Q11",
       "decision": "suppress",
-      "reason": "Transient CPU blip, auto-resolved in 35s. Noise."
+      "reason": "CPU blip 91 vs 90, auto-resolved in 35s. Noise."
     },
     {
       "page_id": "Q12",
       "decision": "suppress",
-      "reason": "Brief memory blip, recovered in 50s. Noise."
+      "reason": "Memory blip 86 vs 85, recovered in 50s. Noise."
+    },
+    {
+      "page_id": "Q13",
+      "decision": "page",
+      "reason": "SEV1 root: payments 5xx 0.62 vs 0.02 and rising to 0.78 (metrics.csv), never auto-resolves, pat-payments-db-pool +740%. Must page."
+    },
+    {
+      "page_id": "Q14",
+      "decision": "suppress",
+      "reason": "Same payments incident as Q13: same service, same root pattern pat-payments-db-pool, fired one minute later. Symptom of the db-pool exhaustion. Page the root (Q13), suppress this duplicate."
+    },
+    {
+      "page_id": "Q15",
+      "decision": "page",
+      "reason": "Sustained regression: checkout p99 climbs 910 -> 1990 (metrics.csv), never auto-resolves, no deploy, pat-checkout-pool-exhaust +380%. Independent real incident. Page."
+    },
+    {
+      "page_id": "Q16",
+      "decision": "suppress",
+      "reason": "Inventory 5xx is real but already owned: incidents_open.json INC-4471 covers inventory/pat-inventory-5xx, status investigating. Duplicate of an open incident."
+    },
+    {
+      "page_id": "Q17",
+      "decision": "suppress",
+      "reason": "Promotions tagged SEV1 but fired 9x/hr, auto-resolved in 31s, 0.21 dropped to 0.04 next minute, deploy-correlated, pat-promo-rollout +4%. Flapping deploy churn that self-healed."
+    },
+    {
+      "page_id": "Q18",
+      "decision": "suppress",
+      "reason": "Gateway-canary tagged SEV1 but fired 11x/hr, auto-resolved in 22s, 0.30 dropped to 0.02 next sample, pat-canary-misroute +2%. High-value-looking flapper that auto-resolved."
     }
   ]
 }
@@ -73,12 +103,27 @@ JSON
 cat > /workdir/reasoning.md <<'MD'
 # Oracle reasoning — quiet-but-deadly
 
-This is the reference triage. The single real, must-page incident is **Q01**.
-Every other page is noise: chronic flappers, sub-minute transients that auto-resolved,
-downstream symptoms that collapse into the one root incident, a duplicate of an
-already-open incident, or deploy-correlated churn that self-healed.
+Three independent real incidents must page:
 
-See `tests/ground_truth.json` rationale for the per-page justification.
+- **Q01 (api-gateway error_rate)** — quiet slow-burn. Climbs 0.02 -> 0.14
+  monotonically, never auto-resolves, no deploy to blame. Easy to dismiss as
+  low-grade; it is the recall trap. Must page.
+- **Q13 (payments http_5xx_rate)** — loud SEV1 root. 0.62 vs 0.02 threshold and
+  still rising, never auto-resolves, pattern +740%. Q14 (payments p99) is the
+  same db-pool exhaustion (same service + pat-payments-db-pool) and collapses
+  into Q13 as a symptom — suppress the duplicate, page the root.
+- **Q15 (checkout p99_latency_ms)** — moderate sustained regression. Climbs
+  910 -> 1990, never auto-resolves, distinct service/root. Page.
+
+Everything else suppresses:
+
+- **Flappers / transients** (Q02–Q12): high fired_count and/or sub-minute
+  auto-resolve, metric back to baseline, flat pattern deltas.
+- **Already owned** (Q16): inventory 5xx is real but INC-4471 in
+  incidents_open.json already covers it — dedup, don't double-page.
+- **Precision traps** (Q17, Q18): tagged SEV1 but they flap and auto-resolve
+  within ~30s and the metric snaps back; one is deploy-correlated and recovered.
+  Severity-looks-real noise — paging these tanks precision.
 MD
 
 echo "wrote /workdir/triage.json and /workdir/reasoning.md"

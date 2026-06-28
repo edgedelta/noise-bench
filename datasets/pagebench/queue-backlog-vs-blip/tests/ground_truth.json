@@ -4,7 +4,9 @@
   "miss_budget": 0,
   "positive_class": "page",
   "must_page": [
-    "P01"
+    "P01",
+    "P20",
+    "P22"
   ],
   "labels": {
     "P01": "page",
@@ -26,29 +28,37 @@
     "P17": "suppress",
     "P18": "suppress",
     "P19": "suppress",
-    "P20": "suppress"
+    "P20": "page",
+    "P21": "suppress",
+    "P22": "page",
+    "P23": "suppress",
+    "P24": "suppress"
   },
   "rationale": {
-    "P01": "Real sustained backlog: metric-ingest-queue-1 oldest-message age 1048s vs 300s, rising (810s->1048s) and NEVER draining, with pat-queue-stalled surging negative (SQS ack failures + downstream write 500s). This is the genuine queue-backlog incident, not a blip. Cardinal must-page.",
-    "P19": "Downstream symptom of P01 (same pat-queue-stalled root): olapdb-vw-write 500s as the stalled queue blocks the write path. Collapse into the backlog incident.",
-    "P20": "Downstream symptom of P01 (same pat-queue-stalled root): DLQ depth growing on metric-dlq-1 as messages fail to drain. Collapse into the backlog incident.",
-    "P02": "Transient queue blip on metric-ingestor-large (queue_oldest_msg_age_s marginally over threshold), drained on its own in 70s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise.",
-    "P03": "Transient queue blip on metric-ingestor-large (queue_depth marginally over threshold), drained on its own in 55s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise.",
-    "P04": "Transient queue blip on kafka-metric-ingestor (queue_oldest_msg_age_s marginally over threshold), drained on its own in 48s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise.",
-    "P05": "Transient queue blip on auditlog-ingestor (queue_depth marginally over threshold), drained on its own in 62s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise.",
-    "P06": "Transient queue blip on kafka-metric-ingestor (queue_oldest_msg_age_s marginally over threshold), drained on its own in 44s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise.",
-    "P07": "Transient queue blip on metric-ingestor-large (queue_oldest_msg_age_s marginally over threshold), drained on its own in 66s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise.",
-    "P08": "Transient queue blip on auditlog-ingestor (queue_oldest_msg_age_s marginally over threshold), drained on its own in 58s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise.",
-    "P09": "Transient queue blip on kafka-metric-ingestor (queue_depth marginally over threshold), drained on its own in 51s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise.",
-    "P10": "Transient queue blip on metric-ingestor-large (queue_depth marginally over threshold), drained on its own in 49s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise.",
-    "P11": "[ignore] Default Log Threshold Monitor flapper on olapdb-tso: 18 fires/hr, self-clears in 19s. Noise.",
-    "P12": "[ignore] Default Log Threshold Monitor flapper on transformer: 20 fires/hr, self-clears in 22s. Noise.",
-    "P13": "Transient queue blip on auditlog-ingestor (queue_oldest_msg_age_s marginally over threshold), drained on its own in 53s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise.",
-    "P14": "Transient queue blip on kafka-metric-ingestor (queue_depth marginally over threshold), drained on its own in 47s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise.",
-    "P15": "Transient queue blip on metric-ingestor-large (queue_oldest_msg_age_s marginally over threshold), drained on its own in 60s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise.",
-    "P16": "[ignore] Default Log Threshold Monitor flapper on olapdb-server: 16 fires/hr, self-clears in 18s. Noise.",
-    "P17": "Transient queue blip on auditlog-ingestor (queue_depth marginally over threshold), drained on its own in 56s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise.",
-    "P18": "Transient queue blip on kafka-metric-ingestor (queue_oldest_msg_age_s marginally over threshold), drained on its own in 42s (pat-queue-blip flat/neutral, returns to baseline). Not a sustained backlog. Noise."
+    "P01": "metric-ingest-queue-1 oldest-message age 1048s vs 300s threshold, rising 810->1048->1290->1610 across the window and never auto-resolving; pat-queue-stalled at +980% negative. Sustained backlog, root incident. SEV1, cardinal must-page.",
+    "P19": "olapdb-vw-write 5xx, same pat-queue-stalled root and onset window as P01 (write path blocked by the stalled queue). Correlated downstream symptom; collapse into P01.",
+    "P20": "metric-dlq-redrive-1 dlq_depth 2200 vs 500, rising 40->2200->6400->9100 and never auto-resolving; pat-consumer-crashloop at +1700% negative, correlated to enrich-2026.06.20-c deploy. Real DLQ fill from a crashlooping consumer, root incident. SEV1, cardinal must-page.",
+    "P21": "enrichment-consumer pod_restart_count 37 vs 5, same pat-consumer-crashloop root and enrich-2026.06.20-c deploy as P20. Correlated symptom of the crashloop; collapse into P20.",
+    "P22": "kafka-trace-consumer consumer_lag_records 1.85M vs 200k, climbing 95k->1.85M->3.2M->4.9M and never auto-resolving; pat-consumer-lag-sustained at +540% negative, no deploy to blame. Quiet, slow-rising but real sustained SLO breach. SEV2, cardinal must-page (recall trap).",
+    "P02": "metric-ingestor-large queue_oldest_msg_age_s 360 vs 300, auto_resolved_after_s 70, pat-queue-blip flat/neutral. Self-draining blip.",
+    "P03": "metric-ingestor-large queue_depth 5400 vs 5000, auto_resolved_after_s 55, pat-queue-blip flat/neutral. Self-draining blip.",
+    "P04": "kafka-metric-ingestor queue_oldest_msg_age_s 340 vs 300, auto_resolved_after_s 48, pat-queue-blip flat/neutral. Self-draining blip.",
+    "P05": "auditlog-ingestor queue_depth 5200 vs 5000, auto_resolved_after_s 62, pat-queue-blip flat/neutral. Self-draining blip.",
+    "P06": "kafka-metric-ingestor queue_oldest_msg_age_s 315 vs 300, auto_resolved_after_s 44, pat-queue-blip flat/neutral. Self-draining blip.",
+    "P07": "metric-ingestor-large queue_oldest_msg_age_s 370 vs 300, auto_resolved_after_s 66, pat-queue-blip flat/neutral. Self-draining blip.",
+    "P08": "auditlog-ingestor queue_oldest_msg_age_s 330 vs 300, auto_resolved_after_s 58, pat-queue-blip flat/neutral. Self-draining blip.",
+    "P09": "kafka-metric-ingestor queue_depth 5300 vs 5000, auto_resolved_after_s 51, pat-queue-blip flat/neutral. Self-draining blip.",
+    "P10": "metric-ingestor-large queue_depth 5150 vs 5000, auto_resolved_after_s 49, pat-queue-blip flat/neutral. Self-draining blip.",
+    "P11": "[ignore] Default Log Threshold Monitor on olapdb-tso, fired_count_last_1h 18, auto_resolved_after_s 19, pat-log-threshold delta 0. Chronic flapper.",
+    "P12": "[ignore] Default Log Threshold Monitor on transformer, fired_count_last_1h 20, auto_resolved_after_s 22, pat-log-threshold delta 0. Chronic flapper.",
+    "P13": "auditlog-ingestor queue_oldest_msg_age_s 320 vs 300, auto_resolved_after_s 53, pat-queue-blip flat/neutral. Self-draining blip.",
+    "P14": "kafka-metric-ingestor queue_depth 5250 vs 5000, auto_resolved_after_s 47, pat-queue-blip flat/neutral. Self-draining blip.",
+    "P15": "metric-ingestor-large queue_oldest_msg_age_s 350 vs 300, auto_resolved_after_s 60, pat-queue-blip flat/neutral. Self-draining blip.",
+    "P16": "[ignore] Default Log Threshold Monitor on olapdb-server, fired_count_last_1h 16, auto_resolved_after_s 18, pat-log-threshold delta 0. Chronic flapper.",
+    "P17": "auditlog-ingestor queue_depth 5180 vs 5000, auto_resolved_after_s 56, pat-queue-blip flat/neutral. Self-draining blip.",
+    "P18": "kafka-metric-ingestor queue_oldest_msg_age_s 310 vs 300, auto_resolved_after_s 42, pat-queue-blip flat/neutral. Self-draining blip.",
+    "P23": "kafka-trace-consumer consumer_lag_records 240k vs 200k, auto_resolved_after_s 38, fired_count_last_1h 6, pat-queue-blip flat/neutral; lag fell 240k->98k. Self-draining lag blip on the same service as P22, but it recovered. Look-alike decoy of the real lag breach.",
+    "P24": "metric-ingestor-large queue_oldest_msg_age_s 345 vs 300, auto_resolved_after_s 57, pat-queue-blip flat/neutral. Self-draining blip."
   },
-  "notes": "Real backlog = P01 (metric-ingest-queue-1, oldest-age rising and never draining); P19/P20 are downstream write-500 + DLQ symptoms. All other queue alerts are self-draining blips."
+  "notes": "Three independent real incidents (page): P01 sustained metric-queue backlog (root; P19 5xx is a correlated downstream symptom), P20 DLQ fill from the enrichment-consumer crashloop (root; P21 pod-restart is a correlated symptom), and P22 sustained Kafka consumer-lag SLO breach (quiet recall trap). All three rise across the window and never auto-resolve. Everything else is a self-draining queue/lag blip (pat-queue-blip), a [ignore] log flapper, or a correlated symptom that collapses into a root. P23 is a precision decoy: same service+metric as P22 but it recovered in 38s."
 }

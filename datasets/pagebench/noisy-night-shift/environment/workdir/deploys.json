@@ -3,14 +3,12 @@
     "timestamp": "2026-03-12T00:40:00Z",
     "service": "frontend",
     "commit_sha": "a1f9c20",
-    "version": "fe-2026.03.12-a",
-    "note": "css + asset bundle change"
+    "version": "fe-2026.03.12-a"
   },
   {
     "timestamp": "2026-03-12T00:38:00Z",
     "service": "recommendation",
     "commit_sha": "9b3d771",
-    "version": "rec-2026.03.11-d",
-    "note": "model weight refresh"
+    "version": "rec-2026.03.11-d"
   }
 ]

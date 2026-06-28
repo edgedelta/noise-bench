@@ -1,0 +1,12 @@
+[
+  {
+    "incident_id": "INC-9120",
+    "service": "analytics-batch",
+    "metric": "job_lag_min",
+    "opened_at": "2026-03-11T22:30:00Z",
+    "status": "investigating",
+    "owner": "oncall-data",
+    "related_pattern": "pat-analytics-lag",
+    "summary": "Nightly analytics batch running behind; data team engaged."
+  }
+]

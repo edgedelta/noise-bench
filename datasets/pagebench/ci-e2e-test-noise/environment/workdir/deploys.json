@@ -3,14 +3,18 @@
     "timestamp": "2026-06-24T11:30:00Z",
     "service": "web-app",
     "commit_sha": "4720cc6003ff11aa22bb33cc44dd55ee66ff7788",
-    "version": "web-2026.06.24-rel",
-    "note": "#web checkout flow redesign (culprit: shipped the regression)"
+    "version": "web-2026.06.24-rel"
   },
   {
-    "timestamp": "2026-06-24T10:00:00Z",
+    "timestamp": "2026-06-24T10:24:00Z",
+    "service": "Platform API",
+    "commit_sha": "5f8a04ba9bcc33dd44ee55ff6600112233445566",
+    "version": "platform-api-2026.06.24-rel"
+  },
+  {
+    "timestamp": "2026-06-24T08:50:00Z",
     "service": "Platform API Staging",
     "commit_sha": "af9477f9a9bb22cc33dd44ee55ff66001122aab3",
-    "version": "admin-staging-2026.06.24-d",
-    "note": "staging test fixture update (innocent decoy)"
+    "version": "admin-staging-2026.06.24-d"
   }
 ]

@@ -31,3 +31,10 @@ datasets:
       - queue-backlog-vs-blip
       - quiet-but-deadly
       - warning-spike-transients
+      - cert-expiry-fanout
+      - maintenance-window-masking
+      - mixed-triage-heavy
+      - obvious-sev1-cluster
+      - region-failover-mixed
+      - sev1-misconfigured-rule
+      - slow-burn-saturation

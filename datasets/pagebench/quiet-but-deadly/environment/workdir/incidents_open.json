@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "incident_id": "INC-4471",
+    "service": "inventory",
+    "metric": "http_5xx_rate",
+    "related_pattern": "pat-inventory-5xx",
+    "opened_at": "2026-05-20T09:33:00Z",
+    "status": "investigating",
+    "owner": "oncall-storefront"
+  }
+]

@@ -1,64 +1,22 @@
 {
   "decisions": [
-    {
-      "page_id": "Q01",
-      "decision": "page",
-      "reason": "Slow-burn real incident: error rate has climbed monotonically 2% -> 11% over 40 min (see metrics.csv), NEVER auto-resolved, no deploy to blame, upstream-timeout pattern steadily rising. Quiet but real. Must page."
-    },
-    {
-      "page_id": "Q02",
-      "decision": "suppress",
-      "reason": "Disk flapper, 13 fires/hr, clears on rotation in 20s. Noise."
-    },
-    {
-      "page_id": "Q03",
-      "decision": "suppress",
-      "reason": "Transient CPU blip, auto-resolved in 40s. Noise."
-    },
-    {
-      "page_id": "Q04",
-      "decision": "suppress",
-      "reason": "Cold-cache latency blip, recovered in 28s. Noise."
-    },
-    {
-      "page_id": "Q05",
-      "decision": "suppress",
-      "reason": "Post-deploy 5xx flicker on fe-2026.05.20-a, self-healed in 44s. The only recent deploy \u2014 tempting to blame, but it recovered and is a different service from the real incident. Suppress."
-    },
-    {
-      "page_id": "Q06",
-      "decision": "suppress",
-      "reason": "Transient CPU blip, auto-resolved in 33s. Noise."
-    },
-    {
-      "page_id": "Q07",
-      "decision": "suppress",
-      "reason": "Marginal queue blip during batch drain, cleared in 17s. Noise."
-    },
-    {
-      "page_id": "Q08",
-      "decision": "suppress",
-      "reason": "Cold-cache latency blip, recovered in 25s. Noise."
-    },
-    {
-      "page_id": "Q09",
-      "decision": "suppress",
-      "reason": "Single marginal CPU blip, auto-resolved in 48s. Noise."
-    },
-    {
-      "page_id": "Q10",
-      "decision": "suppress",
-      "reason": "Same disk flapper as Q02, another oscillation. Noise."
-    },
-    {
-      "page_id": "Q11",
-      "decision": "suppress",
-      "reason": "Transient CPU blip, auto-resolved in 35s. Noise."
-    },
-    {
-      "page_id": "Q12",
-      "decision": "suppress",
-      "reason": "Brief memory blip, recovered in 50s. Noise."
-    }
+    { "page_id": "Q01", "decision": "page", "reason": "Quiet slow-burn: api-gateway error_rate climbs 0.02 -> 0.14 monotonically, never auto-resolves, no deploy, pat-upstream-timeout +520%. Must page." },
+    { "page_id": "Q02", "decision": "suppress", "reason": "Disk flapper: fired 13x/hr, auto-resolved in 20s, returns to baseline. Noise." },
+    { "page_id": "Q03", "decision": "suppress", "reason": "CPU blip 91 vs 90, auto-resolved in 40s, back to 43 next sample. Noise." },
+    { "page_id": "Q04", "decision": "suppress", "reason": "Cold-cache latency blip 850 vs 800, recovered in 28s. Noise." },
+    { "page_id": "Q05", "decision": "suppress", "reason": "Frontend 5xx deploy-correlated but dropped to 0.003, auto-resolved in 44s. Recovered deploy churn." },
+    { "page_id": "Q06", "decision": "suppress", "reason": "CPU blip 92 vs 90, auto-resolved in 33s. Noise." },
+    { "page_id": "Q07", "decision": "suppress", "reason": "Queue depth blip during batch drain, cleared in 17s. Noise." },
+    { "page_id": "Q08", "decision": "suppress", "reason": "Cold-cache latency blip 820 vs 800, recovered in 25s. Noise." },
+    { "page_id": "Q09", "decision": "suppress", "reason": "Marginal CPU blip 90.5 vs 90, auto-resolved in 48s. Noise." },
+    { "page_id": "Q10", "decision": "suppress", "reason": "Same disk flapper as Q02, auto-resolved in 19s. Noise." },
+    { "page_id": "Q11", "decision": "suppress", "reason": "CPU blip 91 vs 90, auto-resolved in 35s. Noise." },
+    { "page_id": "Q12", "decision": "suppress", "reason": "Memory blip 86 vs 85, recovered in 50s. Noise." },
+    { "page_id": "Q13", "decision": "page", "reason": "SEV1 root: payments 5xx 0.62 vs 0.02 and rising to 0.78, never auto-resolves, pat-payments-db-pool +740%. Must page." },
+    { "page_id": "Q14", "decision": "suppress", "reason": "Same payments incident as Q13 (same service + pat-payments-db-pool); symptom of the db-pool exhaustion. Suppress duplicate, page root Q13." },
+    { "page_id": "Q15", "decision": "page", "reason": "Sustained regression: checkout p99 climbs 910 -> 1990, never auto-resolves, no deploy, pat-checkout-pool-exhaust +380%. Page." },
+    { "page_id": "Q16", "decision": "suppress", "reason": "Inventory 5xx real but already owned by INC-4471 (incidents_open.json). Duplicate of open incident." },
+    { "page_id": "Q17", "decision": "suppress", "reason": "Promotions tagged SEV1 but fired 9x/hr, auto-resolved in 31s, 0.21 -> 0.04, deploy-correlated, pat-promo-rollout +4%. Flapping deploy churn." },
+    { "page_id": "Q18", "decision": "suppress", "reason": "Gateway-canary tagged SEV1 but fired 11x/hr, auto-resolved in 22s, 0.30 -> 0.02, pat-canary-misroute +2%. Flapper that auto-resolved." }
   ]
 }

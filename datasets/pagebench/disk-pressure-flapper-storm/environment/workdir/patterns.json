@@ -5,8 +5,23 @@
     "count": 96,
     "delta_vs_baseline_pct": 900,
     "sentiment": "negative",
-    "first_seen": "2026-06-20T15:16:10Z",
-    "note": "real node disk pressure; pod eviction imminent"
+    "first_seen": "2026-06-20T15:16:10Z"
+  },
+  {
+    "pattern_id": "pat-diskpressure-evict-7-88",
+    "signature": "DiskPressure=True; node ip-10-0-7-88.us-east-1.compute.internal cordoned, kubelet evicting pods (ingest-router-0, ingest-router-3)",
+    "count": 74,
+    "delta_vs_baseline_pct": 740,
+    "sentiment": "negative",
+    "first_seen": "2026-06-20T15:30:55Z"
+  },
+  {
+    "pattern_id": "pat-pvc-full-writefail",
+    "signature": "ClickHouseKeeper write failed: no space left on device; pvc clickhouse-keeper-data-0 at 100%",
+    "count": 58,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "negative",
+    "first_seen": "2026-06-20T15:21:40Z"
   },
   {
     "pattern_id": "pat-log-threshold",
@@ -14,8 +29,7 @@
     "count": 18,
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
-    "first_seen": "2026-06-20T13:00:00Z",
-    "note": "[ignore] Default Log Threshold Monitor; fires every cycle across all services, chronic flapper"
+    "first_seen": "2026-06-20T13:00:00Z"
   },
   {
     "pattern_id": "pat-disk-warn",
@@ -23,7 +37,6 @@
     "count": 38,
     "delta_vs_baseline_pct": 4,
     "sentiment": "neutral",
-    "first_seen": "2026-06-20T13:00:00Z",
-    "note": "self-clears each rotation cycle"
+    "first_seen": "2026-06-20T13:00:00Z"
   }
 ]

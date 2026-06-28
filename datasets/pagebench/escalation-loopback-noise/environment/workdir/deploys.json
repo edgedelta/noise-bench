@@ -3,14 +3,12 @@
     "timestamp": "2026-06-23T18:05:00Z",
     "service": "web-app",
     "commit_sha": "5f8a04ba9b2c1d3e4f6071829a0b1c2d3e4f5061",
-    "version": "web-2026.06.23-c",
-    "note": "front-end copy change (innocent decoy near onset)"
+    "version": "web-2026.06.23-c"
   },
   {
     "timestamp": "2026-06-23T18:15:00Z",
     "service": "platform-api",
     "commit_sha": "9c6c113f60aa12bb34cc56dd78ee90ff12345678",
-    "version": "platform-api-2026.06.23-a",
-    "note": "#api workflow-engine client refactor"
+    "version": "platform-api-2026.06.23-a"
   }
 ]

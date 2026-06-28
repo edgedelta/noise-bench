@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "timestamp": "2026-06-19T21:52:00Z",
+    "service": "checkout-api",
+    "commit_sha": "a3f91c7",
+    "version": "checkout-api@2026.06.19-4"
+  },
+  {
+    "timestamp": "2026-06-19T20:05:00Z",
+    "service": "billing-worker",
+    "commit_sha": "7b2e004",
+    "version": "billing-worker@2026.06.19-2"
+  },
+  {
+    "timestamp": "2026-06-19T20:02:00Z",
+    "service": "streaming",
+    "commit_sha": "c81d5aa",
+    "version": "streaming@2026.06.19-1"
+  }
+]

@@ -2,5 +2,14 @@ timestamp,service,metric,value
 2026-06-24T11:00:00Z,web-app,checkout_flow_error,0.002
 2026-06-24T11:42:00Z,web-app,checkout_flow_error,0.38
 2026-06-24T12:00:00Z,web-app,checkout_flow_error,0.44
+2026-06-24T10:00:00Z,Platform API,api_5xx_ratio,0.003
+2026-06-24T10:36:00Z,Platform API,api_5xx_ratio,0.21
+2026-06-24T11:10:00Z,Platform API,api_5xx_ratio,0.27
+2026-06-24T08:30:00Z,data-pipeline,ingest_lag_seconds,18
+2026-06-24T08:55:00Z,data-pipeline,ingest_lag_seconds,95
+2026-06-24T09:40:00Z,data-pipeline,ingest_lag_seconds,160
+2026-06-24T10:30:00Z,data-pipeline,ingest_lag_seconds,240
+2026-06-24T11:30:00Z,data-pipeline,ingest_lag_seconds,330
 2026-06-24T09:42:00Z,web-app,e2e_pass_rate,0.98
 2026-06-24T09:50:00Z,web-app,e2e_pass_rate,1.0
+2026-06-24T10:30:00Z,Platform API Staging,synthetic_smoke_fail,0

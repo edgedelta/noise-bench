@@ -1,0 +1,74 @@
+[
+  {
+    "pattern_id": "pat-ledger-heap-growth",
+    "signature": "payments-ledger heap allocation high; gc reclaim ratio falling",
+    "count": 96,
+    "delta_vs_baseline_pct": 180,
+    "sentiment": "negative",
+    "first_seen": "2026-03-12T00:34:00Z"
+  },
+  {
+    "pattern_id": "pat-wal-disk-fill",
+    "signature": "postgres WAL segment retained; archive_command backlog growing",
+    "count": 74,
+    "delta_vs_baseline_pct": 140,
+    "sentiment": "negative",
+    "first_seen": "2026-03-12T00:36:00Z"
+  },
+  {
+    "pattern_id": "pat-pool-saturation",
+    "signature": "api-gateway connection pool wait; checkout exceeded soft limit",
+    "count": 88,
+    "delta_vs_baseline_pct": 160,
+    "sentiment": "negative",
+    "first_seen": "2026-03-12T00:38:00Z"
+  },
+  {
+    "pattern_id": "pat-lb-healthcheck-flap",
+    "signature": "upstream removed then re-added by load balancer health check",
+    "count": 18,
+    "delta_vs_baseline_pct": 2,
+    "sentiment": "neutral",
+    "first_seen": "2026-03-12T00:05:00Z"
+  },
+  {
+    "pattern_id": "pat-gc-pause",
+    "signature": "GC pause exceeded soft limit",
+    "count": 52,
+    "delta_vs_baseline_pct": 4,
+    "sentiment": "neutral",
+    "first_seen": "2026-03-12T00:00:00Z"
+  },
+  {
+    "pattern_id": "pat-rollout-503",
+    "signature": "upstream 503 during pod rollout",
+    "count": 14,
+    "delta_vs_baseline_pct": 0,
+    "sentiment": "neutral",
+    "first_seen": "2026-03-12T00:46:00Z"
+  },
+  {
+    "pattern_id": "pat-cold-cache",
+    "signature": "cache miss storm after eviction",
+    "count": 46,
+    "delta_vs_baseline_pct": 6,
+    "sentiment": "neutral",
+    "first_seen": "2026-03-12T01:00:00Z"
+  },
+  {
+    "pattern_id": "pat-transcode-backlog",
+    "signature": "media-transcode queue depth elevated then draining",
+    "count": 30,
+    "delta_vs_baseline_pct": 10,
+    "sentiment": "neutral",
+    "first_seen": "2026-03-12T01:13:00Z"
+  },
+  {
+    "pattern_id": "pat-billing-backlog",
+    "signature": "billing worker queue depth growing",
+    "count": 240,
+    "delta_vs_baseline_pct": 35,
+    "sentiment": "negative",
+    "first_seen": "2026-03-12T01:20:00Z"
+  }
+]

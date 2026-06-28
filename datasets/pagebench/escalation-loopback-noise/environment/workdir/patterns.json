@@ -5,8 +5,23 @@
     "count": 1420,
     "delta_vs_baseline_pct": 1100,
     "sentiment": "negative",
-    "first_seen": "2026-06-23T18:19:40Z",
-    "note": "real Platform API 5xx outage, never recovered in window"
+    "first_seen": "2026-06-23T18:19:40Z"
+  },
+  {
+    "pattern_id": "pat-ingest-5xx",
+    "signature": "HTTP 502/503 from ingest-gateway; upstream connect error on /v1/ingest",
+    "count": 880,
+    "delta_vs_baseline_pct": 640,
+    "sentiment": "negative",
+    "first_seen": "2026-06-23T17:04:30Z"
+  },
+  {
+    "pattern_id": "pat-checkout-latency",
+    "signature": "checkout-api request_latency_p99 above SLO; slow downstream call to payments",
+    "count": 510,
+    "delta_vs_baseline_pct": 380,
+    "sentiment": "negative",
+    "first_seen": "2026-06-23T16:28:00Z"
   },
   {
     "pattern_id": "pat-escalation-loopback",
@@ -14,8 +29,7 @@
     "count": 16,
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
-    "first_seen": "2026-06-23T15:00:00Z",
-    "note": "config defect tracked in OPS-2031; not a service outage"
+    "first_seen": "2026-06-23T15:00:00Z"
   },
   {
     "pattern_id": "pat-missed-ack-staging",
@@ -23,8 +37,7 @@
     "count": 9,
     "delta_vs_baseline_pct": 5,
     "sentiment": "neutral",
-    "first_seen": "2026-06-23T15:00:00Z",
-    "note": "transient staging CI, self-resolves"
+    "first_seen": "2026-06-23T15:00:00Z"
   },
   {
     "pattern_id": "pat-notify-ok",
@@ -48,7 +61,6 @@
     "count": 14,
     "delta_vs_baseline_pct": 0,
     "sentiment": "neutral",
-    "first_seen": "2026-06-23T15:00:00Z",
-    "note": "[ignore] flapper"
+    "first_seen": "2026-06-23T15:00:00Z"
   }
 ]
