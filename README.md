@@ -117,30 +117,23 @@ Kubernetes event types (`DisruptionBlocked`, `Unconsolidatable`, `NodeNotReady`)
 
 ## Leaderboard
 
-Frozen run: **17 scenarios × 4 models × 3 attempts = 204 trials**, Harbor `terminus-2` over
-OpenRouter, 2026-06-28. A trial **passes** only if it pages every must-page incident (cardinal —
-suppressing a real SEV1 = reward 0), hits F1 ≥ threshold (positive class = page), and misses no
-more real incidents than the miss budget. Pass rate = trials passed / 51.
+Frozen run: **17 scenarios x 13 models x 3 attempts = 663 trials**, Harbor `terminus-2` over OpenRouter, 2026-06-30. Pass is the scenario grader's boolean verdict. Re-score any run yourself: `uv run scripts/process_results.py jobs/<run>`.
 
 | Model | Pass rate | easy | medium | hard |
-|---|---|---:|-------:|-----:|
-| gpt-5.2-codex   | **80%** (41/51) | 100% | 100% | 58% |
-| claude-opus-4.6 | **78%** (40/51) | 100% | 100% | 54% |
-| kimi-k2.5       | **75%** (38/51) | 100% | 100% | 46% |
-| gemini-2.5-pro  | **51%** (26/51) | 100% | 88%  | 8%  |
-
-The split lives in the **hard** tier, where the alert *features mislead*: a real incident that
-auto-resolved once (or flaps like noise) but whose metric ratchets toward a ceiling, paired with a
-benign alert whose metric rises but plateaus at a safe new normal after a capacity change. Getting
-these right needs cross-referencing the metric trajectory + deploy context, not reading a single
-field. `slow-burn-saturation` is failed by **every** model on **every** attempt; gemini-2.5-pro
-collapses to 8% on the hard tier. Re-score any published trajectory yourself, no API key needed:
-`uv run scripts/process_results.py jobs/<run>`.
-
-We expect models to do **badly** here, especially on `deploy-storm` (waving the whole storm
-away as "just deploys"), `ci-e2e-test-noise` (telling a real prod regression from flaky test
-failures), and `ai-platform-alert-noise` (separating a real AI-runtime outage from LLM
-token-usage and spending-cap cost noise). If your model tops this chart, it earned it.
+|---|---|---|---|---|
+| gpt-5.5 | **88%** | 100% | 100% | 75% |
+| claude-sonnet-4.6 | **88%** | 100% | 96% | 79% |
+| gpt-5.4 | **80%** | 100% | 100% | 58% |
+| kimi-k2.5 | **78%** | 100% | 100% | 54% |
+| gemini-3.5-flash | **76%** | 100% | 100% | 50% |
+| gemini-3.1-pro-preview | **75%** | 100% | 100% | 46% |
+| gpt-5.4-mini | **71%** | 100% | 88% | 50% |
+| kimi-k2-thinking | **69%** | 100% | 92% | 42% |
+| gemini-3.1-flash-lite | **63%** | 100% | 96% | 25% |
+| claude-opus-4.8 | **61%** | 67% | 75% | 46% |
+| claude-haiku-4.5 | **61%** | 33% | 83% | 42% |
+| gpt-oss-120b | **51%** | 100% | 75% | 21% |
+| gpt-oss-20b | **16%** | 0% | 33% | 0% |
 
 ## How scenarios are generated
 
