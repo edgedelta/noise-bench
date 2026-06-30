@@ -117,7 +117,7 @@ Kubernetes event types (`DisruptionBlocked`, `Unconsolidatable`, `NodeNotReady`)
 
 ## Leaderboard
 
-Frozen run: **17 scenarios x 13 models x 3 attempts = 663 trials**, Harbor `terminus-2` over OpenRouter, 2026-06-30. Pass is the scenario grader's boolean verdict. Re-score any run yourself: `uv run scripts/process_results.py jobs/<run>`.
+Frozen run: **17 scenarios x 13 models x 3 attempts = 663 trials**, Harbor `terminus-2` over OpenRouter, 2026-06-30. Pass is the scenario grader's boolean verdict. Full per-trial results (outcome, cost, tokens, timing per model) + per-model/per-task rollups are committed under [`benchmark-results/`](benchmark-results/).
 
 | Model | Pass rate | easy | medium | hard |
 |---|---|---|---|---|
