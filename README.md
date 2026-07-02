@@ -117,12 +117,14 @@ Kubernetes event types (`DisruptionBlocked`, `Unconsolidatable`, `NodeNotReady`)
 
 ## Leaderboard
 
-Frozen run: **17 scenarios x 13 models x 3 attempts = 663 trials**, Harbor `terminus-2` over OpenRouter, 2026-06-30. Pass is the scenario grader's boolean verdict. Full per-trial results (outcome, cost, tokens, timing per model) + per-model/per-task rollups are committed under [`benchmark-results/`](benchmark-results/).
+Frozen run: **17 scenarios x 17 models x 3 attempts = 867 trials**, Harbor `terminus-2` over OpenRouter, 2026-06-30 (gpt-5.5 through gpt-oss-20b) / 2026-07-02 (glm-5.2, qwen3-235b-a22b-2507, qwen3-32b, deepseek-v4-flash). Pass is the scenario grader's boolean verdict. Full per-trial results (outcome, cost, tokens, timing per model) + per-model/per-task rollups are committed under [`benchmark-results/`](benchmark-results/).
 
 | Model | Pass rate | easy | medium | hard |
 |---|---|---|---|---|
 | gpt-5.5 | **88%** | 100% | 100% | 75% |
 | claude-sonnet-4.6 | **88%** | 100% | 96% | 79% |
+| glm-5.2 | **88%** | 100% | 100% | 75% |
+| deepseek-v4-flash | **82%** | 100% | 100% | 62% |
 | gpt-5.4 | **80%** | 100% | 100% | 58% |
 | kimi-k2.5 | **78%** | 100% | 100% | 54% |
 | gemini-3.5-flash | **76%** | 100% | 100% | 50% |
@@ -133,7 +135,9 @@ Frozen run: **17 scenarios x 13 models x 3 attempts = 663 trials**, Harbor `term
 | claude-opus-4.8 | **61%** | 67% | 75% | 46% |
 | claude-haiku-4.5 | **61%** | 33% | 83% | 42% |
 | gpt-oss-120b | **51%** | 100% | 75% | 21% |
+| qwen3-235b-a22b-2507 | **39%** | 100% | 62% | 8% |
 | gpt-oss-20b | **16%** | 0% | 33% | 0% |
+| qwen3-32b | **14%** | 67% | 8% | 12% |
 
 ## How scenarios are generated
 
