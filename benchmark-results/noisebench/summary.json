@@ -1,8 +1,8 @@
 {
- "TotalRuns": 663,
- "TotalPassed": 447,
- "TotalFailed": 216,
- "TotalCostUSD": 113.94,
+ "TotalRuns": 867,
+ "TotalPassed": 561,
+ "TotalFailed": 306,
+ "TotalCostUSD": 117.92,
  "ByModel": {
   "openrouter/anthropic/claude-sonnet-4.6": {
    "Runs": 51,
@@ -21,6 +21,24 @@
    "TotalCostUSD": 12.2817,
    "AvgCostUSD": 0.2408,
    "AvgDurationSec": 90.6
+  },
+  "openrouter/z-ai/glm-5.2": {
+   "Runs": 51,
+   "Passed": 45,
+   "Failed": 6,
+   "PassRate": 88.2,
+   "TotalCostUSD": 2.5851,
+   "AvgCostUSD": 0.0507,
+   "AvgDurationSec": 190.3
+  },
+  "openrouter/deepseek/deepseek-v4-flash": {
+   "Runs": 51,
+   "Passed": 42,
+   "Failed": 9,
+   "PassRate": 82.4,
+   "TotalCostUSD": 0.6761,
+   "AvgCostUSD": 0.0133,
+   "AvgDurationSec": 178.0
   },
   "openrouter/openai/gpt-5.4": {
    "Runs": 51,
@@ -112,6 +130,15 @@
    "AvgCostUSD": 0.0049,
    "AvgDurationSec": 101.2
   },
+  "openrouter/qwen/qwen3-235b-a22b-2507": {
+   "Runs": 51,
+   "Passed": 20,
+   "Failed": 31,
+   "PassRate": 39.2,
+   "TotalCostUSD": 0.363,
+   "AvgCostUSD": 0.0071,
+   "AvgDurationSec": 165.4
+  },
   "openrouter/openai/gpt-oss-20b": {
    "Runs": 51,
    "Passed": 8,
@@ -120,161 +147,170 @@
    "TotalCostUSD": 0.11,
    "AvgCostUSD": 0.0022,
    "AvgDurationSec": 271.1
+  },
+  "openrouter/qwen/qwen3-32b": {
+   "Runs": 51,
+   "Passed": 7,
+   "Failed": 44,
+   "PassRate": 13.7,
+   "TotalCostUSD": 0.3573,
+   "AvgCostUSD": 0.007,
+   "AvgDurationSec": 221.9
   }
  },
  "ByTask": {
   "ai-platform-alert-noise": {
-   "Runs": 39,
-   "Passed": 16,
-   "Failed": 23,
-   "PassRate": 41.0,
-   "TotalCostUSD": 7.2272,
-   "AvgCostUSD": 0.1853,
-   "AvgDurationSec": 165.0
+   "Runs": 51,
+   "Passed": 23,
+   "Failed": 28,
+   "PassRate": 45.1,
+   "TotalCostUSD": 7.5303,
+   "AvgCostUSD": 0.1477,
+   "AvgDurationSec": 174.2
   },
   "cert-expiry-fanout": {
-   "Runs": 39,
-   "Passed": 35,
-   "Failed": 4,
-   "PassRate": 89.7,
-   "TotalCostUSD": 6.0915,
-   "AvgCostUSD": 0.1562,
-   "AvgDurationSec": 141.7
+   "Runs": 51,
+   "Passed": 44,
+   "Failed": 7,
+   "PassRate": 86.3,
+   "TotalCostUSD": 6.3204,
+   "AvgCostUSD": 0.1239,
+   "AvgDurationSec": 163.2
   },
   "ci-e2e-test-noise": {
-   "Runs": 39,
-   "Passed": 25,
-   "Failed": 14,
-   "PassRate": 64.1,
-   "TotalCostUSD": 9.0361,
-   "AvgCostUSD": 0.2317,
-   "AvgDurationSec": 173.2
+   "Runs": 51,
+   "Passed": 31,
+   "Failed": 20,
+   "PassRate": 60.8,
+   "TotalCostUSD": 9.3346,
+   "AvgCostUSD": 0.183,
+   "AvgDurationSec": 176.6
   },
   "deploy-storm": {
-   "Runs": 39,
-   "Passed": 26,
-   "Failed": 13,
-   "PassRate": 66.7,
-   "TotalCostUSD": 8.3924,
-   "AvgCostUSD": 0.2152,
-   "AvgDurationSec": 134.8
+   "Runs": 51,
+   "Passed": 32,
+   "Failed": 19,
+   "PassRate": 62.7,
+   "TotalCostUSD": 8.657,
+   "AvgCostUSD": 0.1697,
+   "AvgDurationSec": 146.6
   },
   "disk-pressure-flapper-storm": {
-   "Runs": 39,
-   "Passed": 36,
-   "Failed": 3,
-   "PassRate": 92.3,
-   "TotalCostUSD": 5.2212,
-   "AvgCostUSD": 0.1339,
-   "AvgDurationSec": 119.7
+   "Runs": 51,
+   "Passed": 43,
+   "Failed": 8,
+   "PassRate": 84.3,
+   "TotalCostUSD": 5.3984,
+   "AvgCostUSD": 0.1059,
+   "AvgDurationSec": 124.2
   },
   "escalation-loopback-noise": {
-   "Runs": 39,
-   "Passed": 36,
-   "Failed": 3,
-   "PassRate": 92.3,
-   "TotalCostUSD": 4.1786,
-   "AvgCostUSD": 0.1071,
-   "AvgDurationSec": 122.7
+   "Runs": 51,
+   "Passed": 43,
+   "Failed": 8,
+   "PassRate": 84.3,
+   "TotalCostUSD": 4.2975,
+   "AvgCostUSD": 0.0843,
+   "AvgDurationSec": 119.9
   },
   "maintenance-window-masking": {
-   "Runs": 39,
-   "Passed": 31,
-   "Failed": 8,
-   "PassRate": 79.5,
-   "TotalCostUSD": 6.2558,
-   "AvgCostUSD": 0.1604,
-   "AvgDurationSec": 158.3
+   "Runs": 51,
+   "Passed": 39,
+   "Failed": 12,
+   "PassRate": 76.5,
+   "TotalCostUSD": 6.476,
+   "AvgCostUSD": 0.127,
+   "AvgDurationSec": 167.8
   },
   "mixed-triage-heavy": {
-   "Runs": 39,
-   "Passed": 25,
-   "Failed": 14,
-   "PassRate": 64.1,
-   "TotalCostUSD": 9.8108,
-   "AvgCostUSD": 0.2516,
-   "AvgDurationSec": 212.0
+   "Runs": 51,
+   "Passed": 31,
+   "Failed": 20,
+   "PassRate": 60.8,
+   "TotalCostUSD": 10.1766,
+   "AvgCostUSD": 0.1995,
+   "AvgDurationSec": 227.0
   },
   "node-event-noise": {
-   "Runs": 39,
-   "Passed": 35,
-   "Failed": 4,
-   "PassRate": 89.7,
-   "TotalCostUSD": 4.5797,
-   "AvgCostUSD": 0.1174,
-   "AvgDurationSec": 123.6
+   "Runs": 51,
+   "Passed": 42,
+   "Failed": 9,
+   "PassRate": 82.4,
+   "TotalCostUSD": 4.8017,
+   "AvgCostUSD": 0.0942,
+   "AvgDurationSec": 137.6
   },
   "noisy-night-shift": {
-   "Runs": 39,
-   "Passed": 38,
-   "Failed": 1,
-   "PassRate": 97.4,
-   "TotalCostUSD": 4.9907,
-   "AvgCostUSD": 0.128,
-   "AvgDurationSec": 136.1
+   "Runs": 51,
+   "Passed": 46,
+   "Failed": 5,
+   "PassRate": 90.2,
+   "TotalCostUSD": 5.1879,
+   "AvgCostUSD": 0.1017,
+   "AvgDurationSec": 151.9
   },
   "obvious-sev1-cluster": {
-   "Runs": 39,
-   "Passed": 33,
-   "Failed": 6,
-   "PassRate": 84.6,
-   "TotalCostUSD": 7.4917,
-   "AvgCostUSD": 0.1921,
-   "AvgDurationSec": 144.5
+   "Runs": 51,
+   "Passed": 44,
+   "Failed": 7,
+   "PassRate": 86.3,
+   "TotalCostUSD": 7.6697,
+   "AvgCostUSD": 0.1504,
+   "AvgDurationSec": 147.1
   },
   "queue-backlog-vs-blip": {
-   "Runs": 39,
-   "Passed": 9,
-   "Failed": 30,
-   "PassRate": 23.1,
-   "TotalCostUSD": 7.0596,
-   "AvgCostUSD": 0.181,
-   "AvgDurationSec": 140.5
+   "Runs": 51,
+   "Passed": 11,
+   "Failed": 40,
+   "PassRate": 21.6,
+   "TotalCostUSD": 7.3195,
+   "AvgCostUSD": 0.1435,
+   "AvgDurationSec": 156.0
   },
   "quiet-but-deadly": {
-   "Runs": 39,
-   "Passed": 30,
-   "Failed": 9,
-   "PassRate": 76.9,
-   "TotalCostUSD": 5.9055,
-   "AvgCostUSD": 0.1514,
-   "AvgDurationSec": 125.7
+   "Runs": 51,
+   "Passed": 38,
+   "Failed": 13,
+   "PassRate": 74.5,
+   "TotalCostUSD": 6.1292,
+   "AvgCostUSD": 0.1202,
+   "AvgDurationSec": 139.1
   },
   "region-failover-mixed": {
-   "Runs": 39,
-   "Passed": 26,
-   "Failed": 13,
-   "PassRate": 66.7,
-   "TotalCostUSD": 7.4653,
-   "AvgCostUSD": 0.1914,
-   "AvgDurationSec": 153.6
+   "Runs": 51,
+   "Passed": 35,
+   "Failed": 16,
+   "PassRate": 68.6,
+   "TotalCostUSD": 7.6624,
+   "AvgCostUSD": 0.1502,
+   "AvgDurationSec": 154.2
   },
   "sev1-misconfigured-rule": {
-   "Runs": 39,
-   "Passed": 7,
-   "Failed": 32,
-   "PassRate": 17.9,
-   "TotalCostUSD": 7.0293,
-   "AvgCostUSD": 0.1802,
-   "AvgDurationSec": 146.1
+   "Runs": 51,
+   "Passed": 10,
+   "Failed": 41,
+   "PassRate": 19.6,
+   "TotalCostUSD": 7.3223,
+   "AvgCostUSD": 0.1436,
+   "AvgDurationSec": 162.3
   },
   "slow-burn-saturation": {
-   "Runs": 39,
+   "Runs": 51,
    "Passed": 3,
-   "Failed": 36,
-   "PassRate": 7.7,
-   "TotalCostUSD": 7.0418,
-   "AvgCostUSD": 0.1806,
-   "AvgDurationSec": 169.7
+   "Failed": 48,
+   "PassRate": 5.9,
+   "TotalCostUSD": 7.3253,
+   "AvgCostUSD": 0.1436,
+   "AvgDurationSec": 180.7
   },
   "warning-spike-transients": {
-   "Runs": 39,
-   "Passed": 36,
-   "Failed": 3,
-   "PassRate": 92.3,
-   "TotalCostUSD": 6.1653,
-   "AvgCostUSD": 0.1581,
-   "AvgDurationSec": 122.5
+   "Runs": 51,
+   "Passed": 46,
+   "Failed": 5,
+   "PassRate": 90.2,
+   "TotalCostUSD": 6.3154,
+   "AvgCostUSD": 0.1238,
+   "AvgDurationSec": 131.0
   }
  }
 }
