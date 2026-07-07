@@ -1,0 +1,99 @@
+# noise-bench — leaderboard v2: full re-run, all 18 models (Docker).
+#
+# Replaces the 2026-06-30/07-02 frozen run. Changes vs v1 conditions:
+#   - override_timeout_sec: 1800 for every agent (v1's 600s cap invalidated
+#     claude-opus-4.8's row: 13 of its 20 failures were AgentTimeoutError
+#     on a slow OpenRouter day)
+#   - post-revision scenario data (disk-pressure-flapper-storm and
+#     node-event-noise severity-inversion / latched-alert traps)
+#   - graders emit per-trial graded reward (verifier/metrics.json), so the
+#     leaderboard can publish mean graded reward ± 95% CI alongside pass rate
+#
+# Methodology note: any residual AgentTimeoutError trial should be treated as
+# an infra error and re-run, not scored as a failure.
+#
+# Usage: set -a && source .env && set +a && harbor run -c configs/leaderboard-v2-docker.yaml -y
+jobs_dir: jobs
+n_attempts: 3
+n_concurrent_trials: 8
+quiet: false
+
+environment:
+  type: docker
+
+agents:
+  - name: terminus-2
+    model_name: openrouter/anthropic/claude-haiku-4.5
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/anthropic/claude-opus-4.8
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/anthropic/claude-sonnet-4.6
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/deepseek/deepseek-v4-flash
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/google/gemini-3.1-flash-lite
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/google/gemini-3.1-pro-preview
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/google/gemini-3.5-flash
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/moonshotai/kimi-k2-thinking
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/moonshotai/kimi-k2.5
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/openai/gpt-5.4
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/openai/gpt-5.4-mini
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/openai/gpt-5.5
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/openai/gpt-oss-120b
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/openai/gpt-oss-20b
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/qwen/qwen3-235b-a22b-2507
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/qwen/qwen3-32b
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/sakana/fugu-ultra
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/z-ai/glm-5.2
+    override_timeout_sec: 1800
+
+datasets:
+  - path: datasets/noisebench
+    task_names:
+      - ai-platform-alert-noise
+      - ci-e2e-test-noise
+      - deploy-storm
+      - disk-pressure-flapper-storm
+      - escalation-loopback-noise
+      - node-event-noise
+      - noisy-night-shift
+      - queue-backlog-vs-blip
+      - quiet-but-deadly
+      - warning-spike-transients
+      - cert-expiry-fanout
+      - maintenance-window-masking
+      - mixed-triage-heavy
+      - obvious-sev1-cluster
+      - region-failover-mixed
+      - sev1-misconfigured-rule
+      - slow-burn-saturation

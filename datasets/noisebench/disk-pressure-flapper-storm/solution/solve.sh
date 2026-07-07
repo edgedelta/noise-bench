@@ -34,7 +34,7 @@ cat > /workdir/triage.json <<'JSON'
     {
       "page_id": "P06",
       "decision": "suppress",
-      "reason": "Disk-usage warning on log-compactor marginally over 80%, self-resolved in 35s on rotation/compaction. Returns to baseline."
+      "reason": "Disk-usage warning on log-compactor marginally over 80%; rotation returned the metric below threshold within a minute (78 by 14:11) but the monitor has no auto-clear, so the alert latched open. Recovered metric, stale alert."
     },
     {
       "page_id": "P07",
@@ -99,7 +99,7 @@ cat > /workdir/triage.json <<'JSON'
     {
       "page_id": "P19",
       "decision": "suppress",
-      "reason": "[ignore] Default Log Threshold Monitor on log-compactor: 17 fires/hr, self-clears in ~20s, pat-log-threshold flat/neutral. Flapper noise."
+      "reason": "[ignore] Default Log Threshold Monitor on log-compactor mis-routed to SEV1: 17 fires/hr, self-clears in ~20s, pat-log-threshold flat/neutral. Wrong severity tag on the canonical flapper."
     },
     {
       "page_id": "P20",
@@ -124,7 +124,7 @@ cat > /workdir/triage.json <<'JSON'
     {
       "page_id": "P24",
       "decision": "page",
-      "reason": "PVC clickhouse-keeper-data-0 at 100% (pvc_used_pct 86->100 and pinned), never auto-resolved, pat-pvc-full-writefail negative with active write failures on a stateful service. SEV1 must-page despite a flat pattern delta."
+      "reason": "PVC clickhouse-keeper-data-0 at 100% (pvc_used_pct 86->100 and pinned), never auto-resolved, pat-pvc-full-writefail negative with active write failures on a stateful service. Must-page despite the flat pattern delta and the monitor-default SEV3 tag."
     }
   ]
 }
@@ -140,15 +140,17 @@ Three independent real incidents must page:
 - **P23** — DiskPressure=True on a *second* node ip-10-0-7-88 (different node/root from P01),
   kubelet already evicting ingest-router pods, never auto-resolved.
 - **P24** — clickhouse-keeper PVC pinned at 100% with active write failures on a stateful
-  service; its pattern delta reads flat (looks quiet) but pvc_used_pct is at full, SEV1,
-  and never auto-resolves.
+  service; it looks quiet twice over (flat pattern delta, monitor-default SEV3 tag) but
+  pvc_used_pct is at full and never auto-resolves.
 
 **P21** is the downstream kube-state-metrics scrape-failure symptom of P01 (same
 pat-diskpressure-evict root on the same node) and collapses into P01 — suppress as a duplicate.
 
 Everything else is the chronic `[ignore] Default Log Threshold Monitor` flapping (high
-fired_count_last_1h, sub-30s auto_resolved) or disk-usage warnings that self-resolve on
-rotation/compaction and return to baseline.
+fired_count_last_1h, sub-30s auto_resolved — including P19, which a mis-routed paging rule
+tags SEV1) or disk-usage warnings that return to baseline on rotation/compaction. P06's
+alert latched open (no auto-clear on the synthetic monitor) but metrics.csv shows the disk
+back under threshold a minute later — a stale alert, not an incident.
 
 See `tests/ground_truth.json` rationale for the per-page justification.
 MD

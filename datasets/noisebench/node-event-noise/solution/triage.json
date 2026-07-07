@@ -93,7 +93,7 @@
     {
       "page_id": "P19",
       "decision": "page",
-      "reason": "Real CrashLoopBackOff on checkout-api: 11 restarts vs threshold 3, pat-checkout-crashloop +1400% negative (nil-pointer panic in PaymentHandler), onset 21:54 right after deploy checkout-api@2026.06.19-4 at 21:52, never auto-resolves, available_replicas fell 3->1 (below min 3). Deploy-induced outage. Page (root of the checkout incident)."
+      "reason": "Real CrashLoopBackOff on checkout-api: 11 restarts vs threshold 3, pat-checkout-crashloop +1400% negative (nil-pointer panic in PaymentHandler), onset 21:54 right after deploy checkout-api@2026.06.19-4 at 21:52, never auto-resolves, available_replicas fell 3->1 (below min 3). Deploy-induced outage despite its default SEV3 tag. Page (root of the checkout incident)."
     },
     {
       "page_id": "P20",
@@ -113,7 +113,7 @@
     {
       "page_id": "P23",
       "decision": "suppress",
-      "reason": "billing-worker crashloop is a flapper: fired_count_last_1h 14, auto_resolved_after_s 35, pat-billing-restart delta 0% neutral, available_replicas recovered 4->5 immediately. Self-healing readiness restarts, not an outage."
+      "reason": "billing-worker crashloop is a flapper despite its SEV1 tag (stale escalation rule): fired_count_last_1h 14, auto_resolved_after_s 35, pat-billing-restart delta 0% neutral, available_replicas recovered 4->5 immediately. Self-healing readiness restarts, not an outage."
     }
   ]
 }

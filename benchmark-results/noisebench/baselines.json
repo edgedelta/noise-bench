@@ -1,0 +1,1883 @@
+{
+  "summary": {
+    "page-all": {
+      "passed": 0,
+      "total": 17,
+      "pass_rate_pct": 0.0,
+      "mean_f1": 0.279,
+      "mean_graded_reward": 0.279,
+      "by_tier": {
+        "easy": "0/1",
+        "hard": "0/8",
+        "medium": "0/8"
+      }
+    },
+    "suppress-all": {
+      "passed": 0,
+      "total": 17,
+      "pass_rate_pct": 0.0,
+      "mean_f1": 0.0,
+      "mean_graded_reward": 0.0,
+      "by_tier": {
+        "easy": "0/1",
+        "hard": "0/8",
+        "medium": "0/8"
+      }
+    },
+    "severity-gate": {
+      "passed": 0,
+      "total": 17,
+      "pass_rate_pct": 0.0,
+      "mean_f1": 0.528,
+      "mean_graded_reward": 0.275,
+      "by_tier": {
+        "easy": "0/1",
+        "hard": "0/8",
+        "medium": "0/8"
+      }
+    },
+    "never-resolved": {
+      "passed": 1,
+      "total": 17,
+      "pass_rate_pct": 5.9,
+      "mean_f1": 0.592,
+      "mean_graded_reward": 0.319,
+      "by_tier": {
+        "easy": "0/1",
+        "hard": "0/8",
+        "medium": "1/8"
+      }
+    },
+    "scripted-triage": {
+      "passed": 9,
+      "total": 17,
+      "pass_rate_pct": 52.9,
+      "mean_f1": 0.902,
+      "mean_graded_reward": 0.518,
+      "by_tier": {
+        "easy": "1/1",
+        "hard": "0/8",
+        "medium": "8/8"
+      }
+    }
+  },
+  "by_scenario": {
+    "page-all": {
+      "ai-platform-alert-noise": {
+        "passed": false,
+        "precision": 0.182,
+        "recall": 1.0,
+        "f1": 0.308,
+        "graded_reward": 0.308,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P02",
+          "P03",
+          "P04",
+          "P06",
+          "P07",
+          "P08",
+          "P09",
+          "P10",
+          "P11",
+          "P12",
+          "P13",
+          "P14",
+          "P15",
+          "P16",
+          "P17",
+          "P19",
+          "P20",
+          "P22"
+        ],
+        "false_suppress": [],
+        "difficulty": "hard"
+      },
+      "cert-expiry-fanout": {
+        "passed": false,
+        "precision": 0.15,
+        "recall": 1.0,
+        "f1": 0.261,
+        "graded_reward": 0.261,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P02",
+          "P03",
+          "P04",
+          "P05",
+          "P06",
+          "P08",
+          "P09",
+          "P10",
+          "P11",
+          "P12",
+          "P13",
+          "P15",
+          "P16",
+          "P17",
+          "P18",
+          "P19",
+          "P20"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "ci-e2e-test-noise": {
+        "passed": false,
+        "precision": 0.143,
+        "recall": 1.0,
+        "f1": 0.25,
+        "graded_reward": 0.25,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P02",
+          "P03",
+          "P04",
+          "P05",
+          "P06",
+          "P07",
+          "P09",
+          "P10",
+          "P11",
+          "P12",
+          "P13",
+          "P14",
+          "P15",
+          "P16",
+          "P18",
+          "P19",
+          "P20",
+          "P21",
+          "P22",
+          "P23",
+          "P24",
+          "P25",
+          "P26",
+          "P28"
+        ],
+        "false_suppress": [],
+        "difficulty": "hard"
+      },
+      "deploy-storm": {
+        "passed": false,
+        "precision": 0.138,
+        "recall": 1.0,
+        "f1": 0.242,
+        "graded_reward": 0.242,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "D02",
+          "D03",
+          "D04",
+          "D05",
+          "D06",
+          "D07",
+          "D08",
+          "D09",
+          "D10",
+          "D11",
+          "D12",
+          "D13",
+          "D14",
+          "D15",
+          "D16",
+          "D17",
+          "D18",
+          "D19",
+          "D20",
+          "D21",
+          "D22",
+          "D23",
+          "D24",
+          "D25",
+          "D29"
+        ],
+        "false_suppress": [],
+        "difficulty": "hard"
+      },
+      "disk-pressure-flapper-storm": {
+        "passed": false,
+        "precision": 0.125,
+        "recall": 1.0,
+        "f1": 0.222,
+        "graded_reward": 0.222,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P02",
+          "P03",
+          "P04",
+          "P05",
+          "P06",
+          "P07",
+          "P08",
+          "P09",
+          "P10",
+          "P11",
+          "P12",
+          "P13",
+          "P14",
+          "P15",
+          "P16",
+          "P17",
+          "P18",
+          "P19",
+          "P20",
+          "P21",
+          "P22"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "escalation-loopback-noise": {
+        "passed": false,
+        "precision": 0.176,
+        "recall": 1.0,
+        "f1": 0.3,
+        "graded_reward": 0.3,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P02",
+          "P03",
+          "P04",
+          "P05",
+          "P06",
+          "P07",
+          "P08",
+          "P09",
+          "P10",
+          "P11",
+          "P12",
+          "P13",
+          "P14",
+          "P15"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "maintenance-window-masking": {
+        "passed": false,
+        "precision": 0.167,
+        "recall": 1.0,
+        "f1": 0.286,
+        "graded_reward": 0.286,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "M01",
+          "M02",
+          "M04",
+          "M05",
+          "M06",
+          "M07",
+          "M08",
+          "M10",
+          "M11",
+          "M12",
+          "M13",
+          "M14",
+          "M16",
+          "M17",
+          "M18"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "mixed-triage-heavy": {
+        "passed": false,
+        "precision": 0.156,
+        "recall": 1.0,
+        "f1": 0.27,
+        "graded_reward": 0.27,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P03",
+          "P04",
+          "P05",
+          "P06",
+          "P07",
+          "P08",
+          "P09",
+          "P11",
+          "P12",
+          "P13",
+          "P15",
+          "P16",
+          "P17",
+          "P18",
+          "P19",
+          "P20",
+          "P21",
+          "P22",
+          "P23",
+          "P24",
+          "P25",
+          "P26",
+          "P27",
+          "P28",
+          "P29",
+          "P31",
+          "P32"
+        ],
+        "false_suppress": [],
+        "difficulty": "hard"
+      },
+      "node-event-noise": {
+        "passed": false,
+        "precision": 0.13,
+        "recall": 1.0,
+        "f1": 0.231,
+        "graded_reward": 0.231,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P02",
+          "P03",
+          "P04",
+          "P05",
+          "P06",
+          "P07",
+          "P08",
+          "P09",
+          "P10",
+          "P11",
+          "P12",
+          "P13",
+          "P14",
+          "P15",
+          "P16",
+          "P17",
+          "P18",
+          "P20",
+          "P22",
+          "P23"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "noisy-night-shift": {
+        "passed": false,
+        "precision": 0.143,
+        "recall": 1.0,
+        "f1": 0.25,
+        "graded_reward": 0.25,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P02",
+          "P03",
+          "P04",
+          "P05",
+          "P06",
+          "P07",
+          "P08",
+          "P09",
+          "P10",
+          "P11",
+          "P13",
+          "P14",
+          "P15",
+          "P16",
+          "P18",
+          "P19",
+          "P20",
+          "P21"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "obvious-sev1-cluster": {
+        "passed": false,
+        "precision": 0.188,
+        "recall": 1.0,
+        "f1": 0.316,
+        "graded_reward": 0.316,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "A02",
+          "A03",
+          "A05",
+          "A07",
+          "A08",
+          "A09",
+          "A10",
+          "A11",
+          "A12",
+          "A13",
+          "A14",
+          "A15",
+          "A16"
+        ],
+        "false_suppress": [],
+        "difficulty": "easy"
+      },
+      "queue-backlog-vs-blip": {
+        "passed": false,
+        "precision": 0.154,
+        "recall": 1.0,
+        "f1": 0.267,
+        "graded_reward": 0.267,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P02",
+          "P03",
+          "P04",
+          "P05",
+          "P06",
+          "P07",
+          "P08",
+          "P09",
+          "P10",
+          "P11",
+          "P12",
+          "P13",
+          "P14",
+          "P15",
+          "P16",
+          "P17",
+          "P18",
+          "P19",
+          "P21",
+          "P23",
+          "P24",
+          "P26"
+        ],
+        "false_suppress": [],
+        "difficulty": "hard"
+      },
+      "quiet-but-deadly": {
+        "passed": false,
+        "precision": 0.2,
+        "recall": 1.0,
+        "f1": 0.333,
+        "graded_reward": 0.333,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "Q02",
+          "Q03",
+          "Q04",
+          "Q05",
+          "Q06",
+          "Q07",
+          "Q08",
+          "Q09",
+          "Q10",
+          "Q11",
+          "Q12",
+          "Q14",
+          "Q16",
+          "Q17",
+          "Q18",
+          "Q20"
+        ],
+        "false_suppress": [],
+        "difficulty": "hard"
+      },
+      "region-failover-mixed": {
+        "passed": false,
+        "precision": 0.136,
+        "recall": 1.0,
+        "f1": 0.24,
+        "graded_reward": 0.24,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P01",
+          "P02",
+          "P03",
+          "P04",
+          "P05",
+          "P07",
+          "P08",
+          "P09",
+          "P10",
+          "P11",
+          "P12",
+          "P14",
+          "P15",
+          "P16",
+          "P18",
+          "P19",
+          "P20",
+          "P21",
+          "P22"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "sev1-misconfigured-rule": {
+        "passed": false,
+        "precision": 0.167,
+        "recall": 1.0,
+        "f1": 0.286,
+        "graded_reward": 0.286,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P01",
+          "P02",
+          "P03",
+          "P04",
+          "P05",
+          "P06",
+          "P07",
+          "P08",
+          "P09",
+          "P10",
+          "P11",
+          "P12",
+          "P13",
+          "P14",
+          "P16",
+          "P17",
+          "P19",
+          "P21",
+          "P22",
+          "P24"
+        ],
+        "false_suppress": [],
+        "difficulty": "hard"
+      },
+      "slow-burn-saturation": {
+        "passed": false,
+        "precision": 0.2,
+        "recall": 1.0,
+        "f1": 0.333,
+        "graded_reward": 0.333,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P01",
+          "P02",
+          "P04",
+          "P05",
+          "P06",
+          "P07",
+          "P08",
+          "P10",
+          "P11",
+          "P12",
+          "P13",
+          "P15",
+          "P16",
+          "P17",
+          "P18",
+          "P19"
+        ],
+        "false_suppress": [],
+        "difficulty": "hard"
+      },
+      "warning-spike-transients": {
+        "passed": false,
+        "precision": 0.214,
+        "recall": 1.0,
+        "f1": 0.353,
+        "graded_reward": 0.353,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P04",
+          "P05",
+          "P06",
+          "P07",
+          "P08",
+          "P09",
+          "P10",
+          "P11",
+          "P12",
+          "P13",
+          "P14"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      }
+    },
+    "suppress-all": {
+      "ai-platform-alert-noise": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P01",
+          "P18",
+          "P05",
+          "P21"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P01",
+          "P05",
+          "P18",
+          "P21"
+        ],
+        "difficulty": "hard"
+      },
+      "cert-expiry-fanout": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P01",
+          "P07",
+          "P14"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P01",
+          "P07",
+          "P14"
+        ],
+        "difficulty": "medium"
+      },
+      "ci-e2e-test-noise": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P01",
+          "P08",
+          "P27"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P01",
+          "P08",
+          "P17",
+          "P27"
+        ],
+        "difficulty": "hard"
+      },
+      "deploy-storm": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "D01",
+          "D26",
+          "D28"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "D01",
+          "D26",
+          "D27",
+          "D28"
+        ],
+        "difficulty": "hard"
+      },
+      "disk-pressure-flapper-storm": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P01",
+          "P23",
+          "P24"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P01",
+          "P23",
+          "P24"
+        ],
+        "difficulty": "medium"
+      },
+      "escalation-loopback-noise": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P01",
+          "P16",
+          "P17"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P01",
+          "P16",
+          "P17"
+        ],
+        "difficulty": "medium"
+      },
+      "maintenance-window-masking": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "M03",
+          "M09"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "M03",
+          "M09",
+          "M15"
+        ],
+        "difficulty": "medium"
+      },
+      "mixed-triage-heavy": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P01",
+          "P02",
+          "P10",
+          "P30"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P01",
+          "P02",
+          "P10",
+          "P14",
+          "P30"
+        ],
+        "difficulty": "hard"
+      },
+      "node-event-noise": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P01",
+          "P21"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P01",
+          "P19",
+          "P21"
+        ],
+        "difficulty": "medium"
+      },
+      "noisy-night-shift": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P01",
+          "P12"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P01",
+          "P12",
+          "P17"
+        ],
+        "difficulty": "medium"
+      },
+      "obvious-sev1-cluster": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "A01",
+          "A04"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "A01",
+          "A04",
+          "A06"
+        ],
+        "difficulty": "easy"
+      },
+      "queue-backlog-vs-blip": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P01",
+          "P20",
+          "P22",
+          "P25"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P01",
+          "P20",
+          "P22",
+          "P25"
+        ],
+        "difficulty": "hard"
+      },
+      "quiet-but-deadly": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "Q01",
+          "Q13",
+          "Q19"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "Q01",
+          "Q13",
+          "Q15",
+          "Q19"
+        ],
+        "difficulty": "hard"
+      },
+      "region-failover-mixed": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P06",
+          "P13"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P06",
+          "P13",
+          "P17"
+        ],
+        "difficulty": "medium"
+      },
+      "sev1-misconfigured-rule": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P15",
+          "P18",
+          "P23"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P15",
+          "P18",
+          "P20",
+          "P23"
+        ],
+        "difficulty": "hard"
+      },
+      "slow-burn-saturation": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P03",
+          "P09",
+          "P20"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P03",
+          "P09",
+          "P14",
+          "P20"
+        ],
+        "difficulty": "hard"
+      },
+      "warning-spike-transients": {
+        "passed": false,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P01",
+          "P02"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P01",
+          "P02",
+          "P03"
+        ],
+        "difficulty": "medium"
+      }
+    },
+    "severity-gate": {
+      "ai-platform-alert-noise": {
+        "passed": false,
+        "precision": 0.4,
+        "recall": 0.5,
+        "f1": 0.444,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P05",
+          "P21"
+        ],
+        "false_page": [
+          "P17",
+          "P19",
+          "P22"
+        ],
+        "false_suppress": [
+          "P05",
+          "P21"
+        ],
+        "difficulty": "hard"
+      },
+      "cert-expiry-fanout": {
+        "passed": false,
+        "precision": 0.429,
+        "recall": 1.0,
+        "f1": 0.6,
+        "graded_reward": 0.6,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P02",
+          "P05",
+          "P09",
+          "P17"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "ci-e2e-test-noise": {
+        "passed": false,
+        "precision": 0.214,
+        "recall": 0.75,
+        "f1": 0.333,
+        "graded_reward": 0.333,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P05",
+          "P06",
+          "P07",
+          "P11",
+          "P15",
+          "P19",
+          "P23",
+          "P24",
+          "P25",
+          "P26",
+          "P28"
+        ],
+        "false_suppress": [
+          "P17"
+        ],
+        "difficulty": "hard"
+      },
+      "deploy-storm": {
+        "passed": false,
+        "precision": 0.75,
+        "recall": 0.75,
+        "f1": 0.75,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "D28"
+        ],
+        "false_page": [
+          "D29"
+        ],
+        "false_suppress": [
+          "D28"
+        ],
+        "difficulty": "hard"
+      },
+      "disk-pressure-flapper-storm": {
+        "passed": false,
+        "precision": 0.667,
+        "recall": 0.667,
+        "f1": 0.667,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P24"
+        ],
+        "false_page": [
+          "P19"
+        ],
+        "false_suppress": [
+          "P24"
+        ],
+        "difficulty": "medium"
+      },
+      "escalation-loopback-noise": {
+        "passed": false,
+        "precision": 1.0,
+        "recall": 0.667,
+        "f1": 0.8,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P17"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P17"
+        ],
+        "difficulty": "medium"
+      },
+      "maintenance-window-masking": {
+        "passed": false,
+        "precision": 0.273,
+        "recall": 1.0,
+        "f1": 0.429,
+        "graded_reward": 0.429,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "M01",
+          "M02",
+          "M04",
+          "M10",
+          "M11",
+          "M13",
+          "M14",
+          "M18"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "mixed-triage-heavy": {
+        "passed": false,
+        "precision": 0.25,
+        "recall": 0.6,
+        "f1": 0.353,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P10",
+          "P30"
+        ],
+        "false_page": [
+          "P03",
+          "P04",
+          "P09",
+          "P11",
+          "P13",
+          "P19",
+          "P21",
+          "P26",
+          "P31"
+        ],
+        "false_suppress": [
+          "P10",
+          "P30"
+        ],
+        "difficulty": "hard"
+      },
+      "node-event-noise": {
+        "passed": false,
+        "precision": 0.5,
+        "recall": 0.667,
+        "f1": 0.571,
+        "graded_reward": 0.571,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P22",
+          "P23"
+        ],
+        "false_suppress": [
+          "P19"
+        ],
+        "difficulty": "medium"
+      },
+      "noisy-night-shift": {
+        "passed": false,
+        "precision": 0.429,
+        "recall": 1.0,
+        "f1": 0.6,
+        "graded_reward": 0.6,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P02",
+          "P03",
+          "P08",
+          "P14"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "obvious-sev1-cluster": {
+        "passed": false,
+        "precision": 0.6,
+        "recall": 1.0,
+        "f1": 0.75,
+        "graded_reward": 0.75,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "A02",
+          "A05"
+        ],
+        "false_suppress": [],
+        "difficulty": "easy"
+      },
+      "queue-backlog-vs-blip": {
+        "passed": false,
+        "precision": 0.5,
+        "recall": 0.75,
+        "f1": 0.6,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P25"
+        ],
+        "false_page": [
+          "P19",
+          "P21",
+          "P26"
+        ],
+        "false_suppress": [
+          "P25"
+        ],
+        "difficulty": "hard"
+      },
+      "quiet-but-deadly": {
+        "passed": false,
+        "precision": 0.429,
+        "recall": 0.75,
+        "f1": 0.545,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "Q19"
+        ],
+        "false_page": [
+          "Q16",
+          "Q17",
+          "Q18",
+          "Q20"
+        ],
+        "false_suppress": [
+          "Q19"
+        ],
+        "difficulty": "hard"
+      },
+      "region-failover-mixed": {
+        "passed": false,
+        "precision": 0.333,
+        "recall": 0.667,
+        "f1": 0.444,
+        "graded_reward": 0.444,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P07",
+          "P08",
+          "P14",
+          "P19"
+        ],
+        "false_suppress": [
+          "P17"
+        ],
+        "difficulty": "medium"
+      },
+      "sev1-misconfigured-rule": {
+        "passed": false,
+        "precision": 0.167,
+        "recall": 0.75,
+        "f1": 0.273,
+        "graded_reward": 0.273,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P01",
+          "P02",
+          "P03",
+          "P04",
+          "P05",
+          "P06",
+          "P07",
+          "P08",
+          "P09",
+          "P10",
+          "P11",
+          "P12",
+          "P17",
+          "P22",
+          "P24"
+        ],
+        "false_suppress": [
+          "P20"
+        ],
+        "difficulty": "hard"
+      },
+      "slow-burn-saturation": {
+        "passed": false,
+        "precision": 0.111,
+        "recall": 0.25,
+        "f1": 0.154,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P09",
+          "P20"
+        ],
+        "false_page": [
+          "P01",
+          "P02",
+          "P04",
+          "P05",
+          "P08",
+          "P10",
+          "P15",
+          "P16"
+        ],
+        "false_suppress": [
+          "P09",
+          "P14",
+          "P20"
+        ],
+        "difficulty": "hard"
+      },
+      "warning-spike-transients": {
+        "passed": false,
+        "precision": 0.667,
+        "recall": 0.667,
+        "f1": 0.667,
+        "graded_reward": 0.667,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P04"
+        ],
+        "false_suppress": [
+          "P03"
+        ],
+        "difficulty": "medium"
+      }
+    },
+    "never-resolved": {
+      "ai-platform-alert-noise": {
+        "passed": false,
+        "precision": 0.231,
+        "recall": 0.75,
+        "f1": 0.353,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P21"
+        ],
+        "false_page": [
+          "P02",
+          "P03",
+          "P04",
+          "P06",
+          "P07",
+          "P08",
+          "P13",
+          "P15",
+          "P20",
+          "P22"
+        ],
+        "false_suppress": [
+          "P21"
+        ],
+        "difficulty": "hard"
+      },
+      "cert-expiry-fanout": {
+        "passed": false,
+        "precision": 0.375,
+        "recall": 1.0,
+        "f1": 0.545,
+        "graded_reward": 0.545,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P02",
+          "P05",
+          "P09",
+          "P11",
+          "P17"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "ci-e2e-test-noise": {
+        "passed": false,
+        "precision": 0.6,
+        "recall": 0.75,
+        "f1": 0.667,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P27"
+        ],
+        "false_page": [
+          "P24",
+          "P28"
+        ],
+        "false_suppress": [
+          "P27"
+        ],
+        "difficulty": "hard"
+      },
+      "deploy-storm": {
+        "passed": false,
+        "precision": 0.75,
+        "recall": 0.75,
+        "f1": 0.75,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "D28"
+        ],
+        "false_page": [
+          "D29"
+        ],
+        "false_suppress": [
+          "D28"
+        ],
+        "difficulty": "hard"
+      },
+      "disk-pressure-flapper-storm": {
+        "passed": false,
+        "precision": 0.6,
+        "recall": 1.0,
+        "f1": 0.75,
+        "graded_reward": 0.75,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P06",
+          "P21"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "escalation-loopback-noise": {
+        "passed": false,
+        "precision": 0.333,
+        "recall": 1.0,
+        "f1": 0.5,
+        "graded_reward": 0.5,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P02",
+          "P03",
+          "P04",
+          "P08",
+          "P11",
+          "P13"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "maintenance-window-masking": {
+        "passed": false,
+        "precision": 0.6,
+        "recall": 1.0,
+        "f1": 0.75,
+        "graded_reward": 0.75,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "M10",
+          "M11"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "mixed-triage-heavy": {
+        "passed": false,
+        "precision": 0.333,
+        "recall": 0.8,
+        "f1": 0.471,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P30"
+        ],
+        "false_page": [
+          "P03",
+          "P04",
+          "P05",
+          "P13",
+          "P21",
+          "P28",
+          "P31",
+          "P32"
+        ],
+        "false_suppress": [
+          "P30"
+        ],
+        "difficulty": "hard"
+      },
+      "node-event-noise": {
+        "passed": false,
+        "precision": 0.15,
+        "recall": 1.0,
+        "f1": 0.261,
+        "graded_reward": 0.261,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P02",
+          "P03",
+          "P04",
+          "P05",
+          "P06",
+          "P07",
+          "P08",
+          "P09",
+          "P10",
+          "P11",
+          "P12",
+          "P14",
+          "P15",
+          "P16",
+          "P18",
+          "P20",
+          "P22"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "noisy-night-shift": {
+        "passed": false,
+        "precision": 0.333,
+        "recall": 1.0,
+        "f1": 0.5,
+        "graded_reward": 0.5,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P02",
+          "P03",
+          "P04",
+          "P08",
+          "P14",
+          "P21"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "obvious-sev1-cluster": {
+        "passed": false,
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.667,
+        "graded_reward": 0.667,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "A02",
+          "A03",
+          "A05"
+        ],
+        "false_suppress": [],
+        "difficulty": "easy"
+      },
+      "queue-backlog-vs-blip": {
+        "passed": false,
+        "precision": 0.5,
+        "recall": 0.75,
+        "f1": 0.6,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P25"
+        ],
+        "false_page": [
+          "P19",
+          "P21",
+          "P26"
+        ],
+        "false_suppress": [
+          "P25"
+        ],
+        "difficulty": "hard"
+      },
+      "quiet-but-deadly": {
+        "passed": false,
+        "precision": 0.5,
+        "recall": 0.75,
+        "f1": 0.6,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "Q19"
+        ],
+        "false_page": [
+          "Q14",
+          "Q16",
+          "Q20"
+        ],
+        "false_suppress": [
+          "Q19"
+        ],
+        "difficulty": "hard"
+      },
+      "region-failover-mixed": {
+        "passed": false,
+        "precision": 0.429,
+        "recall": 1.0,
+        "f1": 0.6,
+        "graded_reward": 0.6,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P07",
+          "P08",
+          "P14",
+          "P19"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "sev1-misconfigured-rule": {
+        "passed": false,
+        "precision": 0.5,
+        "recall": 0.75,
+        "f1": 0.6,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P23"
+        ],
+        "false_page": [
+          "P17",
+          "P22",
+          "P24"
+        ],
+        "false_suppress": [
+          "P23"
+        ],
+        "difficulty": "hard"
+      },
+      "slow-burn-saturation": {
+        "passed": false,
+        "precision": 0.5,
+        "recall": 0.75,
+        "f1": 0.6,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P20"
+        ],
+        "false_page": [
+          "P08",
+          "P16",
+          "P19"
+        ],
+        "false_suppress": [
+          "P20"
+        ],
+        "difficulty": "hard"
+      },
+      "warning-spike-transients": {
+        "passed": true,
+        "precision": 0.75,
+        "recall": 1.0,
+        "f1": 0.857,
+        "graded_reward": 0.857,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [
+          "P04"
+        ],
+        "false_suppress": [],
+        "difficulty": "medium"
+      }
+    },
+    "scripted-triage": {
+      "ai-platform-alert-noise": {
+        "passed": false,
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1": 0.857,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P21"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P21"
+        ],
+        "difficulty": "hard"
+      },
+      "cert-expiry-fanout": {
+        "passed": true,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "graded_reward": 1.0,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "ci-e2e-test-noise": {
+        "passed": false,
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1": 0.857,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P27"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P27"
+        ],
+        "difficulty": "hard"
+      },
+      "deploy-storm": {
+        "passed": false,
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1": 0.857,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "D28"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "D28"
+        ],
+        "difficulty": "hard"
+      },
+      "disk-pressure-flapper-storm": {
+        "passed": true,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "graded_reward": 1.0,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "escalation-loopback-noise": {
+        "passed": true,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "graded_reward": 1.0,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "maintenance-window-masking": {
+        "passed": true,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "graded_reward": 1.0,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "mixed-triage-heavy": {
+        "passed": false,
+        "precision": 1.0,
+        "recall": 0.8,
+        "f1": 0.889,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P30"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P30"
+        ],
+        "difficulty": "hard"
+      },
+      "node-event-noise": {
+        "passed": true,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "graded_reward": 1.0,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "noisy-night-shift": {
+        "passed": true,
+        "precision": 1.0,
+        "recall": 0.667,
+        "f1": 0.8,
+        "graded_reward": 0.8,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [],
+        "false_suppress": [
+          "P17"
+        ],
+        "difficulty": "medium"
+      },
+      "obvious-sev1-cluster": {
+        "passed": true,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "graded_reward": 1.0,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [],
+        "false_suppress": [],
+        "difficulty": "easy"
+      },
+      "queue-backlog-vs-blip": {
+        "passed": false,
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1": 0.5,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P20",
+          "P25"
+        ],
+        "false_page": [
+          "P21",
+          "P26"
+        ],
+        "false_suppress": [
+          "P20",
+          "P25"
+        ],
+        "difficulty": "hard"
+      },
+      "quiet-but-deadly": {
+        "passed": false,
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1": 0.857,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "Q19"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "Q19"
+        ],
+        "difficulty": "hard"
+      },
+      "region-failover-mixed": {
+        "passed": true,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "graded_reward": 1.0,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [],
+        "false_suppress": [],
+        "difficulty": "medium"
+      },
+      "sev1-misconfigured-rule": {
+        "passed": false,
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1": 0.857,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P23"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P23"
+        ],
+        "difficulty": "hard"
+      },
+      "slow-burn-saturation": {
+        "passed": false,
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1": 0.857,
+        "graded_reward": 0.0,
+        "cardinal_fail": true,
+        "missed_must": [
+          "P20"
+        ],
+        "false_page": [],
+        "false_suppress": [
+          "P20"
+        ],
+        "difficulty": "hard"
+      },
+      "warning-spike-transients": {
+        "passed": true,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "graded_reward": 1.0,
+        "cardinal_fail": false,
+        "missed_must": [],
+        "false_page": [],
+        "false_suppress": [],
+        "difficulty": "medium"
+      }
+    }
+  }
+}
