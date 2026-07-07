@@ -99,7 +99,7 @@ cat > /workdir/triage.json <<'JSON'
     {
       "page_id": "P19",
       "decision": "page",
-      "reason": "Real CrashLoopBackOff on checkout-api: 11 restarts vs threshold 3, pat-checkout-crashloop +1400% negative (nil-pointer panic in PaymentHandler), onset 21:54 right after deploy checkout-api@2026.06.19-4 at 21:52, never auto-resolves, available_replicas fell 3->1 (below min 3). Deploy-induced outage. Page (root of the checkout incident)."
+      "reason": "Real CrashLoopBackOff on checkout-api: 11 restarts vs threshold 3, pat-checkout-crashloop +1400% negative (nil-pointer panic in PaymentHandler), onset 21:54 right after deploy checkout-api@2026.06.19-4 at 21:52, never auto-resolves, available_replicas fell 3->1 (below min 3). Deploy-induced outage despite its default SEV3 tag. Page (root of the checkout incident)."
     },
     {
       "page_id": "P20",
@@ -119,7 +119,7 @@ cat > /workdir/triage.json <<'JSON'
     {
       "page_id": "P23",
       "decision": "suppress",
-      "reason": "billing-worker crashloop is a flapper: fired_count_last_1h 14, auto_resolved_after_s 35, pat-billing-restart delta 0% neutral, available_replicas recovered 4->5 immediately. Self-healing readiness restarts, not an outage."
+      "reason": "billing-worker crashloop is a flapper despite its SEV1 tag (stale escalation rule): fired_count_last_1h 14, auto_resolved_after_s 35, pat-billing-restart delta 0% neutral, available_replicas recovered 4->5 immediately. Self-healing readiness restarts, not an outage."
     }
   ]
 }
@@ -134,7 +134,7 @@ Three real, page-class incidents are buried among Karpenter/PDB operational meta
    and stayed 0; pat-node-notready surging +700% negative; never auto-resolved. **P18**
    (pending pods at 22:43, same pat-node-notready) is its downstream symptom — collapse into P01.
 
-2. **P19 — checkout-api CrashLoopBackOff (deploy-induced).** 11 restarts vs threshold 3,
+2. **P19 — checkout-api CrashLoopBackOff (deploy-induced, only SEV3-tagged).** 11 restarts vs threshold 3,
    pat-checkout-crashloop +1400% negative (nil-pointer panic in PaymentHandler), onset 21:54
    immediately after deploy checkout-api@2026.06.19-4 (21:52). available_replicas fell 3->1,
    below min 3, and stayed there — service degraded, never self-heals. **P20** (available_replicas
@@ -149,9 +149,10 @@ Everything else is noise expressed through its features:
   SpotToSpotConsolidation disabled, store validated — all delta_vs_baseline_pct 0, neutral sentiment,
   recurring multiple times/hr.
 - **[ignore] log-threshold flappers** (P13, P17): high fired_count, auto-resolve in <20s.
-- **P23 billing-worker crashloop (precision trap)**: crashloop-shaped and deploy-correlated like P19,
-  but auto_resolves in 35s, fires 14x/hr, pat-billing-restart delta 0% neutral, and available_replicas
-  recovered 4->5 immediately. A flapping readiness-probe restart, not an outage.
+- **P23 billing-worker crashloop (severity-inversion precision trap)**: SEV1-tagged (stale escalation
+  rule), crashloop-shaped and deploy-correlated like P19, but auto_resolves in 35s, fires 14x/hr,
+  pat-billing-restart delta 0% neutral, and available_replicas recovered 4->5 immediately. A flapping
+  readiness-probe restart, not an outage — while the real crashloop (P19) carries only SEV3.
 
 See `tests/ground_truth.json` for per-page justification.
 MD

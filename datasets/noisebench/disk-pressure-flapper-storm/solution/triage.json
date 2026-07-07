@@ -28,7 +28,7 @@
     {
       "page_id": "P06",
       "decision": "suppress",
-      "reason": "Disk-usage warning on log-compactor marginally over 80%, self-resolved in 35s on rotation/compaction. Returns to baseline."
+      "reason": "Disk-usage warning on log-compactor marginally over 80%; rotation returned the metric below threshold within a minute (78 by 14:11) but the monitor has no auto-clear, so the alert latched open. Recovered metric, stale alert."
     },
     {
       "page_id": "P07",
@@ -93,7 +93,7 @@
     {
       "page_id": "P19",
       "decision": "suppress",
-      "reason": "[ignore] Default Log Threshold Monitor on log-compactor: 17 fires/hr, self-clears in ~20s, pat-log-threshold flat/neutral. Flapper noise."
+      "reason": "[ignore] Default Log Threshold Monitor on log-compactor mis-routed to SEV1: 17 fires/hr, self-clears in ~20s, pat-log-threshold flat/neutral. Wrong severity tag on the canonical flapper."
     },
     {
       "page_id": "P20",
@@ -118,7 +118,7 @@
     {
       "page_id": "P24",
       "decision": "page",
-      "reason": "PVC clickhouse-keeper-data-0 at 100% (pvc_used_pct 86->100 and pinned), never auto-resolved, pat-pvc-full-writefail negative with active write failures on a stateful service. SEV1 must-page despite a flat pattern delta."
+      "reason": "PVC clickhouse-keeper-data-0 at 100% (pvc_used_pct 86->100 and pinned), never auto-resolved, pat-pvc-full-writefail negative with active write failures on a stateful service. Must-page despite the flat pattern delta and the monitor-default SEV3 tag."
     }
   ]
 }

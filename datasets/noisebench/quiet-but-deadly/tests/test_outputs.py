@@ -15,6 +15,13 @@ confusion matrix with the POSITIVE class = "page", and enforces:
 Secondary metrics (precision / recall / F1 / false-suppress / false-page)
 are printed for the writeup but do not gate the binary reward beyond the
 rules above.
+
+Besides the binary verdict, the grader emits a GRADED reward — 0.0 on a
+cardinal (must_page) failure, otherwise F1 — as a `NOISEBENCH_METRICS {json}`
+stdout line and, when running under Harbor, /logs/verifier/metrics.json.
+The graded reward does not affect pass/fail (reward.txt stays binary); it
+exists so leaderboards can rank on mean graded reward instead of coarse
+pass counts.
 """
 
 import json
@@ -23,6 +30,7 @@ import sys
 
 TRIAGE_PATH = "/workdir/triage.json"
 GT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ground_truth.json")
+METRICS_PATH = os.environ.get("NOISEBENCH_METRICS_PATH", "/logs/verifier/metrics.json")
 
 
 def load_ground_truth():
@@ -95,7 +103,33 @@ def _evaluate():
     non_must_missed = [pid for pid in cm["false_suppress"] if pid not in must_page]
     print(f"non-must real incidents missed: {len(non_must_missed)} "
           f"(budget {miss_budget})  {non_must_missed or ''}")
+    _emit_metrics(gt, cm, missed_must, non_must_missed, miss_budget)
     return gt, cm, missed_must, non_must_missed, miss_budget
+
+
+def _emit_metrics(gt, cm, missed_must, non_must_missed, miss_budget):
+    """Graded reward: 0.0 on cardinal failure, else F1. Reporting only."""
+    metrics = {
+        "scenario": gt["scenario"],
+        "precision": round(cm["precision"], 4),
+        "recall": round(cm["recall"], 4),
+        "f1": round(cm["f1"], 4),
+        "f1_threshold": gt["f1_threshold"],
+        "missed_must": missed_must,
+        "non_must_missed": non_must_missed,
+        "miss_budget": miss_budget,
+        "passed": bool(not missed_must
+                       and len(non_must_missed) <= miss_budget
+                       and cm["f1"] >= gt["f1_threshold"]),
+        "graded_reward": 0.0 if missed_must else round(cm["f1"], 4),
+    }
+    print(f"NOISEBENCH_METRICS {json.dumps(metrics, sort_keys=True)}")
+    try:
+        if os.path.isdir(os.path.dirname(METRICS_PATH)):
+            with open(METRICS_PATH, "w") as f:
+                json.dump(metrics, f, indent=1)
+    except OSError:
+        pass  # metrics file is best-effort; never fail grading over it
 
 
 # --- pytest entrypoints -------------------------------------------------------
