@@ -1,4 +1,4 @@
-# noise-bench — leaderboard v2: full re-run, all 19 models (Docker).
+# noise-bench — leaderboard v2: full re-run, all 20 models (Docker).
 #
 # Replaces the 2026-06-30/07-02 frozen run. Changes vs v1 conditions:
 #   - override_timeout_sec: 1800 for every agent (v1's 600s cap invalidated
@@ -75,6 +75,9 @@ agents:
     override_timeout_sec: 1800
   - name: terminus-2
     model_name: openrouter/sakana/fugu-ultra
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/x-ai/grok-4.5
     override_timeout_sec: 1800
   - name: terminus-2
     model_name: openrouter/z-ai/glm-5.2
