@@ -1,4 +1,4 @@
-# noise-bench — leaderboard v2: full re-run, all 20 models (Docker).
+# noise-bench — leaderboard v2: full re-run, all 21 models (Docker).
 #
 # Replaces the 2026-06-30/07-02 frozen run. Changes vs v1 conditions:
 #   - override_timeout_sec: 1800 for every agent (v1's 600s cap invalidated
@@ -51,6 +51,9 @@ agents:
     override_timeout_sec: 1800
   - name: terminus-2
     model_name: openrouter/moonshotai/kimi-k2.5
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/moonshotai/kimi-k3
     override_timeout_sec: 1800
   - name: terminus-2
     model_name: openrouter/openai/gpt-5.4
