@@ -1,4 +1,4 @@
-# noise-bench — leaderboard v2: full re-run, all 22 models (Docker).
+# noise-bench — leaderboard v2: full re-run, all 23 models (Docker).
 #
 # Replaces the 2026-06-30/07-02 frozen run. Changes vs v1 conditions:
 #   - override_timeout_sec: 1800 for every agent (v1's 600s cap invalidated
@@ -24,6 +24,9 @@ environment:
 agents:
   - name: terminus-2
     model_name: openrouter/anthropic/claude-fable-5
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/anthropic/claude-opus-5
     override_timeout_sec: 1800
   - name: terminus-2
     model_name: openrouter/anthropic/claude-haiku-4.5
