@@ -126,7 +126,7 @@ the full trap taxonomy.
 
 ## Leaderboard
 
-Frozen run (v2): **17 scenarios x 21 models x 3 attempts = 1071 trials**, Harbor `terminus-2` over OpenRouter, 2026-07-06/07/10/23, zero agent exceptions. Models are ranked on **mean graded reward** (0 on a cardinal `must_page` failure, otherwise F1; ± 95% CI over the 51 trials — see [dataset README → How scoring works](datasets/noisebench/README.md#how-scoring-works)), with the binary pass rate and per-tier pass rates alongside. Full per-trial results (outcome, graded reward, cost, tokens, timing per model) + per-model/per-task rollups are committed under [`benchmark-results/`](benchmark-results/).
+Frozen run (v2): **17 scenarios x 22 models x 3 attempts = 1122 trials**, Harbor `terminus-2` over OpenRouter, 2026-07-06/07/10/23/24, zero agent exceptions. Models are ranked on **mean graded reward** (0 on a cardinal `must_page` failure, otherwise F1; ± 95% CI over the 51 trials — see [dataset README → How scoring works](datasets/noisebench/README.md#how-scoring-works)), with the binary pass rate and per-tier pass rates alongside. Full per-trial results (outcome, graded reward, cost, tokens, timing per model) + per-model/per-task rollups are committed under [`benchmark-results/`](benchmark-results/).
 
 > v1 → v2: the original 2026-06-30/07-02 run used a 600s agent timeout, which invalidated
 > claude-opus-4.8's row (13 of its 20 failures were `AgentTimeoutError` on a slow
@@ -141,6 +141,7 @@ Frozen run (v2): **17 scenarios x 21 models x 3 attempts = 1071 trials**, Harbor
 | claude-fable-5 | **0.917 ± 0.074** | 92% | 100% | 100% | 83% |
 | claude-sonnet-4.6 | **0.909 ± 0.074** | 92% | 100% | 100% | 83% |
 | fugu-ultra | **0.882 ± 0.089** | 88% | 100% | 100% | 75% |
+| gpt-5.6-sol | **0.882 ± 0.089** | 88% | 100% | 100% | 75% |
 | gpt-5.5 | **0.881 ± 0.089** | 88% | 100% | 100% | 75% |
 | kimi-k3 | **0.875 ± 0.089** | 88% | 100% | 100% | 75% |
 | glm-5.2 | **0.874 ± 0.089** | 88% | 100% | 100% | 75% |
