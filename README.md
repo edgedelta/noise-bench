@@ -126,7 +126,7 @@ the full trap taxonomy.
 
 ## Leaderboard
 
-Frozen run (v2): **17 scenarios x 23 models x 3 attempts = 1173 trials**, Harbor `terminus-2` over OpenRouter, 2026-07-06/07/10/23/24, zero agent exceptions. Models are ranked on **mean graded reward** (0 on a cardinal `must_page` failure, otherwise F1; ± 95% CI over the 51 trials — see [dataset README → How scoring works](datasets/noisebench/README.md#how-scoring-works)), with the binary pass rate and per-tier pass rates alongside. Full per-trial results (outcome, graded reward, cost, tokens, timing per model) + per-model/per-task rollups are committed under [`benchmark-results/`](benchmark-results/).
+Frozen run (v2): **17 scenarios x 25 models x 3 attempts = 1275 trials**, Harbor `terminus-2` over OpenRouter, 2026-07-06/07/10/23/24 + 2026-08-11, zero agent exceptions. Models are ranked on **mean graded reward** (0 on a cardinal `must_page` failure, otherwise F1; ± 95% CI over the 51 trials — see [dataset README → How scoring works](datasets/noisebench/README.md#how-scoring-works)), with the binary pass rate and per-tier pass rates alongside. Full per-trial results (outcome, graded reward, cost, tokens, timing per model) + per-model/per-task rollups are committed under [`benchmark-results/`](benchmark-results/).
 
 > v1 → v2: the original 2026-06-30/07-02 run used a 600s agent timeout, which invalidated
 > claude-opus-4.8's row (13 of its 20 failures were `AgentTimeoutError` on a slow
@@ -150,6 +150,8 @@ Frozen run (v2): **17 scenarios x 23 models x 3 attempts = 1173 trials**, Harbor
 | gpt-5.4 | **0.829 ± 0.100** | 84% | 100% | 96% | 71% |
 | claude-opus-4.8 | **0.824 ± 0.106** | 82% | 100% | 100% | 62% |
 | deepseek-v4-flash | **0.820 ± 0.105** | 82% | 100% | 100% | 62% |
+| muse-glimmer-30b | **0.763 ± 0.117** | 76% | 100% | 100% | 50% |
+| muse-spark-1.2 | **0.762 ± 0.117** | 76% | 100% | 100% | 50% |
 | kimi-k2.5 | **0.761 ± 0.113** | 75% | 100% | 96% | 50% |
 | gpt-5.4-mini | **0.756 ± 0.111** | 76% | 100% | 92% | 58% |
 | gemini-3.5-flash | **0.745 ± 0.121** | 75% | 100% | 100% | 46% |
