@@ -1,4 +1,4 @@
-# noise-bench — leaderboard v2: full re-run, all 32 models (Docker).
+# noise-bench — leaderboard v2: full re-run, all 33 models (Docker).
 #
 # Replaces the 2026-06-30/07-02 frozen run. Changes vs v1 conditions:
 #   - override_timeout_sec: 1800 for every agent (v1's 600s cap invalidated
@@ -57,6 +57,9 @@ agents:
     override_timeout_sec: 1800
   - name: terminus-2
     model_name: openrouter/google/gemini-3.5-flash
+    override_timeout_sec: 1800
+  - name: terminus-2
+    model_name: openrouter/google/gemini-4-argon
     override_timeout_sec: 1800
   - name: terminus-2
     model_name: openrouter/meta/muse-glimmer-30b
