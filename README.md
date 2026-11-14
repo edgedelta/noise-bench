@@ -126,7 +126,7 @@ the full trap taxonomy.
 
 ## Leaderboard
 
-Frozen run (v2): **17 scenarios x 34 models x 3 attempts = 1734 trials**, Harbor `terminus-2` over OpenRouter, 2026-07-06/07/10/23/24 + 2026-08-11 + 2026-08-16 + 2026-08-31 + 2026-09-03 + 2026-09-05 + 2026-09-11 + 2026-09-24 + 2026-10-14 + 2026-10-24, zero agent exceptions. Models are ranked on **mean graded reward** (0 on a cardinal `must_page` failure, otherwise F1; ± 95% CI over the 51 trials — see [dataset README → How scoring works](datasets/noisebench/README.md#how-scoring-works)), with the binary pass rate and per-tier pass rates alongside. Full per-trial results (outcome, graded reward, cost, tokens, timing per model) + per-model/per-task rollups are committed under [`benchmark-results/`](benchmark-results/).
+Frozen run (v2): **17 scenarios x 39 models x 3 attempts = 1989 trials**, Harbor `terminus-2` over OpenRouter, 2026-07-06/07/10/23/24 + 2026-08-11 + 2026-08-16 + 2026-08-31 + 2026-09-03 + 2026-09-05 + 2026-09-11 + 2026-09-24 + 2026-10-14 + 2026-10-24 + 2026-11-13/14, zero agent exceptions. Models are ranked on **mean graded reward** (0 on a cardinal `must_page` failure, otherwise F1; ± 95% CI over the 51 trials — see [dataset README → How scoring works](datasets/noisebench/README.md#how-scoring-works)), with the binary pass rate and per-tier pass rates alongside. Full per-trial results (outcome, graded reward, cost, tokens, timing per model) + per-model/per-task rollups are committed under [`benchmark-results/`](benchmark-results/).
 
 > v1 → v2: the original 2026-06-30/07-02 run used a 600s agent timeout, which invalidated
 > claude-opus-4.8's row (13 of its 20 failures were `AgentTimeoutError` on a slow
@@ -138,8 +138,11 @@ Frozen run (v2): **17 scenarios x 34 models x 3 attempts = 1734 trials**, Harbor
 
 | Model | Mean graded reward (95% CI) | Pass rate | easy | medium | hard |
 |---|---|---|---|---|---|
+| gemini-4-carbon | **0.994 ± 0.007** | 100% | 100% | 100% | 100% |
+| claude-fable-5.2 | **0.994 ± 0.007** | 100% | 100% | 100% | 100% |
 | gpt-6-astra | **0.961 ± 0.054** | 96% | 100% | 100% | 92% |
 | claude-fable-5.1 | **0.954 ± 0.054** | 96% | 100% | 100% | 92% |
+| gemini-4-hydrogen | **0.941 ± 0.065** | 94% | 100% | 100% | 88% |
 | gemini-4-argon | **0.932 ± 0.065** | 94% | 100% | 100% | 88% |
 | claude-opus-5 | **0.929 ± 0.065** | 94% | 100% | 100% | 88% |
 | claude-fable-5 | **0.917 ± 0.074** | 92% | 100% | 100% | 83% |
@@ -149,6 +152,7 @@ Frozen run (v2): **17 scenarios x 34 models x 3 attempts = 1734 trials**, Harbor
 | fugu-ultra | **0.882 ± 0.089** | 88% | 100% | 100% | 75% |
 | gpt-5.6-sol | **0.882 ± 0.089** | 88% | 100% | 100% | 75% |
 | kimi-k3.1-pro | **0.882 ± 0.089** | 88% | 100% | 100% | 75% |
+| glm-5.3-flash | **0.882 ± 0.089** | 88% | 100% | 100% | 75% |
 | gpt-5.5 | **0.881 ± 0.089** | 88% | 100% | 100% | 75% |
 | deepseek-v4.1-flash | **0.880 ± 0.089** | 88% | 100% | 100% | 75% |
 | glm-5.3 | **0.880 ± 0.089** | 88% | 100% | 100% | 75% |
@@ -156,6 +160,7 @@ Frozen run (v2): **17 scenarios x 34 models x 3 attempts = 1734 trials**, Harbor
 | glm-5.2 | **0.874 ± 0.089** | 88% | 100% | 100% | 75% |
 | grok-4.5 | **0.863 ± 0.095** | 86% | 100% | 100% | 71% |
 | muse-spark-1.3 | **0.863 ± 0.095** | 86% | 100% | 100% | 71% |
+| claude-haiku-5.5 | **0.861 ± 0.095** | 86% | 100% | 100% | 71% |
 | gpt-5.4 | **0.829 ± 0.100** | 84% | 100% | 96% | 71% |
 | claude-opus-4.8 | **0.824 ± 0.106** | 82% | 100% | 100% | 62% |
 | deepseek-v4-flash | **0.820 ± 0.105** | 82% | 100% | 100% | 62% |
